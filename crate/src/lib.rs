@@ -1,17 +1,18 @@
 use wasm_bindgen::prelude::*;
-use web_sys::{CanvasRenderingContext2d, ImageData, HtmlCanvasElement, HtmlImageElement};
+use web_sys::{CanvasRenderingContext2d, ImageData, HtmlCanvasElement};
 use wasm_bindgen::Clamped;
 use web_sys::console;
-use image::{DynamicImage, GenericImageView, GenericImage, ImageBuffer, Rgba};
+use image::{DynamicImage, GenericImageView, ImageBuffer, Rgba};
 use imageproc::drawing::draw_text_mut;
 use imageproc::morphology::dilate_mut;
 use rusttype::Scale;
 use rusttype::{FontCollection};
 use imageproc::distance_transform::Norm;
-use imageproc::drawing::draw_filled_rect;
+use imageproc::drawing::draw_filled_rect_mut;
 use imageproc::rect::Rect;
 use imageproc::rect::Region;
 use imageproc::drawing::draw_hollow_rect_mut;
+use palette::{Lch, Srgb, Hue};
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -48,20 +49,24 @@ impl PhotonImage {
         return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
     }
 
-    pub fn draw_text(&mut self, text: &str, x: u32, y:u32) {
+    pub fn draw_text(&mut self, text: &str, x: u32, y:u32, font: &str) {
         
         let mut image = helpers::dyn_image_from_raw(&self).to_rgba();
 
         let mut image2 : DynamicImage = DynamicImage::new_luma8(
             image.width(), image.height());
-        let font = "Roboto-Regular.ttf";
 
-        let font_path = match font {
-            "Roboto-Regular.ttf" => "../fonts/Roboto-Regular.ttf",
+        // include_bytes! only takes a string literal
+        let font_vec = match font {
+            "Roboto-Regular" => Vec::from(include_bytes!("../fonts/Roboto-Regular.ttf") as &[u8]),
+            "Roboto-Light" => Vec::from(include_bytes!("../fonts/Roboto-Light.ttf") as &[u8]),
+            "Roboto-Bold" => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8]),
+            "Roboto-Black" => Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]),
+
+            _ => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8])
         };
 
-        let font = Vec::from(include_bytes!(font_path) as &[u8]);
-        let font = FontCollection::from_bytes(font).unwrap().into_font().unwrap();
+        let font = FontCollection::from_bytes(font_vec).unwrap().into_font().unwrap();
         let height = 90f32;
         let scale = Scale { x: height * 1.0, y: height };
         draw_text_mut(&mut image2, Rgba([255u8, 255u8, 255u8, 255u8]), x, y, scale, &font, text);
@@ -69,7 +74,7 @@ impl PhotonImage {
         let mut image2 = image2.to_luma();
         dilate_mut(&mut image2, Norm::LInf, 4u8);
 
-        draw_text_mut(&mut image, Rgba([25u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
+        draw_text_mut(&mut image, Rgba([255u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
         let dynimage = image::ImageRgba8(image);
         self.raw_pixels = dynimage.raw_pixels();
 
@@ -103,14 +108,12 @@ impl PhotonImage {
 
         draw_text_mut(&mut image, Rgba([255u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
 
-
-
         let dynimage = image::ImageRgba8(image);
         self.raw_pixels = dynimage.raw_pixels();
 
     }
 
-    pub fn draw_rect(&mut self, background_color: Rgb) {
+    pub fn draw_rect(&mut self, background_color: Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
         let red   = Rgba([255u8, 0u8,   0u8, 255u8]);
         let green = Rgba([0u8,   255u8, 0u8, 255u8]);
         let blue  = Rgba([0u8,   0u8,   255u8, 255u8]);
@@ -119,7 +122,7 @@ impl PhotonImage {
    
         let mut image = helpers::dyn_image_from_raw(&self).to_rgba();
 
-        draw_hollow_rect_mut(&mut image, Rect::at(30, 10).of_size(1000, 200), white);
+        draw_filled_rect_mut(&mut image, Rect::at(x_pos, y_pos).of_size(width, height), white);
         let dynimage = image::ImageRgba8(image);
         self.raw_pixels = dynimage.raw_pixels();
     }
@@ -127,6 +130,47 @@ impl PhotonImage {
 
     pub fn raw_pix(self) -> Vec<u8> {
         self.raw_pixels
+    }
+}
+
+
+/// Provides the image's height, width, and contains the image's raw pixels.
+/// For use when communicating between JS and WASM, and also natively. 
+#[wasm_bindgen]
+#[derive(Debug)]
+pub struct ColorScheme {
+    main_color: Rgb,
+    analogous_swatch: Vec<Lch>,
+}
+
+#[wasm_bindgen]
+impl ColorScheme {
+    pub fn new(main_color: Rgb) -> ColorScheme {
+        let distance = 120.0;
+
+        let primary: Lch = Srgb::new(main_color.r, main_color.g, main_color.b)
+        .into_format::<f32>()
+        .into_linear()
+        .into();
+
+        let an_shift = 180.0 - (distance / 2.0);
+
+        let analogous_swatch = vec![
+            primary.shift_hue(an_shift), 
+            primary.shift_hue(-an_shift)
+        ];
+
+        // gen secondary swatch
+
+        
+        // gen rectangular swatch
+        return ColorScheme {main_color: main_color, analogous_swatch: analogous_swatch}
+    }
+
+    /// Create a swatch image in PNG format of the colour swatches generated
+    /// from the main colour.
+    pub fn create_swatch_image() {
+
     }
 }
 
