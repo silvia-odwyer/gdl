@@ -16,9 +16,7 @@ use imageproc::drawing::draw_line_segment_mut;
 #[wasm_bindgen]
 pub fn circle_background(width: u32, height: u32) -> PhotonImage {
     let background_color = Rgb { r: 190, g: 120, b: 200};
-
-    let pixel =  image::Rgba([background_color.r, background_color.g, background_color.b, 255]);
-    let rgba_img = create_image_from_pixel(pixel);
+    let mut rgba_img = create_image_from_pixel(background_color, width, height);
 
     let white_pixel = image::Rgba([123, 10, 180, 255]);
     let CIRCLE_RADIUS: i32 = (width as i32 / 10) + 15;
@@ -40,7 +38,7 @@ pub fn circle_background(width: u32, height: u32) -> PhotonImage {
 pub fn spaced_circle_background(width: u32, height: u32) -> PhotonImage {
     let background_color = Rgb { r: 190, g: 120, b: 200};
 
-    let rgba_img = create_image_from_pixel(background_color);
+    let mut rgba_img = create_image_from_pixel(background_color, width, height);
 
     let white_pixel = image::Rgba([123, 10, 180, 255]);
     let CIRCLE_RADIUS: i32 = (width as i32 / 10) - 35;
@@ -56,12 +54,12 @@ pub fn spaced_circle_background(width: u32, height: u32) -> PhotonImage {
 }
 
 pub fn solid_background(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
-    let rgba_img = create_image_from_pixel(background_color);
+    let rgba_img = create_image_from_pixel(background_color, width, height);
     return PhotonImage{ raw_pixels: rgba_img.raw_pixels(), width: width, height: height};
 }
 
 pub fn lined_background(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
-    let rgba_img = create_image_from_pixel(background_color)
+    let mut rgba_img = create_image_from_pixel(background_color, width, height);
     let line_pixel = image::Rgba([255, 167, 90, 255]);
     
     for y in 0..50 {
@@ -71,7 +69,7 @@ pub fn lined_background(width: u32, height: u32, background_color: Rgb) -> Photo
 }
 
 pub fn checker_background(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
-    let rgba_img = create_image_from_pixel(background_color);
+    let mut rgba_img = create_image_from_pixel(background_color, width, height);
 
     let line_pixel = image::Rgba([255, 167, 90, 255]);
     
@@ -86,7 +84,7 @@ pub fn checker_background(width: u32, height: u32, background_color: Rgb) -> Pho
     return PhotonImage{ raw_pixels: rgba_img.raw_pixels(), width: width, height: height };
 }
 
-fn create_image_from_pixel(background_color: Rgb) -> DynamicImage {
+fn create_image_from_pixel(background_color: Rgb, width: u32, height: u32, ) -> DynamicImage {
     let pixel = image::Rgba([background_color.r, background_color.g, background_color.b, 255]);
     let image_buffer = ImageBuffer::from_pixel(width, height, pixel);
     let mut rgba_img = image::ImageRgba8(image_buffer);

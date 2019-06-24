@@ -1,8 +1,7 @@
 use wasm_bindgen::prelude::*;
 use web_sys::{CanvasRenderingContext2d, ImageData, HtmlCanvasElement};
 use wasm_bindgen::Clamped;
-use web_sys::console;
-use image::{DynamicImage, GenericImageView, ImageBuffer, Rgba};
+use image::{DynamicImage, GenericImageView, GenericImage, ImageBuffer, Rgba, RgbaImage};
 use imageproc::drawing::draw_text_mut;
 use imageproc::morphology::dilate_mut;
 use rusttype::Scale;
@@ -10,9 +9,10 @@ use rusttype::{FontCollection};
 use imageproc::distance_transform::Norm;
 use imageproc::drawing::draw_filled_rect_mut;
 use imageproc::rect::Rect;
-use imageproc::rect::Region;
-use imageproc::drawing::draw_hollow_rect_mut;
-use palette::{Lch, Srgb, Hue};
+use palette::{Lch, Srgb, Srgba, Hue, Gradient};
+use palette::rgb::LinSrgba;
+use palette::encoding::pixel::Pixel;
+
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -32,7 +32,11 @@ pub struct PhotonImage {
 
 #[wasm_bindgen]
 impl PhotonImage {
-    pub fn new(&mut self, img_data: ImageData, width: u32, height: u32) -> PhotonImage {
+    pub fn new_from_rawpixels(raw_pixels: Vec<u8>, width: u32, height: u32) -> PhotonImage {
+        return PhotonImage {raw_pixels: raw_pixels, width: width, height: height}
+    }
+    
+    pub fn new_from_imgdata(&mut self, img_data: ImageData, width: u32, height: u32) -> PhotonImage {
         let raw_pixels = to_raw_pixels(img_data);
         let new_vec = Vec::new();
         return PhotonImage {raw_pixels: new_vec, width: width, height: height}
@@ -43,13 +47,64 @@ impl PhotonImage {
         // create a pixel 
         let pixel =  image::Rgba([background_color.r, background_color.g, background_color.b, 255]);
         let image_buffer = ImageBuffer::from_pixel(width, height, pixel);
-        let rgb_img = image::ImageRgba8(image_buffer);
+        let rgba_img = image::ImageRgba8(image_buffer);
 
-        let raw_pixels = rgb_img.raw_pixels();
+        let raw_pixels = rgba_img.raw_pixels();
         return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
     }
 
-    pub fn draw_text(&mut self, text: &str, x: u32, y:u32, font: &str) {
+    pub fn new_with_pattern(width: u32, height: u32, background_color: Rgb) {
+        // create a pixel 
+        // let pixel =  image::Rgba([background_color.r, background_color.g, background_color.b, 255]);
+        // let image_buffer = ImageBuffer::from_pixel(width, height, pixel);
+        // let rgba_img = image::ImageRgba8(image_buffer);
+
+
+        // let raw_pixels = rgba_img.raw_pixels();
+        // return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
+    }
+
+    pub fn new_with_gradient(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
+        // create a pixel 
+        let mut image = RgbaImage::new(width, height);
+        let grad1 = Gradient::new(vec![
+            LinSrgba::new(1.0, 0.1, 0.1, 1.0),
+            LinSrgba::new(0.1, 0.1, 1.0, 1.0),
+            LinSrgba::new(0.1, 1.0, 0.1, 1.0),
+        ]);
+
+        //The same colors and offsets as in grad1, but in a color space where the hue
+        // is a component
+        let grad3 = Gradient::new(vec![
+            Lch::from(LinSrgba::new(1.0, 0.1, 0.1, 1.0)),
+            Lch::from(LinSrgba::new(0.1, 0.1, 1.0, 1.0)),
+            Lch::from(LinSrgba::new(0.1, 1.0, 0.1, 1.0)),
+        ]);
+
+
+        for (i, c1) in grad1
+        .take(width as usize)
+        .enumerate()
+    {
+        let c1 = Srgba::from_linear(c1).into_format().into_raw();
+        {
+            let mut sub_image = image.sub_image(i as u32, 0, 1, height);
+            let (width, height) = sub_image.dimensions();
+            for x in 0..width {
+                for y in 0..height {
+                    sub_image.put_pixel(x, y, image::Rgba {
+                        data: c1
+                    });
+                }
+            }
+        }
+    }
+        let rgba_img = image::ImageRgba8(image);
+        let raw_pixels = rgba_img.raw_pixels();
+        return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
+    }
+
+    pub fn draw_text(&mut self, text: &str, x: u32, y:u32, font: &str, font_size: f32) {
         
         let mut image = helpers::dyn_image_from_raw(&self).to_rgba();
 
@@ -62,19 +117,21 @@ impl PhotonImage {
             "Roboto-Light" => Vec::from(include_bytes!("../fonts/Roboto-Light.ttf") as &[u8]),
             "Roboto-Bold" => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8]),
             "Roboto-Black" => Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]),
-
+            "Roboto-Thin" => Vec::from(include_bytes!("../fonts/Roboto-Thin.ttf") as &[u8]),
             _ => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8])
         };
 
         let font = FontCollection::from_bytes(font_vec).unwrap().into_font().unwrap();
-        let height = 90f32;
+        let height = font_size;
         let scale = Scale { x: height * 1.0, y: height };
-        draw_text_mut(&mut image2, Rgba([255u8, 255u8, 255u8, 255u8]), x, y, scale, &font, text);
+        let white = Rgb{r: 255, g: 255, b: 255};
+        let black = Rgb{r: 0, g: 0, b:0};
+        draw_text_mut(&mut image2, Rgba([255u8, 25u8, 155u8, 255u8]), x, y, scale, &font, text);
 
         let mut image2 = image2.to_luma();
         dilate_mut(&mut image2, Norm::LInf, 4u8);
 
-        draw_text_mut(&mut image, Rgba([255u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
+        draw_text_mut(&mut image, Rgba([25u8, 25u8, 55u8, 255u8]), x + 10, y - 10, scale, &font, text);
         let dynimage = image::ImageRgba8(image);
         self.raw_pixels = dynimage.raw_pixels();
 
@@ -93,27 +150,29 @@ impl PhotonImage {
         draw_text_mut(&mut image2, Rgba([255u8, 255u8, 255u8, 255u8]), x, y, scale, &font, text);
 
         let mut image2 = image2.to_luma();
-        dilate_mut(&mut image2, Norm::LInf, 4u8);
+        dilate_mut(&mut image2, Norm::LInf, 14u8);
 
         // Add a border to the text.
         for x in 0..image2.width() {
             for y in 0..image2.height() {
                 let pixval = 255 - image2.get_pixel(x, y).data[0];
                 if pixval != 255 {
-                    let new_pix = Rgba([pixval, pixval, pixval, 255]);
+                    let new_pix = Rgba([234, 23, 123, 255]);
                     image.put_pixel(x, y, new_pix);
                 }
             }
         }
+        // pink
+        // draw_text_mut(&mut image, Rgba([244u8, 36u8, 154u8, 255u8]), x + 10, y - 10, scale, &font, text);
 
-        draw_text_mut(&mut image, Rgba([255u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
+        draw_text_mut(&mut image, Rgba([193u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
 
         let dynimage = image::ImageRgba8(image);
         self.raw_pixels = dynimage.raw_pixels();
 
     }
 
-    pub fn draw_rect(&mut self, background_color: Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
+    pub fn draw_solid_rect(&mut self, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
         let red   = Rgba([255u8, 0u8,   0u8, 255u8]);
         let green = Rgba([0u8,   255u8, 0u8, 255u8]);
         let blue  = Rgba([0u8,   0u8,   255u8, 255u8]);
@@ -122,15 +181,48 @@ impl PhotonImage {
    
         let mut image = helpers::dyn_image_from_raw(&self).to_rgba();
 
-        draw_filled_rect_mut(&mut image, Rect::at(x_pos, y_pos).of_size(width, height), white);
+        draw_filled_rect_mut(&mut image, Rect::at(x_pos, y_pos).of_size(width, height), Rgba([background_color.r, background_color.g, background_color.b, 255u8]));
+        let dynimage = image::ImageRgba8(image);
+        self.raw_pixels = dynimage.raw_pixels();
+    
+    }
+
+    pub fn draw_gradient_rect(&mut self, height: u32, width: u32, x_pos: u32, y_pos: u32) {
+        let mut image = helpers::dyn_image_from_raw(&self).to_rgba();
+
+        let rect = elements::create_gradient(width, height);
+        let rect = helpers::dyn_image_from_raw(&rect).to_rgba();
+        
+        image::imageops::overlay(&mut image, &rect, x_pos, y_pos);
+
         let dynimage = image::ImageRgba8(image);
         self.raw_pixels = dynimage.raw_pixels();
     }
 
+    pub fn draw_flowchart(&mut self, item1: &str) {
+        let mut image = helpers::dyn_image_from_raw(&self).to_rgba();
+        let rgb = Rgb{ r: 255, g: 255, b: 255 };
+        let START_X: i32 = 20;
+        let START_Y: i32 = 20;
+        let width: i32 = 130;
+        let height: i32 = 100;
+        self.draw_solid_rect(&rgb, height as u32, width as u32, START_X, START_Y);      
+        self.draw_solid_rect(&rgb, height as u32, width as u32, START_X + width + 50, START_Y);        
+
+    }
 
     pub fn raw_pix(self) -> Vec<u8> {
         self.raw_pixels
     }
+
+    // SPECIALIST GRAPHIC SIZES 
+    // LinkedIn Banner: 1400px * 425px 
+    // Pinterest: 735 * 1102px
+    // FB AD : 1200 * 628 px
+    // FB POST : 940 * 788
+    // INSTAGRAM POST : 1080 * 1080px
+    // Twitter Post: 1024 * 512 
+    // Twitter Header: 1500px * 500px 
 }
 
 
@@ -173,6 +265,25 @@ impl ColorScheme {
 
     }
 }
+
+
+/// Provides the image's height, width, and contains the image's raw pixels.
+/// For use when communicating between JS and WASM, and also natively. 
+#[wasm_bindgen]
+#[derive(Debug)]
+pub struct Font {
+    name: String,
+    size: u8,
+    color: Rgb
+}
+
+#[wasm_bindgen]
+impl Font {
+    pub fn new(name: &str, size: u8, color: Rgb) -> Font {
+        return Font {name: name.to_string(), size: size, color: color};
+    }
+}
+
 
 #[wasm_bindgen]
 #[derive(Debug)]
@@ -241,7 +352,7 @@ pub fn open_image(canvas: HtmlCanvasElement, ctx: CanvasRenderingContext2d) -> P
 
 /// Create a new RGB colour. TODO Will be using struct impl soon. 
 #[wasm_bindgen]
-pub fn new_rgb(imgdata: ImageData, r:u8, g:u8, b:u8) -> Rgb {
+pub fn new_rgb(r:u8, g:u8, b:u8) -> Rgb {
     let rgb = Rgb{r, g, b};
     return rgb;
 }
@@ -274,5 +385,8 @@ fn set_panic_hook() {
 }
 
 pub mod text;
+pub mod background;
+pub mod collage;
 pub mod helpers;
 pub mod graphics;
+pub mod elements;
