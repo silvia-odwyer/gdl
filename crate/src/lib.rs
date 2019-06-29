@@ -32,6 +32,14 @@ pub struct PhotonImage {
 
 #[wasm_bindgen]
 impl PhotonImage {
+    pub fn height(self) -> u32 {
+        self.height
+    }
+
+    pub fn width(self) -> u32 {
+        self.width
+    }
+    
     pub fn new_from_rawpixels(raw_pixels: Vec<u8>, width: u32, height: u32) -> PhotonImage {
         return PhotonImage {raw_pixels: raw_pixels, width: width, height: height}
     }
@@ -42,7 +50,6 @@ impl PhotonImage {
         return PhotonImage {raw_pixels: new_vec, width: width, height: height}
     }
 
-    
     pub fn new_with_background(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
         // create a pixel 
         let pixel =  image::Rgba([background_color.r, background_color.g, background_color.b, 255]);
@@ -64,7 +71,7 @@ impl PhotonImage {
         // return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
     }
 
-    pub fn new_with_gradient(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
+    pub fn new_with_gradient(width: u32, height: u32) -> PhotonImage {
         // create a pixel 
         let mut image = RgbaImage::new(width, height);
         let grad1 = Gradient::new(vec![
@@ -103,6 +110,24 @@ impl PhotonImage {
         let raw_pixels = rgba_img.raw_pixels();
         return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
     }
+    
+    /// Create a new social media graphic. 
+    /// Available types include: linkedin_banner, pinterest, fb_ad, fb_post, instagram_post, 
+    /// twitter_header, twitter_post.
+    pub fn new_socialmedia_graphic(name: &str) -> PhotonImage {
+        let (width, height) = match name {
+            "linkedin_banner" => (1400, 425),
+            "pinterest" => (735, 1102),
+            "fb_ad" => (1200, 628), 
+            "fb_post" => (940, 788),
+            "instagram_post" => (1080, 1080),
+            "twitter_post" => (1024, 512),
+            "twitter_header" => (1500, 500),
+            _ => (192, 120)
+        };
+        let new_vec = Vec::new();
+        return PhotonImage {raw_pixels: new_vec, width: width, height: height}
+    }
 
     pub fn draw_text(&mut self, text: &str, x: u32, y:u32, font: &str, font_size: f32) {
         
@@ -114,6 +139,8 @@ impl PhotonImage {
         // include_bytes! only takes a string literal
         let font_vec = match font {
             "Roboto-Regular" => Vec::from(include_bytes!("../fonts/Roboto-Regular.ttf") as &[u8]),
+            "Lato-Regular" => Vec::from(include_bytes!("../fonts/Lato-Regular.ttf") as &[u8]),
+            "Lato-Regular" => Vec::from(include_bytes!("../fonts/Lato-Bold.ttf") as &[u8]),
             "Roboto-Light" => Vec::from(include_bytes!("../fonts/Roboto-Light.ttf") as &[u8]),
             "Roboto-Bold" => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8]),
             "Roboto-Black" => Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]),
@@ -126,12 +153,12 @@ impl PhotonImage {
         let scale = Scale { x: height * 1.0, y: height };
         let white = Rgb{r: 255, g: 255, b: 255};
         let black = Rgb{r: 0, g: 0, b:0};
-        draw_text_mut(&mut image2, Rgba([255u8, 25u8, 155u8, 255u8]), x, y, scale, &font, text);
+        draw_text_mut(&mut image2, Rgba([255u8, 255u8, 255u8, 255u8]), x, y, scale, &font, text);
 
         let mut image2 = image2.to_luma();
         dilate_mut(&mut image2, Norm::LInf, 4u8);
 
-        draw_text_mut(&mut image, Rgba([25u8, 25u8, 55u8, 255u8]), x + 10, y - 10, scale, &font, text);
+        draw_text_mut(&mut image, Rgba([255u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
         let dynimage = image::ImageRgba8(image);
         self.raw_pixels = dynimage.raw_pixels();
 
@@ -173,12 +200,6 @@ impl PhotonImage {
     }
 
     pub fn draw_solid_rect(&mut self, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
-        let red   = Rgba([255u8, 0u8,   0u8, 255u8]);
-        let green = Rgba([0u8,   255u8, 0u8, 255u8]);
-        let blue  = Rgba([0u8,   0u8,   255u8, 255u8]);
-        let white = Rgba([255u8, 255u8, 255u8, 255u8]);
-
-   
         let mut image = helpers::dyn_image_from_raw(&self).to_rgba();
 
         draw_filled_rect_mut(&mut image, Rect::at(x_pos, y_pos).of_size(width, height), Rgba([background_color.r, background_color.g, background_color.b, 255u8]));
@@ -211,18 +232,64 @@ impl PhotonImage {
 
     }
 
+    pub fn draw_barchart(&mut self, title: &str, height: u32, width: u32) {
+        let mut image = helpers::dyn_image_from_raw(&self).to_rgba();
+        let rgb = Rgb{ r: 255, g: 255, b: 255 };
+        let START_X: i32 = 20;
+        let mut START_Y: i32 = 20;
+        let mut bar_width: u32 = width - 2*(width / 10);
+        let num_bars = 5;
+        let bar_height: u32 = height / num_bars;
+        let lilac = Rgb{r: 204, g: 195, b: 240};
+        let yellow = Rgb{ r: 255, g: 226, b: 98};
+
+        for _ in 0..num_bars {
+            self.draw_solid_rect(&yellow, bar_height as u32, bar_width as u32, START_X, START_Y);
+            START_Y += (bar_height + 20) as i32;      
+            bar_width -= 20;
+        }    
+
+        self.draw_text(title, 10, START_Y as u32, "Lato-Regular", 50.0);
+    }
+    
+    pub fn draw_histogram(&mut self, title: &str, height: u32, width: u32) {
+        let mut image = helpers::dyn_image_from_raw(&self).to_rgba();
+        let rgb = Rgb{ r: 255, g: 255, b: 255 };
+        let START_X: i32 = 20;
+        let mut START_Y: i32 = 20;
+        let mut bar_width: u32 = width - 2*(width / 10);
+        let num_bars = 5;
+        let bar_height: u32 = height / num_bars;
+        let lilac = Rgb{r: 204, g: 195, b: 240};
+        let yellow = Rgb{ r: 255, g: 226, b: 98};
+
+        for _ in 0..num_bars {
+            self.draw_solid_rect(&lilac, bar_height as u32, bar_width as u32, START_X, START_Y);
+            START_Y += (bar_height) as i32;      
+            bar_width -= 20;
+        }    
+
+        self.draw_text(title, 10, START_Y as u32, "Lato-Regular", 50.0);
+    }
+
+    // pub fn word_cloud(&mut self) {
+    //     let words = vec!["hello", "bonjour", "hola", "life", "buna", "words", "codes", "freedom", "liberty"];
+    //     let mut inc = 20;
+    //     let mut inc_y = 30;
+    //     for word in words {
+    //         self.draw_text(&word, inc, inc_y, "Lato-Regular", 50.0);
+    //         inc += 100;
+    //         inc_y += 100;
+    //     }
+
+    // }
+
     pub fn raw_pix(self) -> Vec<u8> {
         self.raw_pixels
     }
 
-    // SPECIALIST GRAPHIC SIZES 
-    // LinkedIn Banner: 1400px * 425px 
-    // Pinterest: 735 * 1102px
-    // FB AD : 1200 * 628 px
-    // FB POST : 940 * 788
-    // INSTAGRAM POST : 1080 * 1080px
-    // Twitter Post: 1024 * 512 
-    // Twitter Header: 1500px * 500px 
+
+        
 }
 
 
@@ -300,6 +367,12 @@ impl Rgb {
     }
 }
 
+#[wasm_bindgen]
+pub fn drawRectWeb(ctx: CanvasRenderingContext2d) {
+    ctx.rect(10.0, 20.0, 50.0, 50.0);
+    ctx.stroke();
+}
+
 // Called by the JS entry point to ensure that everything is working as expected
 #[wasm_bindgen]
 pub fn run() -> Result<(), JsValue> {
@@ -374,8 +447,42 @@ pub fn to_image_data(photon_image: PhotonImage) -> ImageData {
     return newData;
 }
 
-// draw image to canvas
-//ctx.draw_image_with_html_image_element(&img, 0.0, 0.0);
+/// Get the ImageData from a 2D canvas context
+#[wasm_bindgen]
+pub fn get_image_data(canvas: &HtmlCanvasElement, ctx: &CanvasRenderingContext2d) -> ImageData {
+    let width = canvas.width();
+    let height = canvas.height();
+
+    let data = ctx.get_image_data(0.0, 0.0, width as f64, height as f64).unwrap();
+    return data;
+}
+
+trait ReadMyThing<T> {
+    fn summarize(self, item: T) -> u32;
+}
+
+#[cfg(target_arch = "wasm32")]
+struct WebReadMyThing {
+    age: u32
+}
+
+impl<T, WebReadMyThing> ReadMyThing<T> for WebReadMyThing {
+    fn summarize(self, item: T) -> u32 {
+        self.age
+    }
+}
+
+struct NativeReadMyThing {
+    age: u32,
+    name: u8
+}
+
+impl<T, NativeReadMyThing> ReadMyThing<T> for NativeReadMyThing {
+    fn summarize(self, item: T) -> u32 {
+        self.name = 12;
+        12
+    }
+}
 
 fn set_panic_hook() {
     // When the `console_error_panic_hook` feature is enabled, we can call the
