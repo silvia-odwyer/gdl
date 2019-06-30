@@ -10,6 +10,38 @@ use rusttype::{FontCollection, Scale};
 use crate::{PhotonImage, helpers, Rgb, LinSrgba, Gradient, Lch, Srgba};
 use image::FilterType::Nearest;
 use palette::encoding::pixel::Pixel;
+use imageproc::drawing::draw_filled_rect_mut;
+use imageproc::rect::Rect;
+
+/// Draw a solid rectangle with a given background colour. 
+pub fn draw_solid_rect(img: &mut PhotonImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
+    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
+    draw_filled_rect_mut(&mut image, Rect::at(x_pos, y_pos).of_size(width, height), Rgba([background_color.r, background_color.g, background_color.b, 255u8]));
+    let dynimage = image::ImageRgba8(image);
+        img.raw_pixels = dynimage.raw_pixels();
+}
+
+/// TODO
+/// Draw a solid rectangle with text placed in-centre.
+pub fn draw_rect_text(img: &mut PhotonImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
+    // let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
+    // draw_filled_rect_mut(&mut image, Rect::at(x_pos, y_pos).of_size(width, height), Rgba([background_color.r, background_color.g, background_color.b, 255u8]));
+    // let dynimage = image::ImageRgba8(image);
+    //     img.raw_pixels = dynimage.raw_pixels();
+}
+
+/// Draw a rectangle filled with a gradient.
+pub fn draw_gradient_rect(img: &mut PhotonImage, height: u32, width: u32, x_pos: u32, y_pos: u32) {
+    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
+
+    let rect = create_gradient(width, height);
+    let rect = helpers::dyn_image_from_raw(&rect).to_rgba();
+        
+    image::imageops::overlay(&mut image, &rect, x_pos, y_pos);
+
+    let dynimage = image::ImageRgba8(image);
+    img.raw_pixels = dynimage.raw_pixels();
+}
 
 /// Create a gradient element in the shape of a Rect.
 pub fn create_gradient(width: u32, height: u32) -> PhotonImage {
