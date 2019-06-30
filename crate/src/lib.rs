@@ -4,8 +4,6 @@ use wasm_bindgen::Clamped;
 use image::{DynamicImage, GenericImageView, GenericImage, ImageBuffer, Rgba, RgbaImage};
 use imageproc::drawing::draw_text_mut;
 use imageproc::morphology::dilate_mut;
-use rusttype::Scale;
-use rusttype::{FontCollection};
 use imageproc::distance_transform::Norm;
 use imageproc::drawing::draw_filled_rect_mut;
 use palette::{Lch, Srgb, Srgba, Hue, Gradient};
@@ -313,7 +311,6 @@ pub fn get_image_data(canvas: &HtmlCanvasElement, ctx: &CanvasRenderingContext2d
     return data;
 }
 
-
 fn set_panic_hook() {
     // When the `console_error_panic_hook` feature is enabled, we can call the
     // `set_panic_hook` function to get better error messages if we ever panic.
@@ -323,6 +320,7 @@ fn set_panic_hook() {
 
 pub mod text;
 pub mod background;
+pub mod diagrams;
 pub mod collage;
 pub mod helpers;
 pub mod graphics;
