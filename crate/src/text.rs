@@ -5,6 +5,7 @@ extern crate rusttype;
 use wasm_bindgen::prelude::*;
 use imageproc::drawing::draw_text_mut;
 use imageproc::morphology::dilate_mut;
+use image::imageops::rotate90;
 use imageproc::distance_transform::Norm;
 use rusttype::{FontCollection, Scale};
 use crate::{PhotonImage, helpers, Rgb};
@@ -22,6 +23,7 @@ pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, f
         "Lato-Regular" => Vec::from(include_bytes!("../fonts/Lato-Regular.ttf") as &[u8]),
         "Lato-Bold" => Vec::from(include_bytes!("../fonts/Lato-Bold.ttf") as &[u8]),
         "BebasKai" => Vec::from(include_bytes!("../fonts/BebasKai.ttf") as &[u8]),
+        "CaviarDreams" => Vec::from(include_bytes!("../fonts/CaviarDreams.ttf") as &[u8]),
         "Roboto-Light" => Vec::from(include_bytes!("../fonts/Roboto-Light.ttf") as &[u8]),
         "Roboto-Bold" => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8]),
         "Roboto-Black" => Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]),
@@ -34,10 +36,6 @@ pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, f
     let scale = Scale { x: height * 1.0, y: height };
     let white = Rgb{r: 255, g: 255, b: 255};
     let black = Rgb{r: 0, g: 0, b:0};
-    draw_text_mut(&mut image2, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x, y, scale, &font, text);
-
-    let mut image2 = image2.to_luma();
-    dilate_mut(&mut image2, Norm::LInf, 4u8);
 
     draw_text_mut(&mut image, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x + 10, y - 10, scale, &font, text);
     let dynimage = image::ImageRgba8(image);
@@ -77,3 +75,48 @@ pub fn draw_text_with_border(img: &mut PhotonImage, text: &str, x: u32, y: u32) 
     let dynimage = image::ImageRgba8(image);
     img.raw_pixels = dynimage.raw_pixels();
 }
+
+pub fn draw_vertical_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
+        
+    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
+    
+    // Since the image will be rotated, the height of the container image will be the width of the 
+    // text image.
+    let height = img.width;
+    let width = img.height;
+
+    let mut image2 : DynamicImage = DynamicImage::new_luma8(height, width / 5);
+
+    // include_bytes! only takes a string literal
+    let font_vec = match font {
+        "Roboto-Regular" => Vec::from(include_bytes!("../fonts/Roboto-Regular.ttf") as &[u8]),
+        "Lato-Regular" => Vec::from(include_bytes!("../fonts/Lato-Regular.ttf") as &[u8]),
+        "Lato-Bold" => Vec::from(include_bytes!("../fonts/Lato-Bold.ttf") as &[u8]),
+        "BebasKai" => Vec::from(include_bytes!("../fonts/BebasKai.ttf") as &[u8]),
+        "CaviarDreams" => Vec::from(include_bytes!("../fonts/CaviarDreams.ttf") as &[u8]),
+        "Roboto-Light" => Vec::from(include_bytes!("../fonts/Roboto-Light.ttf") as &[u8]),
+        "Roboto-Bold" => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8]),
+        "Roboto-Black" => Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]),
+        "Roboto-Thin" => Vec::from(include_bytes!("../fonts/Roboto-Thin.ttf") as &[u8]),
+        _ => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8])
+    };
+
+    let font = FontCollection::from_bytes(font_vec).unwrap().into_font().unwrap();
+    let height = font_size;
+    let scale = Scale { x: height * 1.0, y: height };
+    let white = Rgb{r: 255, g: 255, b: 255};
+    let black = Rgb{r: 0, g: 0, b:0};
+    draw_text_mut(&mut image2, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), 0, 0, scale, &font, &text);
+
+    let mut image2 = image2.to_rgba();
+
+    // draw_text_mut(&mut image, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x + 10, y - 10, scale, &font, text);
+    
+    let mut container_img = helpers::dyn_image_from_raw(&img);
+    let rotated_img = rotate90(&image2);
+    let image2 = image::ImageRgba8(rotated_img);
+
+    image::imageops::overlay(&mut container_img, &image2, 0, 0);
+
+    img.raw_pixels = container_img.raw_pixels();
+    }

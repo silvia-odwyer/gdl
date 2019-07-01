@@ -1,5 +1,5 @@
 extern crate image;
-use image::{ Rgba, DynamicImage};
+use image::{  DynamicImage};
 extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::prelude::*;

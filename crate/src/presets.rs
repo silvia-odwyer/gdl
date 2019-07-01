@@ -107,7 +107,31 @@ pub fn repeat_text(mut background_img: &mut PhotonImage, main_text: &str, width:
     for _ in 0..(height / 50) as usize{
         draw_text(&mut background_img, main_text, (width as f32 * 0.05) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &white_rgb);
         height_mul += 0.1;
-    }
-  
+    } 
 }
 
+/// Preset: text banner.
+pub fn text_banner(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) {
+    let width = background_img.width;
+    let height = background_img.height;
+
+    let mut height_mul: f32 = 0.4;
+    let black_rgb = Rgb { r: 0, g: 0, b: 0};
+    
+    draw_text(&mut background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &black_rgb);
+    draw_text(&mut background_img, small_text, (width as f32 * 0.28) as u32, (height as f32 * (height_mul + 0.15)) as u32, "BebasKai", 30.0, &black_rgb);   
+}
+
+/// Preset: vertical text banner.
+pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
+    let width = background_img.width;
+    let height = background_img.height;
+
+    let mut height_mul: f32 = 0.4;
+    let black_rgb = Rgb { r: 0, g: 0, b: 0};
+    draw_solid_rect(&mut background_img, &black_rgb, height, (width as f32 * 0.2) as u32, 0, 0);
+    
+    let white_rgb = Rgb {r: 255, g: 255, b: 255};
+
+    draw_vertical_text(&mut background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &white_rgb);
+}

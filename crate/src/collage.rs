@@ -1,14 +1,9 @@
 extern crate image;
-use image::{GenericImage, GenericImageView, Rgba, DynamicImage};
+use image::{GenericImageView, DynamicImage};
 extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::prelude::*;
-use imageproc::drawing::draw_text_mut;
-use imageproc::morphology::dilate_mut;
-use imageproc::distance_transform::Norm;
-use rusttype::{FontCollection, Scale};
 use crate::{PhotonImage, helpers, Rgb};
-use image::FilterType::Nearest;
 use crate::text::*;
 use crate::elements::*;
 
@@ -71,7 +66,9 @@ pub fn four_grid_text(mut photon_img: PhotonImage, photon_img2: PhotonImage, wid
     let yellow = Rgb{ r: 255, g: 226, b: 98};
     draw_solid_rect(&mut photon_img, &yellow, img_height, img_width, image.width() as i32, 0);
     draw_solid_rect(&mut photon_img, &lilac, img_height, img_width, 0, image.height() as i32);
-    draw_text(&mut photon_img, "Daisies In the Underground", image.width() + 30, img_height / 2, "Roboto-Bold", 30.0);
+    let rgb_white = Rgb { r: 255, g: 255, b: 255};
+
+    draw_text(&mut photon_img, "Daisies In the Underground", image.width() + 30, img_height / 2, "Roboto-Bold", 30.0, &rgb_white);
     
     return photon_img;
 
@@ -104,8 +101,9 @@ pub fn collage_test(photon_img: PhotonImage, photon_img2: PhotonImage, width: u3
     let yellow = Rgb{ r: 255, g: 226, b: 98};
     draw_solid_rect(&mut photon_img, &yellow, img_height, img_width, image.width() as i32, 0);
     draw_solid_rect(&mut photon_img, &lilac, img_height, img_width, 0, image.height() as i32);
+    let rgb_white = Rgb { r: 255, g: 255, b: 255};
 
-    draw_text(&mut photon_img, "Daisies In the Underground", image.width() + 30, img_height / 2, "Roboto-Bold", 30.0);
+    draw_text(&mut photon_img, "Daisies In the Underground", image.width() + 30, img_height / 2, "Roboto-Bold", 30.0, &rgb_white);
     
     return photon_img;
 
@@ -137,7 +135,8 @@ pub fn split_imgs_text(photon_img: PhotonImage, photon_img2: PhotonImage, width:
     let lilac = Rgb{r: 204, g: 195, b: 240};
     let yellow = Rgb{ r: 255, g: 226, b: 98};
     draw_solid_rect(&mut photon_img, &white, img_height * 2, img_width, 0, 0);
-    draw_text(&mut photon_img, "Life Is An Adventure", 45, img_height / 2, "Roboto-Bold", 30.0);
+    let rgb_white = Rgb { r: 255, g: 255, b: 255};
+    draw_text(&mut photon_img, "Life Is An Adventure", 45, img_height / 2, "BebasKai", 80.0, &rgb_white);
     
     return photon_img;
 
