@@ -3,8 +3,6 @@ use web_sys::{CanvasRenderingContext2d, ImageData, HtmlCanvasElement};
 use wasm_bindgen::Clamped;
 use image::{GenericImageView, GenericImage, ImageBuffer, RgbaImage};
 use imageproc::drawing::draw_text_mut;
-use imageproc::morphology::dilate_mut;
-use imageproc::distance_transform::Norm;
 use imageproc::drawing::draw_filled_rect_mut;
 use palette::{Lch, Srgb, Srgba, Hue, Gradient};
 use palette::rgb::LinSrgba;

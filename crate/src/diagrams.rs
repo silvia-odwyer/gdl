@@ -33,8 +33,9 @@ pub fn draw_barchart(mut img: &mut PhotonImage, title: &str, height: u32, width:
         START_Y += (bar_height + 20) as i32;      
         bar_width -= 20;
     }    
+    let rgb_white = Rgb { r: 255, g: 255, b: 255};
 
-    draw_text(&mut img, title, 10, START_Y as u32, "Lato-Regular", 50.0);
+    draw_text(&mut img, title, 10, START_Y as u32, "Lato-Regular", 50.0, &rgb_white);
 }
     
 pub fn draw_histogram(mut img: &mut PhotonImage, title: &str, height: u32, width: u32) {
@@ -53,6 +54,6 @@ pub fn draw_histogram(mut img: &mut PhotonImage, title: &str, height: u32, width
         START_Y += (bar_height) as i32;      
         bar_width -= 20;
     }    
-
-    draw_text(&mut img, title, 10, START_Y as u32, "Lato-Regular", 50.0);
+    let rgb_white = Rgb { r: 255, g: 255, b: 255};
+    draw_text(&mut img, title, 10, START_Y as u32, "Lato-Regular", 50.0, &rgb_white);
 }

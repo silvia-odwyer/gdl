@@ -21,7 +21,8 @@ pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, height
 /// Draw a solid rectangle with text placed in-centre.
 pub fn draw_rect_text(mut img: &mut PhotonImage, text: &str, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
     draw_solid_rect(&mut img, &background_color, height as u32, width as u32, x_pos, y_pos);      
-    draw_text(&mut img, text, (x_pos as f32 + (width as f32 * 0.05)) as u32, (y_pos + 10) as u32, "Roboto-Bold", 30.0);
+    let rgb_white = Rgb { r: 255, g: 255, b: 255};
+    draw_text(&mut img, text, (x_pos as f32 + (width as f32 * 0.05)) as u32, (y_pos + 10) as u32, "Roboto-Bold", 30.0, &rgb_white);
 }
 
 /// Draw a rectangle filled with a gradient.

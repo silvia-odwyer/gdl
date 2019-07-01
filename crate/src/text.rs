@@ -9,7 +9,7 @@ use imageproc::distance_transform::Norm;
 use rusttype::{FontCollection, Scale};
 use crate::{PhotonImage, helpers, Rgb};
 
-pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32) {
+pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
         
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
 
@@ -20,7 +20,8 @@ pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, f
     let font_vec = match font {
         "Roboto-Regular" => Vec::from(include_bytes!("../fonts/Roboto-Regular.ttf") as &[u8]),
         "Lato-Regular" => Vec::from(include_bytes!("../fonts/Lato-Regular.ttf") as &[u8]),
-        "Lato-Regular" => Vec::from(include_bytes!("../fonts/Lato-Bold.ttf") as &[u8]),
+        "Lato-Bold" => Vec::from(include_bytes!("../fonts/Lato-Bold.ttf") as &[u8]),
+        "BebasKai" => Vec::from(include_bytes!("../fonts/BebasKai.ttf") as &[u8]),
         "Roboto-Light" => Vec::from(include_bytes!("../fonts/Roboto-Light.ttf") as &[u8]),
         "Roboto-Bold" => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8]),
         "Roboto-Black" => Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]),
@@ -33,12 +34,12 @@ pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, f
     let scale = Scale { x: height * 1.0, y: height };
     let white = Rgb{r: 255, g: 255, b: 255};
     let black = Rgb{r: 0, g: 0, b:0};
-    draw_text_mut(&mut image2, Rgba([255u8, 255u8, 255u8, 255u8]), x, y, scale, &font, text);
+    draw_text_mut(&mut image2, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x, y, scale, &font, text);
 
     let mut image2 = image2.to_luma();
     dilate_mut(&mut image2, Norm::LInf, 4u8);
 
-    draw_text_mut(&mut image, Rgba([255u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
+    draw_text_mut(&mut image, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x + 10, y - 10, scale, &font, text);
     let dynimage = image::ImageRgba8(image);
     img.raw_pixels = dynimage.raw_pixels();
     }
