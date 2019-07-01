@@ -8,25 +8,20 @@ use palette::encoding::pixel::Pixel;
 use imageproc::drawing::draw_filled_rect_mut;
 use imageproc::rect::Rect;
 use crate::text::draw_text;
-use crate::helpers::*;
+use crate::helpers;
 
 /// Draw a solid rectangle with a given background colour. 
-pub fn draw_solid_rect(img: &mut PhotonImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
+pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
     draw_filled_rect_mut(&mut image, Rect::at(x_pos, y_pos).of_size(width, height), Rgba([background_color.r, background_color.g, background_color.b, 255u8]));
     let dynimage = image::ImageRgba8(image);
     img.raw_pixels = dynimage.raw_pixels();
 }
 
-/// TODO
 /// Draw a solid rectangle with text placed in-centre.
-pub fn draw_rect_text(img: &mut PhotonImage, text: &str, background_color: &Rgb, height: u32, width: i32, x_pos: i32, y_pos: u32) {
-    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
-    draw_filled_rect_mut(&mut image, Rect::at(x_pos, y_pos).of_size(width, height), Rgba([background_color.r, background_color.g, background_color.b, 255u8]));
-    // draw_text(&mut imag, text, (x_pos as f32 + (width as f32 * 0.2)) as u32, y_pos + 10, "Roboto-Bold", 30.0);
-    
-    let dynimage = image::ImageRgba8(image);
-    img.raw_pixels = dynimage.raw_pixels();
+pub fn draw_rect_text(mut img: &mut PhotonImage, text: &str, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
+    draw_solid_rect(&mut img, &background_color, height as u32, width as u32, x_pos, y_pos);      
+    draw_text(&mut img, text, (x_pos as f32 + (width as f32 * 0.05)) as u32, (y_pos + 10) as u32, "Roboto-Bold", 30.0);
 }
 
 /// Draw a rectangle filled with a gradient.
