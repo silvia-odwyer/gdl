@@ -1,5 +1,5 @@
 extern crate image;
-use image::{GenericImage, GenericImageView, Rgba, RgbaImage};
+use image::{GenericImage, GenericImageView, DynamicImage, Rgba, ImageBuffer, RgbaImage};
 extern crate imageproc;
 extern crate rusttype;
 use imageproc::drawing::draw_text_mut;
@@ -9,8 +9,11 @@ use imageproc::drawing::draw_filled_rect_mut;
 use imageproc::rect::Rect;
 use crate::text::draw_text;
 use crate::helpers;
+use wasm_bindgen::prelude::*;
+use wasm_bindgen::Clamped;
 
 /// Draw a solid rectangle with a given background colour. 
+#[wasm_bindgen]
 pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
     draw_filled_rect_mut(&mut image, 
@@ -22,13 +25,32 @@ pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, height
 }
 
 /// Draw a solid rectangle with text placed in-centre.
+#[wasm_bindgen]
 pub fn draw_rect_text(mut img: &mut PhotonImage, text: &str, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
     draw_solid_rect(&mut img, &background_color, height as u32, width as u32, x_pos, y_pos);      
     let rgb_white = Rgb { r: 255, g: 255, b: 255};
     draw_text(&mut img, text, (x_pos as f32 + (width as f32 * 0.05)) as u32, (y_pos + 10) as u32, "Roboto-Bold", 30.0, &rgb_white);
 }
 
+/// Draw a solid rectangle with a given background colour. 
+// pub fn draw_diamond(mut img: &mut PhotonImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
+//     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
+//     let mut image2 : ImageBuffer = ImageBuffer::new(height, width);
+
+//     draw_filled_rect_mut(&mut image2, 
+//                         Rect::at(0, 0).of_size(width, height), 
+//                         Rgba([background_color.r, background_color.g, 
+//                         background_color.b, 255u8]));
+
+//     image::imageops::overlay(&mut image, &image2, x_pos as u32, y_pos as u32);
+         
+//     let dynimage = image::ImageRgba8(image);
+//     img.raw_pixels = dynimage.raw_pixels();
+// }
+
+
 /// Draw a rectangle filled with a gradient.
+#[wasm_bindgen]
 pub fn draw_gradient_rect(img: &mut PhotonImage, height: u32, width: u32, x_pos: u32, y_pos: u32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
 
@@ -42,6 +64,7 @@ pub fn draw_gradient_rect(img: &mut PhotonImage, height: u32, width: u32, x_pos:
 }
 
 /// Create a gradient element in the shape of a Rect.
+#[wasm_bindgen]
 pub fn create_gradient(width: u32, height: u32) -> PhotonImage {
     let mut image = RgbaImage::new(width, height);
 
@@ -92,6 +115,7 @@ pub fn create_gradient(width: u32, height: u32) -> PhotonImage {
 // Digital Water:  #74ebd5 → #acb6e5 
 // Hydrogen:  #667db6 →  #0082c8 →  #0082c8 →  #667db6
 // Blue Coral:  #36d1dc →  #5b86e5 
+#[wasm_bindgen]
 pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> PhotonImage {
     let mut image = RgbaImage::new(width, height);
 

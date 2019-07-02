@@ -1,19 +1,17 @@
 import Fruit from "./accelerate.jpg";
-import Daisies from "./scintillate.jpg";
+import Daisies from "./underground.jpg";
 import Lemons from "./night-sky.jpg";
-import Underground from "./underground.jpg";
+import Underground from "./fuji.jpg";
 import NineYards from "./nine_yards.jpg";
 import BlueMetro from "./finance.jpg";
 import Watermark from "./wasm_logo.png"
 import LargeFruit from "./fruit.jpg";
 
 // Setup global variables
-var canvas, canvas2, watermark_canvas;
-var ctx, ctx2, watermark_ctx;
+var canvas, canvas2, canvas3, watermark_canvas;
+var ctx, ctx2, ctx3, watermark_ctx;
 
 import("../crate/pkg").then(module => {
-
-
   var startTime;
   var endTime;
   module.run();
@@ -31,6 +29,7 @@ import("../crate/pkg").then(module => {
   img2.style.display = "none";
   img2.onload=() => {
     setUpCanvas2();
+    setUpCanvas3();
   }
 
   const watermark_img = new Image();
@@ -46,8 +45,20 @@ import("../crate/pkg").then(module => {
     button.addEventListener("click", function(){applyEffect(event)}, false);
   }
 
+  let preset_buttons = document.getElementsByClassName("preset");
+  for (let i = 0; i < preset_buttons.length; i++) {
+    let button = preset_buttons[i];
+    button.addEventListener("click", function(){applyPreset(event)}, false);
+  }
 
   function applyEffect(event) {
+    // console.time("js_rect_time");
+    // ctx.font = "90px Comic Sans MS";
+    // ctx.fillStyle = "red";
+    // ctx.textAlign = "center";
+    // ctx.fillText("Hello World", canvas.width/2, canvas.height/2); 
+    // console.timeEnd("js_rect_time");
+
     console.time("wasm_time"); 
     console.log(canvas2.height);
     console.log(canvas2.width);
@@ -61,21 +72,96 @@ import("../crate/pkg").then(module => {
     // Convert the ImageData to a PhotonImage (so that it can communicate with the core Rust library)
     let rust_image = module.open_image(canvas, ctx);
     let rust_image2 = module.open_image(canvas2, ctx2);
-
+    
     let rgb = module.new_rgb(150, 100, 200);
+    let white_rgb = module.new_rgb(255, 255, 255);
     let filter_dict = {"gradient_rect" : function() { return rust_image.draw_gradient_rect(200, 200, 10, 20)},
-    "solid_rect" : function() { return rust_image.draw_solid_rect(rgb, 200, 200, 100, 20)},
-    "draw_text" : function() { return rust_image.draw_text("Hello and welcome :)", 20, 30, "Roboto-Regular", 90)},
-    "draw_text_border" : function() { return rust_image.draw_text_with_border("Hello and Welcome :)", 150, 100)},
+    "solid_rect" : function() { return module.draw_solid_rect(rust_image, rgb, 200, 200, 100, 20)},
+    "draw_text" : function() { return module.draw_text(rust_image, "Hello and welcome :)", 20, 50, "Roboto-Regular", 90, rgb)},
+    "draw_text_bold" : function() { return module.draw_text(rust_image, "Hello and welcome :)", 20, 110, "Roboto-Bold", 90, rgb)},
+    "draw_text_light" : function() { return module.draw_text(rust_image, "Hello and welcome :)", 20, 220, "Roboto-Light", 90, white_rgb)},
+    "draw_text_black" : function() { return module.draw_text(rust_image, "Hello and welcome :)", 20, 290, "Roboto-Black", 90, white_rgb)},
+    "draw_text_border" : function() { return module.draw_text_with_border(rust_image, "Hello and Welcome :)", 20, 350, rgb)},
+    
+    "collage" : function() { return }
     };
     filter_dict[filter_name]();
-    let new_img = module.collage_test(rust_image2, canvas.width, canvas.height);
+    // let new_img = module.split_imgs_text(rust_image2, rust_image, canvas.width, canvas.height);
 
     // Update the canvas with the new imagedata
-    module.putImageData(canvas, ctx, new_img);
+    module.putImageData(canvas, ctx, rust_image);
     console.timeEnd("wasm_time");
     endTime = performance.now()
     updateBenchmarks()
+
+  }
+
+  function applyPreset(event) {
+    // console.time("js_collage_time"); 
+    // var canvas_js = document.getElementById("canvas");
+    // var ctx_js = canvas.getContext("2d");
+    // var img = new Image();
+
+    // img.onload = function () {
+
+    //     // set size proportional to image
+    //     canvas_js.height = canvas_js.width * (img.height / img.width);
+
+    //     // step 1 - resize to 20%
+    //     var oc = document.createElement('canvas'),
+    //         octx = oc.getContext('2d');
+
+    //     oc.width = img.width * 0.2;
+    //     oc.height = img.height * 0.2;
+    //     octx.drawImage(img, 0, 0, oc.width, oc.height);
+
+    //     // step 2
+    //     octx.drawImage(oc, 0, 0, oc.width * 0.2, oc.height * 0.2);
+
+    //     // step 3, resize to final size
+    //     ctx_js.drawImage(oc, 0, 0, oc.width * 0.2, oc.height * 0.2,
+    //     0, 0, canvas_js.width, canvas_js.height);
+    // }
+    // img.src = Fruit;
+    // console.timeEnd("js_collage_time");
+
+    console.time("wasm_time"); 
+    console.log(canvas2.height);
+    console.log(canvas2.width);
+
+    startTime = performance.now();
+
+    // Get the name of the effect the user wishes to apply to the image
+    // This is the id of the element they clicked on
+    let filter_name = event.originalTarget.id;
+    
+    // Convert the ImageData to a PhotonImage (so that it can communicate with the core Rust library)
+    let rust_image = module.open_image(canvas, ctx);
+    let rust_image2 = module.open_image(canvas2, ctx2);
+    let rust_image3 = module.open_image(canvas3, ctx3);
+
+    let rgb = module.new_rgb(150, 100, 200);
+    let filter_dict = {
+    "collage" : function() { return module.four_grid_text(rust_image3, rust_image2, canvas.width, canvas.height)},
+    "two_grid" : function() { return module.two_grid(rust_image3, rust_image2, canvas.width, canvas.height)},
+    "split_imgs" : function() { return module.split_imgs_text(rust_image3, rust_image2, canvas.width, canvas.height)},
+    "checkers" : function() { return module.checker_background(canvas.width, canvas.height, rgb)},
+    "circles" : function() { return module.circle_background(canvas.width, canvas.height)},
+    "gradient_background" : function() { return module.gradient_background(canvas.width, canvas.height)},
+    "spaced_circles" : function() { return module.spaced_circle_background(canvas.width, canvas.height)},
+    "solid" : function() { return module.solid_background(canvas.width, canvas.height, rgb)},
+    "four_grid_square" : function() { return module.four_grid_center_square(rust_image2, rust_image3, rust_image2, rust_image3, "Cafeterie Parisian", canvas.width, canvas.height)}
+    };
+    let new_image = filter_dict[filter_name]();
+    // let new_img = module.split_imgs_text(rust_image2, rust_image, canvas.width, canvas.height);
+
+    // Update the canvas with the new imagedata
+    module.putImageData(canvas, ctx, new_image);
+
+    console.timeEnd("wasm_time");
+    endTime = performance.now()
+    updateBenchmarks()
+
   }
 
   function blendImages(event) {
@@ -207,6 +293,18 @@ import("../crate/pkg").then(module => {
 
     ctx2 = canvas2.getContext("2d");
     ctx2.drawImage(img2, 0, 0);
+
+  }
+
+  function setUpCanvas3() {
+    let element = document.getElementById("image_container");
+    element.appendChild(img2);
+    canvas3 = document.createElement("canvas");
+    canvas3.width = img2.width;
+    canvas3.height = img2.width;
+
+    ctx3 = canvas3.getContext("2d");
+    ctx3.drawImage(img2, 0, 0);
 
   }
 

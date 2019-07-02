@@ -1,6 +1,6 @@
 # GDL
 
-#### Automated Graphic Design
+#### Graphic Design Library
 
 GDL (Graphic Design Library) is a high-performance Rust 2D graphic design library, which compiles to WebAssembly, allowing developers to create 2D graphics at near-native speed in the browser, and natively on their machines. 
 
@@ -10,13 +10,18 @@ GDL allows you to create:
 - Banners
 - Adverts 
 
+The following designs were created with GDL:
+
+(All images used in the designs are Public Domain, and available from Unsplash.)
+
 GDL can be used in-tandem with the Photon image processing library for combined effects and further image manipulation at a lower level. GDL intends to be a wrapper over Photon, perfect for developers who wish to incorporate high-level graphic design functionality into their web apps and native apps. 
 
+<!-- 
 ##### Features:
 - **Pure Rust** - Unlike other libraries, this library is built with 100% pure Rust, so security and safety is guaranteed. 
 - **WebAssembly friendly** - For web-based graphic design, GDL is 4-10x faster than JS, leading to faster results, and less lag. 
 - **Call WASM with JS** - This library's has exposed JS functions, allowing for zero-cost abstraction and faster development.
-- **Over 90 functions** - GDL provides functions for every domain of image processing. 
+- **Over 90 functions** - GDL provides functions for every domain of image processing.  -->
 
 ### Live Demo
 View the [official demo of WASM in action](https://silvia-odwyer.github.io/GDL).

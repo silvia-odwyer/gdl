@@ -1,5 +1,5 @@
 extern crate image;
-use image::{  DynamicImage};
+use image::{ GenericImage, DynamicImage};
 extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::prelude::*;
@@ -7,6 +7,8 @@ use imageproc::drawing::{draw_text_mut, draw_filled_circle_mut};
 use imageproc::morphology::dilate_mut;
 use crate::{PhotonImage, helpers, Rgb};
 use image::GenericImageView;
+use palette::{Lch, Srgb, Srgba, Hue, Gradient, Pixel};
+use palette::rgb::LinSrgba;
 use image::{ImageBuffer, RgbaImage};
 use std::convert::TryInto;
 use imageproc::drawing::draw_line_segment_mut;
@@ -101,6 +103,48 @@ pub fn pattern_from_img(width: u32, height: u32, background_color: Rgb, img: Pho
     return PhotonImage{ raw_pixels: rgba_img.raw_pixels(), width: width, height: height };
 }
 
+/// Create a gradient background.
+#[wasm_bindgen]
+pub fn gradient_background(width: u32, height: u32, img: PhotonImage) -> PhotonImage {
+    let mut image = RgbaImage::new(width, height);
+    let grad1 = Gradient::new(vec![
+        LinSrgba::new(1.0, 0.1, 0.1, 1.0),
+        LinSrgba::new(0.1, 0.1, 1.0, 1.0),
+        LinSrgba::new(0.1, 1.0, 0.1, 1.0),
+    ]);
+
+    //The same colors and offsets as in grad1, but in a color space where the hue
+    // is a component
+    let grad3 = Gradient::new(vec![
+        Lch::from(LinSrgba::new(1.0, 0.1, 0.1, 1.0)),
+        Lch::from(LinSrgba::new(0.1, 0.1, 1.0, 1.0)),
+        Lch::from(LinSrgba::new(0.1, 1.0, 0.1, 1.0)),
+    ]);
+
+
+    for (i, c1) in grad1
+        .take(width as usize)
+        .enumerate()
+    {
+        let c1 = Srgba::from_linear(c1).into_format().into_raw();
+        {
+            let mut sub_image = image.sub_image(i as u32, 0, 1, height);
+            let (width, height) = sub_image.dimensions();
+            for x in 0..width {
+                for y in 0..height {
+                    sub_image.put_pixel(x, y, image::Rgba {
+                        data: c1
+                    });
+                }
+            }
+        }
+    }
+    let rgba_img = image::ImageRgba8(image);
+    let raw_pixels = rgba_img.raw_pixels();
+    return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
+}
+
+      
 fn create_image_from_pixel(background_color: Rgb, width: u32, height: u32, ) -> DynamicImage {
     let pixel = image::Rgba([background_color.r, background_color.g, background_color.b, 255]);
     let image_buffer = ImageBuffer::from_pixel(width, height, pixel);
