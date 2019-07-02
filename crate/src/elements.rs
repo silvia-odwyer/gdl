@@ -13,7 +13,10 @@ use crate::helpers;
 /// Draw a solid rectangle with a given background colour. 
 pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
-    draw_filled_rect_mut(&mut image, Rect::at(x_pos, y_pos).of_size(width, height), Rgba([background_color.r, background_color.g, background_color.b, 255u8]));
+    draw_filled_rect_mut(&mut image, 
+                        Rect::at(x_pos, y_pos).of_size(width, height), 
+                        Rgba([background_color.r, background_color.g, 
+                        background_color.b, 255u8]));
     let dynimage = image::ImageRgba8(image);
     img.raw_pixels = dynimage.raw_pixels();
 }

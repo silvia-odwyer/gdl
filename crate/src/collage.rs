@@ -190,3 +190,54 @@ pub fn triple_grid(photon_img: PhotonImage, photon_img2: PhotonImage, photon_img
     // return the collage
     return PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
 }
+
+/// Create a triple grid collage graphic.
+#[wasm_bindgen]
+pub fn four_grid_center_square(photon_img: PhotonImage, photon_img2: PhotonImage, photon_img3: PhotonImage, photon_img4: PhotonImage, text: &str, width: u32, height: u32) -> PhotonImage {
+    let image = helpers::dyn_image_from_raw(&photon_img);
+    let image2 = helpers::dyn_image_from_raw(&photon_img2);
+    let image3 = helpers::dyn_image_from_raw(&photon_img3);
+    let image4 = helpers::dyn_image_from_raw(&photon_img4);
+
+    // distribute the width evenly by allocating the same space to both images
+    let img_width = width / 2;
+    let img_height = height / 2;
+
+    let mut imgs = vec![image, image2, image3, image4];
+    resize_imgs(&mut imgs, img_width, img_height);
+
+    let mut container_img : DynamicImage = DynamicImage::new_rgba8(width, height);
+
+    image::imageops::overlay(&mut container_img, &imgs[0], 0, 0);
+    image::imageops::overlay(&mut container_img, &imgs[1], img_width, 0);
+    image::imageops::overlay(&mut container_img, &imgs[2], 0, img_height);
+    image::imageops::overlay(&mut container_img, &imgs[3], img_width, img_height);
+
+    // return the collage
+    let mut photon_img = PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
+    let white_rgb = Rgb { r: 255, g: 255, b: 255};
+    let black_rgb = Rgb { r: 0, g: 0, b: 0};
+    // Draw a square in the center
+    
+    let mut height_mul: f32 = 0.2;
+    let mut word_vec = vec![];
+    // Split words
+    for word in text.split_whitespace() {
+        println!("> {}", word);
+        if word.len() > 7 {
+            word_vec.push(word);
+            continue;
+        }
+        else {
+            word_vec.push(word);
+        }
+    }
+    draw_solid_rect(&mut photon_img, &white_rgb, (width as f32 * 0.3) as u32, (height as f32 * 0.8) as u32, (width as f32 * 0.3) as i32, (height as f32 * 0.15) as i32);  
+    
+     for word in word_vec {
+        draw_text(&mut photon_img, word, (width as f32 * 0.32) as u32, (height as f32 * height_mul) as u32, "BebasKai", 100.0, &black_rgb );  
+        height_mul += 0.15;
+    }
+    
+    return photon_img;
+}
