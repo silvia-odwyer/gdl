@@ -1,3 +1,5 @@
+/// Create diagrams, flowcharts, graphs, etc.,
+
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::Clamped;
 use crate::text::draw_text;

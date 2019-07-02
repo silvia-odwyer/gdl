@@ -1,3 +1,5 @@
+/// Create various backgrounds comprising patterns, gradients, imagery, etc.,
+
 extern crate image;
 use image::{ GenericImage, DynamicImage};
 extern crate imageproc;
@@ -105,7 +107,7 @@ pub fn pattern_from_img(width: u32, height: u32, background_color: Rgb, img: Pho
 
 /// Create a gradient background.
 #[wasm_bindgen]
-pub fn gradient_background(width: u32, height: u32, img: PhotonImage) -> PhotonImage {
+pub fn gradient_background(width: u32, height: u32) -> PhotonImage {
     let mut image = RgbaImage::new(width, height);
     let grad1 = Gradient::new(vec![
         LinSrgba::new(1.0, 0.1, 0.1, 1.0),

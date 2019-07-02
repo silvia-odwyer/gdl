@@ -1,3 +1,5 @@
+/// Add shapes and other elements to images.
+
 extern crate image;
 use image::{GenericImage, GenericImageView, DynamicImage, Rgba, ImageBuffer, RgbaImage};
 extern crate imageproc;

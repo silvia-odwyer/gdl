@@ -1,3 +1,5 @@
+/// Create image collages.
+
 extern crate image;
 use image::{GenericImageView, DynamicImage};
 extern crate imageproc;
@@ -109,7 +111,7 @@ pub fn collage_test(photon_img: PhotonImage, photon_img2: PhotonImage, width: u3
 
 }
 
-/// Add text to an image.
+/// Two-image collage, with each image taking equal width and height.
 #[wasm_bindgen]
 pub fn split_imgs_text(photon_img: PhotonImage, photon_img2: PhotonImage, width: u32, height: u32) -> PhotonImage {
     let image = helpers::dyn_image_from_raw(&photon_img);
@@ -142,7 +144,7 @@ pub fn split_imgs_text(photon_img: PhotonImage, photon_img2: PhotonImage, width:
 
 }
 
-/// Add text to an image.
+/// Four grid collage.
 #[wasm_bindgen]
 pub fn four_grid(photon_img: PhotonImage, photon_img2: PhotonImage, photon_img3: PhotonImage, photon_img4: PhotonImage, width: u32, height: u32) -> PhotonImage {
     let image = helpers::dyn_image_from_raw(&photon_img);
@@ -191,7 +193,7 @@ pub fn triple_grid(photon_img: PhotonImage, photon_img2: PhotonImage, photon_img
     return PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
 }
 
-/// Create a triple grid collage graphic.
+/// Four-image collage with a centre square containing text.
 #[wasm_bindgen]
 pub fn four_grid_center_square(photon_img: PhotonImage, photon_img2: PhotonImage, photon_img3: PhotonImage, photon_img4: PhotonImage, text: &str, width: u32, height: u32) -> PhotonImage {
     let image = helpers::dyn_image_from_raw(&photon_img);
