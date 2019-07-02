@@ -138,8 +138,6 @@ impl PhotonImage {
     pub fn raw_pix(self) -> Vec<u8> {
         self.raw_pixels
     }
-
-
         
 }
 
@@ -323,3 +321,4 @@ pub mod helpers;
 pub mod graphics;
 pub mod elements;
 pub mod presets;
+pub mod resize;
