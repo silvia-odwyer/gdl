@@ -12,6 +12,12 @@ use crate::text::*;
 use crate::elements::*;
 
 /// Preset: Centre text, with background image.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `main_text` - Main heading for the graphic.
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn centre_text(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
     let width = background_img.width;
@@ -86,6 +92,12 @@ pub fn centre_text(mut background_img: &mut PhotonImage, main_text: &str, width:
 }
 
 /// Preset: Repeat the same text on each line, with each line changing in shade.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `main_text` - Main heading for the graphic.
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn text_shades(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
     let width = background_img.width;
@@ -101,6 +113,12 @@ pub fn text_shades(mut background_img: &mut PhotonImage, main_text: &str, width:
 }
 
 /// Preset: Repeat the same text on each line.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `main_text` - Main heading for the graphic.
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn repeat_text(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
     let width = background_img.width;
@@ -115,6 +133,13 @@ pub fn repeat_text(mut background_img: &mut PhotonImage, main_text: &str, width:
 }
 
 /// Preset: text banner.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `main_text` - Main heading for the graphic.
+/// * `small_text` - Sub-heading/smaller text. 
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn text_banner(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) {
     let width = background_img.width;
@@ -128,6 +153,13 @@ pub fn text_banner(mut background_img: &mut PhotonImage, main_text: &str, small_
 }
 
 /// Preset: vertical text banner.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `main_text` - Main heading for the graphic.
+/// * `small_text` - Sub-heading/smaller text. 
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
     let width = background_img.width;
@@ -143,6 +175,13 @@ pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str, widt
 }
 
 /// Preset: Right-hand side text.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `main_text` - Main heading for the graphic.
+/// * `small_text` - Sub-heading/smaller text. 
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn rhs_text(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) {
     let width = background_img.width;
@@ -155,6 +194,13 @@ pub fn rhs_text(mut background_img: &mut PhotonImage, main_text: &str, small_tex
 }
 
 /// Preset: Left-hand side text.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `main_text` - Main heading for the graphic.
+/// * `small_text` - Sub-heading/smaller text. 
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn lhs_text(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) {
     let width = background_img.width;
