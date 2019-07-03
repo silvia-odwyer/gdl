@@ -15,7 +15,13 @@ use image::{ImageBuffer, RgbaImage};
 use std::convert::TryInto;
 use imageproc::drawing::draw_line_segment_mut;
 
-/// Create a background image containing circles 
+/// Create a background image containing circles. 
+/// 
+/// Returns a PhotonImage.
+/// 
+/// # Arguments
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn circle_background(width: u32, height: u32) -> PhotonImage {
     let background_color = Rgb { r: 190, g: 120, b: 200};
@@ -36,7 +42,13 @@ pub fn circle_background(width: u32, height: u32) -> PhotonImage {
 
 }
 
-/// Create a background image containing circles 
+/// Create a background image containing spaced circles 
+/// 
+/// Returns a PhotonImage.
+/// 
+/// # Arguments
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn spaced_circle_background(width: u32, height: u32) -> PhotonImage {
     let background_color = Rgb { r: 190, g: 120, b: 200};
@@ -56,12 +68,26 @@ pub fn spaced_circle_background(width: u32, height: u32) -> PhotonImage {
     return PhotonImage { raw_pixels: rgba_img.raw_pixels(), width: width, height: height}
 }
 
+/// Create a background filled with a solid color of type `Rgb`.
+/// Returns a PhotonImage.
+/// 
+/// # Arguments
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - u32 - Desired height of final graphic
+/// * `background_color` - Rgb color the background should comprise of
 #[wasm_bindgen]
 pub fn solid_background(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
     let rgba_img = create_image_from_pixel(background_color, width, height);
     return PhotonImage{ raw_pixels: rgba_img.raw_pixels(), width: width, height: height};
 }
 
+/// Create a lined background.
+/// Returns a PhotonImage.
+/// 
+/// # Arguments
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - u32 - Desired height of final graphic
+/// * `background_color` - Rgb color the background should comprise of
 #[wasm_bindgen]
 pub fn lined_background(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
     let mut rgba_img = create_image_from_pixel(background_color, width, height);
@@ -73,8 +99,15 @@ pub fn lined_background(width: u32, height: u32, background_color: Rgb) -> Photo
     return PhotonImage{ raw_pixels: rgba_img.raw_pixels(), width: width, height: height };
 }
 
+/// Create a grid background.
+/// Returns a PhotonImage.
+/// 
+/// # Arguments
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - u32 - Desired height of final graphic
+/// * `background_color` - Rgb color the background should comprise of.
 #[wasm_bindgen]
-pub fn checker_background(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
+pub fn grid_background(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
     let mut rgba_img = create_image_from_pixel(background_color, width, height);
 
     let line_pixel = image::Rgba([255, 167, 90, 255]);
@@ -91,6 +124,13 @@ pub fn checker_background(width: u32, height: u32, background_color: Rgb) -> Pho
 }
 
 /// Create a patterned background by overlaying an image in a series of rows and columns.
+/// Returns a PhotonImage.
+/// 
+/// # Arguments
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - u32 - Desired height of final graphic
+/// * `background_color` - Rgb color the background should comprise of.
+/// * `img` - A PhotonImage to be painted onto the background in a pattern.
 #[wasm_bindgen]
 pub fn pattern_from_img(width: u32, height: u32, background_color: Rgb, img: PhotonImage) -> PhotonImage {
     let mut rgba_img = create_image_from_pixel(background_color, width, height);
@@ -106,6 +146,11 @@ pub fn pattern_from_img(width: u32, height: u32, background_color: Rgb, img: Pho
 }
 
 /// Create a gradient background.
+/// /// Returns a PhotonImage.
+/// 
+/// # Arguments
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn gradient_background(width: u32, height: u32) -> PhotonImage {
     let mut image = RgbaImage::new(width, height);

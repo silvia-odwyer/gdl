@@ -9,7 +9,16 @@ use crate::{PhotonImage, helpers, Rgb};
 use crate::text::*;
 use crate::elements::*;
 
-/// Resize images in a vec, returns a new vec with resized images.
+/// Resize an image for a particular format on social media.
+/// Available formats include: pinterest, fb_ad, fb_post, instagram_post, twitter_header, linkedin_banner
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `type` - Social media format. The available types are shown above.
+/// ### Example
+/// ```
+/// resize_socialmedia(&mut img, "linkedin_banner");
+/// ```
 #[wasm_bindgen]
 pub fn resize_socialmedia(mut img: &mut PhotonImage, type: &str) {
     let sampling_filter = image::FilterType::Nearest;
