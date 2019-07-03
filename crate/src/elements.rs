@@ -15,6 +15,14 @@ use wasm_bindgen::prelude::*;
 use wasm_bindgen::Clamped;
 
 /// Draw a solid rectangle with a given background colour. 
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `background_color` - Rgb color of rectangle.
+/// * `width` - u32 - Desired width of rectangle.
+/// * `height` - u32 - Desired height of rectangle.
+/// * `x_pos` - X-coordinate of top corner of rectangle on `img`
+/// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
 pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
@@ -27,6 +35,15 @@ pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, height
 }
 
 /// Draw a solid rectangle with text placed in-centre.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `text` - Text to be placed inside the rectangle.
+/// * `background_color` - Rgb color of rectangle.
+/// * `width` - u32 - Desired width of rectangle.
+/// * `height` - u32 - Desired height of rectangle.
+/// * `x_pos` - X-coordinate of top corner of rectangle on `img`
+/// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
 pub fn draw_rect_text(mut img: &mut PhotonImage, text: &str, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
     draw_solid_rect(&mut img, &background_color, height as u32, width as u32, x_pos, y_pos);      
@@ -52,6 +69,15 @@ pub fn draw_rect_text(mut img: &mut PhotonImage, text: &str, background_color: &
 
 
 /// Draw a rectangle filled with a gradient.
+/// 
+/// ### Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `text` - Text to be placed inside the rectangle.
+/// * `background_color` - Rgb color of rectangle.
+/// * `width` - u32 - Desired width of gradient rectangle.
+/// * `height` - u32 - Desired height of gradient rectangle.
+/// * `x_pos` - X-coordinate of top corner of rectangle on `img`
+/// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
 pub fn draw_gradient_rect(img: &mut PhotonImage, height: u32, width: u32, x_pos: u32, y_pos: u32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
@@ -66,6 +92,9 @@ pub fn draw_gradient_rect(img: &mut PhotonImage, height: u32, width: u32, x_pos:
 }
 
 /// Create a gradient element in the shape of a Rect.
+/// Returns a PhotonImage.
+/// * `width` - u32 - Desired width of gradient.
+/// * `height` - u32 - Desired height of gradient.
 #[wasm_bindgen]
 pub fn create_gradient(width: u32, height: u32) -> PhotonImage {
     let mut image = RgbaImage::new(width, height);
@@ -106,17 +135,11 @@ pub fn create_gradient(width: u32, height: u32) -> PhotonImage {
 }
 
 /// Apply a preset gradient by passing in a name. 
-/// 
-// GRADIENT COLORS 
-// #3494e6 → #ec6ead: 52, 148, 230 -> 236, 110, 173
-// #67b26f → #4ca2cd: 103, 178, 111 -> 76 162 205
-// #ee0979 →  #ff6a00: 238, 9, 121 -> 255, 106, 0
-// #ef32d9 → #89fffd: 239, 50, 217 -> 137 255 253
-// #7f7fd5 → #86a8e7 → #91eae4: 127, 127, 213 -> 134, 168, 231 -> 145 234 228  
-// Telegram:  #1c92d2 → #f2fcfe 
-// Digital Water:  #74ebd5 → #acb6e5 
-// Hydrogen:  #667db6 →  #0082c8 →  #0082c8 →  #667db6
-// Blue Coral:  #36d1dc →  #5b86e5 
+///
+/// ### Arguments
+/// * `width` - u32 - Desired width of rectangle.
+/// * `height` - u32 - Desired height of rectangle.
+/// * `name` - The preset to be used. Presets available include: pinkblue, lemongrass
 #[wasm_bindgen]
 pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> PhotonImage {
     let mut image = RgbaImage::new(width, height);
@@ -158,3 +181,14 @@ pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> PhotonImag
     let raw_pixels = rgba_img.raw_pixels();
     return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
 }
+ 
+// GRADIENT COLORS 
+// #3494e6 → #ec6ead: 52, 148, 230 -> 236, 110, 173
+// #67b26f → #4ca2cd: 103, 178, 111 -> 76 162 205
+// #ee0979 →  #ff6a00: 238, 9, 121 -> 255, 106, 0
+// #ef32d9 → #89fffd: 239, 50, 217 -> 137 255 253
+// #7f7fd5 → #86a8e7 → #91eae4: 127, 127, 213 -> 134, 168, 231 -> 145 234 228  
+// Telegram:  #1c92d2 → #f2fcfe 
+// Digital Water:  #74ebd5 → #acb6e5 
+// Hydrogen:  #667db6 →  #0082c8 →  #0082c8 →  #667db6
+// Blue Coral:  #36d1dc →  #5b86e5 
