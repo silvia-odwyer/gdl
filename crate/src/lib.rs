@@ -1,3 +1,14 @@
+//! GDL is a graphic design crate that allows developers to rapidly design and create 2D graphics natively and for the web.
+//! 
+//! This crate contains built-in templates for rapid graphic creation, resizing for social media, and utils for design, but also 
+//! provides more low-level access to developers who wish to work with the elements directly, and create their
+//! own designs from the elements available.
+//! 
+//! To view a full demo of templates available, visit the [official website](https://silvia-odwyer.github.io/gdl).
+//! 
+//! ### WebAssembly Use
+//! To allow for universal communication between the core Rust library and WebAssembly, the functions have been generalised to allow for both native and in-browser use. 
+
 use wasm_bindgen::prelude::*;
 use web_sys::{CanvasRenderingContext2d, ImageData, HtmlCanvasElement};
 use wasm_bindgen::Clamped;

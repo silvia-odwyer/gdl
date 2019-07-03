@@ -1,3 +1,5 @@
+/// Draw text onto images.
+
 extern crate image;
 use image::{Rgba, DynamicImage};
 extern crate imageproc;
@@ -10,6 +12,17 @@ use imageproc::distance_transform::Norm;
 use rusttype::{FontCollection, Scale};
 use crate::{PhotonImage, helpers, Rgb};
 
+/// Draw text onto an image.
+///
+/// ### Arguments
+/// * `img` - Mutable reference to a PhotonImage.
+/// * `text` - Text string to be drawn.
+/// * `x` - X-coordinate of top corner of text.
+/// * `y` - Y coordinae of top corner of text.
+/// * `font` - Font name. Fonts available include Roboto-Regular, BebasKai, Roboto-Light, among many others. 
+/// Full list of fonts available coming soon. 
+/// * `font_size`: f32 that represents the font's size.
+/// * `rgb`: Rgb text color.
 #[wasm_bindgen]
 pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
         
@@ -43,6 +56,13 @@ pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, f
     img.raw_pixels = dynimage.raw_pixels();
     }
 
+/// Draw text onto an image with a border around the text.
+///
+/// ### Arguments
+/// * `img` - Mutable reference to a PhotonImage.
+/// * `text` - Text string to be drawn.
+/// * `x` - X-coordinate of top corner of text.
+/// * `y` - Y coordinae of top corner of text.
 #[wasm_bindgen]
 pub fn draw_text_with_border(img: &mut PhotonImage, text: &str, x: u32, y: u32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
@@ -78,6 +98,20 @@ pub fn draw_text_with_border(img: &mut PhotonImage, text: &str, x: u32, y: u32) 
     img.raw_pixels = dynimage.raw_pixels();
 }
 
+/// Draw vertical text onto an image.
+/// 
+/// This is done by drawing the text horizontally onto an image, 
+/// then rotating this image by 90 degrees.
+///
+/// ### Arguments
+/// * `img` - Mutable reference to a PhotonImage.
+/// * `text` - Text string to be drawn.
+/// * `x` - X-coordinate of top corner of text.
+/// * `y` - Y coordinae of top corner of text.
+/// * `font` - Font name. Fonts available include Roboto-Regular, BebasKai, Roboto-Light, among many others. 
+/// Full list of fonts available coming soon. 
+/// * `font_size`: f32 that represents the font's size.
+/// * `rgb`: Rgb text color.
 #[wasm_bindgen]
 pub fn draw_vertical_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
         
