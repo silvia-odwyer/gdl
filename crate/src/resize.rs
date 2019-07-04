@@ -20,9 +20,10 @@ use crate::elements::*;
 /// resize_socialmedia(&mut img, "linkedin_banner");
 /// ```
 #[wasm_bindgen]
-pub fn resize_socialmedia(mut img: &mut PhotonImage, type: &str) {
+pub fn resize_socialmedia(img: &mut PhotonImage, format: &str) -> PhotonImage {
     let sampling_filter = image::FilterType::Nearest;
-    let (width, height) = match name {
+    let dynimage = helpers::dyn_image_from_raw(&img);
+    let (width, height) = match format {
             "linkedin_banner" => (1400, 425),
             "pinterest" => (735, 1102),
             "fb_ad" => (1200, 628), 
@@ -32,6 +33,8 @@ pub fn resize_socialmedia(mut img: &mut PhotonImage, type: &str) {
             "twitter_header" => (1500, 500),
             _ => (192, 120)
     };
-    img = image::ImageRgba8(image::imageops::resize(img, width, height, sampling_filter));
-    
+    let resized_img = image::ImageRgba8(image::imageops::resize(&dynimage, width, height, sampling_filter));
+    let raw_pixels = resized_img.raw_pixels();
+    return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
+
 }

@@ -22,66 +22,10 @@ use crate::elements::*;
 pub fn centre_text(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
     let width = background_img.width;
     let height = background_img.height;
-    let mut word_vec = vec![];
     let pangram: &str = "the quick brown fox jumps over the lazy dog";
 
-    for word in main_text.split_whitespace() {
-        println!("> {}", word);
-        if word.len() > 7 {
-            word_vec.push(word);
-            continue;
-        }
-        else {
-            word_vec.push(word);
-        }
-    }
+    let word_vec = text_to_vec(main_text);
 
-    println!("word vec is {:?}", word_vec);
-
-    // let mut str_portion = String::new();
-    // let mut word_vec = vec![];
-    // let words = main_text.split(" ").collect::<Vec<&str>>();    
-    // // let mut total_chars = 0;
-    // let mut i = 0;
-    // for word in &words {
-    //     i += 1;
-    //     total_chars += word.len();
-    //     println!("word: {} total chars is: {}", word, total_chars);
-
-    //     if total_chars > 7  && i < words.len() - 1 {
-    //         total_chars = 0;
-    //         word_vec.push(str_portion);
-    //         let mut str_portion = String::new().push_str(word);
-    //         continue;
-    //     }
-    //     else if total_chars > 7 && i < words.len() {
-    //         word_vec.push(str_portion.clone());
-    //     }
-    //     else {
-    //         str_portion.push_str(word);
-    //     }
-    // }
-
-
-    // println!("word vec: {:?}", word_vec);
-
-    // // Split main text into groups of strings
-    // let chars: Vec<char> = main_text.chars().collect();    
-    // let mut num_chars = 0;
-    // let mut str_vec = vec![];
-
-    // for c in chars {
-
-    //     if num_chars > 7 {
-    //         str_vec.push(str_portion);
-    //         str_portion = "".to_string();
-    //         continue;
-    //     }
-    //     num_chars += 1;
-    //     str_portion.push(c);
-    // }
-
-    // println!("str vec: {:?}", str_vec);
     let mut height_mul: f32 = 0.3;
     let white_rgb = Rgb { r: 255, g: 255, b: 255};
     for word in word_vec {
@@ -210,4 +154,67 @@ pub fn lhs_text(mut background_img: &mut PhotonImage, main_text: &str, small_tex
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
     draw_text(&mut background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 130.0, &black_rgb);
+}
+
+fn text_to_vec(text: &str) -> Vec<&str> {
+        // let mut str_portion = String::new();
+    // let mut word_vec = vec![];
+    // let words = main_text.split(" ").collect::<Vec<&str>>();    
+    // // let mut total_chars = 0;
+    // let mut i = 0;
+    // for word in &words {
+    //     i += 1;
+    //     total_chars += word.len();
+    //     println!("word: {} total chars is: {}", word, total_chars);
+
+    //     if total_chars > 7  && i < words.len() - 1 {
+    //         total_chars = 0;
+    //         word_vec.push(str_portion);
+    //         let mut str_portion = String::new().push_str(word);
+    //         continue;
+    //     }
+    //     else if total_chars > 7 && i < words.len() {
+    //         word_vec.push(str_portion.clone());
+    //     }
+    //     else {
+    //         str_portion.push_str(word);
+    //     }
+    // }
+
+
+    // println!("word vec: {:?}", word_vec);
+
+    // // Split main text into groups of strings
+    // let chars: Vec<char> = main_text.chars().collect();    
+    // let mut num_chars = 0;
+    // let mut str_vec = vec![];
+
+    // for c in chars {
+
+    //     if num_chars > 7 {
+    //         str_vec.push(str_portion);
+    //         str_portion = "".to_string();
+    //         continue;
+    //     }
+    //     num_chars += 1;
+    //     str_portion.push(c);
+    // }
+
+    // println!("str vec: {:?}", str_vec);
+    
+    
+    let mut word_vec = vec![];
+
+    for word in text.split_whitespace() {
+        println!("> {}", word);
+        if word.len() > 7 {
+            word_vec.push(word);
+            continue;
+        }
+        else {
+            word_vec.push(word);
+        }
+    }
+
+    return word_vec;
 }
