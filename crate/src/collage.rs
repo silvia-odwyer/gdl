@@ -1,13 +1,15 @@
 /// Create image collages.
 
 extern crate image;
-use image::{GenericImageView, DynamicImage};
+use image::{GenericImageView, DynamicImage, Rgba};
 extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::prelude::*;
 use crate::{PhotonImage, helpers, Rgb};
 use crate::text::*;
 use crate::elements::*;
+use imageproc::drawing::draw_filled_rect_mut;
+use imageproc::rect::Rect;
 
 /// Two grid collage.
 /// # Arguments
@@ -225,6 +227,76 @@ pub fn four_grid_center_square(photon_img: PhotonImage, photon_img2: PhotonImage
         height_mul += 0.15;
     }
     
+    return photon_img;
+}
+
+#[wasm_bindgen]
+pub fn moodboard(photon_img: PhotonImage, photon_img2: PhotonImage, photon_img3: PhotonImage, photon_img4: PhotonImage, text: &str, width: u32, height: u32) -> PhotonImage {
+    
+    // Exclude the first image, since it will have different dimensions when resized.
+    let photon_imgs = vec![photon_img2, photon_img3, photon_img4];
+    let mut imgs = to_dyn_img_vec(photon_imgs);
+
+    // distribute the width evenly by allocating the same space to both images
+    let img_width = width / 4;
+    let img_height = height / 4;
+
+    let first_img_width: u32 = (width as f32 * 0.8) as u32;
+    let first_img_height: u32 = (height as f32 * 0.5) as u32;
+    let first_dyn_img = helpers::dyn_image_from_raw(&photon_img);
+
+    resize_imgs(&mut imgs, img_width, img_height);
+
+    let mut container_img : DynamicImage = DynamicImage::new_rgba8(width, height);
+
+    image::imageops::overlay(&mut container_img, &first_dyn_img, 0, 0);
+    image::imageops::overlay(&mut container_img, &imgs[0], first_img_width, 0);
+    image::imageops::overlay(&mut container_img, &imgs[1], first_img_width, img_height);
+    image::imageops::overlay(&mut container_img, &imgs[2], first_img_width, img_height * 2);
+
+    // return the collage
+    let mut photon_img = PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
+    let white_rgb = Rgb { r: 255, g: 255, b: 255};
+    let black_rgb = Rgb { r: 0, g: 0, b: 0};
+    // Draw a square in the center
+    
+    let mut height_mul: f32 = 0.75;
+    
+    draw_solid_rect(&mut photon_img, &white_rgb, width as u32, (height as f32 * 0.3) as u32, 0 as i32, (height as f32 * 0.75) as i32);  
+
+    draw_text(&mut photon_img, text, (width as f32 * 0.12) as u32, (height as f32 * height_mul) as u32, "BebasKai", 100.0, &black_rgb );  
+    height_mul += 0.15;
+    
+    return photon_img;
+}
+
+#[wasm_bindgen]
+pub fn feature_grid(photon_img: PhotonImage, photon_img2: PhotonImage, photon_img3: PhotonImage, main_text: &str, width: u32, height: u32) -> PhotonImage {
+    let photon_imgs = vec![photon_img, photon_img2, photon_img3];
+    let mut imgs = to_dyn_img_vec(photon_imgs);
+
+    // distribute the width evenly by allocating the same space to all images
+    let img_width = width / 2;
+    let img_height = height / 2;
+
+    resize_imgs(&mut imgs, img_width, img_height);
+
+    let mut container_img : DynamicImage = DynamicImage::new_rgba8(width, height);
+    let white = Rgb{r: 255, g: 255, b: 255};
+
+    draw_filled_rect_mut(&mut container_img, 
+                        Rect::at(0, 0).of_size( (width / 2) as u32, (height / 2) as u32), 
+                        Rgba([white.r, white.g, 
+                        white.b, 255u8]));
+
+    image::imageops::overlay(&mut container_img, &imgs[0], img_width, 0);
+    image::imageops::overlay(&mut container_img, &imgs[1], 0, img_height);
+    image::imageops::overlay(&mut container_img, &imgs[2], img_width, img_height);
+
+    // return the collage
+    let mut photon_img = PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
+    let black_rgb = Rgb { r: 0, g: 0, b: 0};
+    draw_text(&mut photon_img, main_text, (width as f32 * 0.1) as u32, (height as f32 * 0.3) as u32, "BebasKai", 100.0, &black_rgb );  
     return photon_img;
 }
 

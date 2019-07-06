@@ -24,7 +24,7 @@ use wasm_bindgen::Clamped;
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
-pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
+pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
     draw_filled_rect_mut(&mut image, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 
@@ -181,6 +181,15 @@ pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> PhotonImag
     let raw_pixels = rgba_img.raw_pixels();
     return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
 }
+
+// #[wasm_bindgen]
+// pub fn draw_dyn_rect(image: &mut DynamicImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
+//     let mut image = image.to_rgba();
+//     draw_filled_rect_mut(&mut image, 
+//                         Rect::at(x_pos, y_pos).of_size(width, height), 
+//                         Rgba([background_color.r, background_color.g, 
+//                         background_color.b, 255u8]));
+// }
  
 // GRADIENT COLORS 
 // #3494e6 → #ec6ead: 52, 148, 230 -> 236, 110, 173
