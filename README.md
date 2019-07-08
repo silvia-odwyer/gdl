@@ -12,9 +12,7 @@ GDL allows you to create:
 
 The following designs were created with GDL:
 
-(All images used in the designs are Public Domain, and available from Unsplash.)
-
-GDL can be used in-tandem with the Photon image processing library for combined effects and further image manipulation at a lower level. GDL intends to be a wrapper over Photon, perfect for developers who wish to incorporate high-level graphic design functionality into their web apps and native apps. 
+(All background/foreground images used in the designs are Public Domain, and available from Unsplash.)
 
 <!-- 
 ##### Features:
@@ -29,19 +27,8 @@ View the [official demo of WASM in action](https://silvia-odwyer.github.io/GDL).
 ### Documentation
 Documentation can be found [here](https://silvia-odwyer.github.io/GDL/docs/GDL/index.html).
 
-## Examples
-![](https://github.com/silvia-odwyer/GDL/blob/master/docs/img_examples/streetlamp_collage.png)
+## Run The Examples
 
-
-## 🚴Getting Started
-
-These instructions will get you a copy of GDL up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-To use GDL, you must have Rust and Node installed. Builds of GDL are compiled using the rust nightly toolchain.
-
-### Installing
 <!-- ## Cargo Status -->
 <!-- `GDL` can be installed via Cargo by declaring the following dependency in your Cargo.toml file:
 ```toml
@@ -54,14 +41,27 @@ Clone this repo:
 git clone https://github.com/silvia-odwyer/GDL
 ```
 
-Run the binary, which will perform an image processing function on an image:
+Run the binary, which will create a sample graphic:
 ```sh
 cd crate
 cargo run --release 
 ```
 
-Compare the original image with the outputted image, and you'll see the desired effect has been applied.
+### Why GDL?
+A common issue among bloggers is resizing graphics for social media, as well as designing entire batches of graphics for large
+numbers of blog posts. This does not attempt to be a full-fledged graphic design solution, but rather an aid to those who 
+want to create graphics-on-the-fly quickly and in large quantities.
 
+GDL can be used in-tandem with the Photon image processing library for combined effects and further image manipulation at a lower level. GDL intends to be a wrapper over Photon, perfect for developers who wish to incorporate high-level graphic design functionality into their web apps and native apps. 
+
+
+#### Work-In-Progress
+This is a work-in-progress, therefore the API will likely break in future versions until it reaches 1.0.0. 
+
+Text-positioning, centering, scaling to fit the size of the image is heavily being worked on at the moment, 
+so if you notice this to be an issue, it is being looked at.
+
+<!-- 
 ### Native Use
 GDL contains native-only functions for opening files from the filesystem. 
 
@@ -125,8 +125,9 @@ function filterImage(event) {
   }
 ```
 
-Not all functions available in the core Rust library are available in WebAssembly (currently investigating this). Only WASM-friendly functions have been annotated with #[wasm_bindgen]. All supported WASM functions are displayed in the starter demo. 
+Not all functions available in the core Rust library are available in WebAssembly (currently investigating this). Only WASM-friendly functions have been annotated with #[wasm_bindgen]. All supported WASM functions are displayed in the starter demo.  -->
 
+<!-- 
 ## Modules 
 GDL contains a series of modules, which include:
 
@@ -141,6 +142,7 @@ All effects and filters can be viewed below and on the official website.
 
 ## 📚 Documentation
 View the official [documentation here](https://silvia-odwyer.github.io/GDL/docs/GDL/index.html). 
+
 
 ## Building For Production
 
@@ -163,15 +165,6 @@ npm run build
 
 Check the `dist` folder for the outputted static files, which can be deployed to a live server.
 
-##  Using This Template
-
-You can use `npm init` to clone this template:
-
-```sh
-npm init rust-webpack my-app
-```
-
-[Afterwards check out the full documentation for exploring it][template-docs].
 
 ## Contributing
 
@@ -184,4 +177,4 @@ GDL is always ready for new filters and functions, so if you'd like to contribut
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the Apache 2.0 License - see the [LICENSE.md](LICENSE.md) file for details. -->

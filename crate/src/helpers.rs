@@ -79,3 +79,7 @@ pub fn base64_to_image(base64: &str) -> Vec<u8> {
     return res;
 
 }
+
+pub fn dyn_to_photonimg(dynimage: &DynamicImage) -> PhotonImage {
+    return PhotonImage { raw_pixels: dynimage.raw_pixels(), width: dynimage.width(), height: dynimage.height()};
+}
