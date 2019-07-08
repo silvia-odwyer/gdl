@@ -18,7 +18,7 @@ use crate::elements::*;
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn centre_text(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
+pub fn centre_text(mut background_img: &mut PhotonImage, main_text: &str) {
     let width = background_img.width;
     let height = background_img.height;
 
@@ -26,7 +26,7 @@ pub fn centre_text(mut background_img: &mut PhotonImage, main_text: &str, width:
 
     let group_vec = text_to_vec(main_text, background_img.width, font_size);
 
-    let mut height_mul: f32 = 0.3;
+    let mut height_mul: f32 = 0.05;
     let white_rgb = Rgb { r: 255, g: 255, b: 255};
     for word_vec in group_vec {
         let text = word_vec.join(" ");
@@ -199,7 +199,7 @@ pub fn quote(mut background_img: &mut PhotonImage, main_text: &str, small_text: 
 fn text_to_vec(text: &str, width: u32, font_size: f32) -> Vec<Vec<&str>> {
       
     let mut word_vec = vec![];
-    let font_size = 100.0;
+    let font_size: f32 = font_size as f32 * 0.8;
     let mut group_vec = vec![];
     let mut total_width = 0;
     for word in text.split_whitespace() {

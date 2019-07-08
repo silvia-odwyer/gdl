@@ -12,7 +12,7 @@
 use wasm_bindgen::prelude::*;
 use web_sys::{CanvasRenderingContext2d, ImageData, HtmlCanvasElement};
 use wasm_bindgen::Clamped;
-use image::{GenericImageView, GenericImage, ImageBuffer, RgbaImage};
+use image::{GenericImageView, GenericImage, ImageBuffer, RgbaImage, Rgba};
 use imageproc::drawing::draw_text_mut;
 use imageproc::drawing::draw_filled_rect_mut;
 use palette::{Lch, Srgb, Srgba, Hue, Gradient};

@@ -362,7 +362,7 @@ pub fn six_grid_text(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon
     let mut photon_img =  PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
 
     draw_solid_rect(&mut photon_img, &white, width as u32, img_height, 0 as i32, img_height as i32);  
-    draw_text(&mut photon_img, text, (width as f32 * 0.05) as u32, (img_height + (img_height as f32* 0.1) as u32) as u32, "Montserrat-Regular", 90.0, &black_rgb );  
+    draw_text(&mut photon_img, text, (width as f32 * 0.05) as u32, (img_height + (img_height as f32 * 0.3) as u32) as u32, "Montserrat-Regular", 90.0, &black_rgb );  
 
     return photon_img;
 }

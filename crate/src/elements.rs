@@ -1,11 +1,11 @@
 /// Add shapes and other elements to images.
 
 extern crate image;
-use image::{GenericImage, GenericImageView, DynamicImage, Rgba, ImageBuffer, RgbaImage};
+use image::{GenericImage, GenericImageView, DynamicImage, ImageBuffer, RgbaImage};
 extern crate imageproc;
 extern crate rusttype;
 use imageproc::drawing::draw_text_mut;
-use crate::{PhotonImage, Rgb, LinSrgba, Gradient, Lch, Srgba};
+use crate::{PhotonImage, Rgb, LinSrgba, Gradient, Lch, Srgba, Rgba};
 use palette::encoding::pixel::Pixel;
 use imageproc::drawing::draw_filled_rect_mut;
 use imageproc::rect::Rect;
@@ -33,6 +33,18 @@ pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, width:
     let dynimage = image::ImageRgba8(image);
     img.raw_pixels = dynimage.raw_pixels();
 }
+
+#[wasm_bindgen]
+pub fn draw_opaque_rect(mut img: &mut PhotonImage, background_color: &Rgba, width: u32, height: u32, x_pos: i32, y_pos: i32) {
+    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
+    draw_filled_rect_mut(&mut image, 
+                        Rect::at(x_pos, y_pos).of_size(width, height), 
+                        Rgba([background_color.r, background_color.g, 
+                        background_color.b, 255u8]));
+    let dynimage = image::ImageRgba8(image);
+    img.raw_pixels = dynimage.raw_pixels();
+}
+
 
 /// Draw a solid rectangle with text placed in-centre.
 /// 
@@ -86,6 +98,24 @@ pub fn draw_gradient_rect(img: &mut PhotonImage, height: u32, width: u32, x_pos:
     let rect = helpers::dyn_image_from_raw(&rect).to_rgba();
         
     image::imageops::overlay(&mut image, &rect, x_pos, y_pos);
+
+    let dynimage = image::ImageRgba8(image);
+    img.raw_pixels = dynimage.raw_pixels();
+}
+
+/// Draw two rectangles stacked on each other, for added depth.
+#[wasm_bindgen]
+pub fn draw_stacked_rect(mut img: &mut PhotonImage, background_color1: &Rgb, background_color2: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
+    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
+    draw_filled_rect_mut(&mut image, 
+                        Rect::at(x_pos, y_pos).of_size(width, height), 
+                        Rgba([background_color1.r, background_color1.g, 
+                        background_color1.b, 255u8]));
+
+    draw_filled_rect_mut(&mut image, 
+                        Rect::at(x_pos + 10, y_pos + 10).of_size(width, height), 
+                        Rgba([background_color2.r, background_color2.g, 
+                        background_color2.b, 255u8]));
 
     let dynimage = image::ImageRgba8(image);
     img.raw_pixels = dynimage.raw_pixels();
