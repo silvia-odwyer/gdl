@@ -4,7 +4,6 @@ extern crate image;
 use image::{GenericImageView, DynamicImage};
 extern crate imageproc;
 extern crate rusttype;
-
 use wasm_bindgen::Clamped;
 use wasm_bindgen::prelude::*;
 use crate::{PhotonImage, helpers, Rgb};
@@ -17,12 +16,11 @@ use crate::elements::*;
 /// * `img` - A mutable ref to a PhotonImage.
 /// * `main_text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
-/// * `height` - ù32 - Desired height of final graphic
+/// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn centre_text(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
     let width = background_img.width;
     let height = background_img.height;
-    let pangram: &str = "the quick brown fox jumps over the lazy dog";
 
     let word_vec = text_to_vec(main_text);
 
@@ -115,7 +113,7 @@ pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str, widt
     
     let white_rgb = Rgb {r: 255, g: 255, b: 255};
 
-    draw_vertical_text(&mut background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &white_rgb);
+    draw_vertical_text(&mut background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, "right", &white_rgb);
 }
 
 /// Preset: Right-hand side text.
@@ -127,7 +125,7 @@ pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str, widt
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn rhs_text(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) {
+pub fn rhs_text(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
     let width = background_img.width;
     let height = background_img.height;
 
@@ -154,6 +152,23 @@ pub fn lhs_text(mut background_img: &mut PhotonImage, main_text: &str, small_tex
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
     draw_text(&mut background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 130.0, &black_rgb);
+}
+
+#[wasm_bindgen]
+pub fn vertical_text_rhs(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) {
+    let width = background_img.width;
+    let height = background_img.height;
+
+    let mut height_mul: f32 = 0.4;
+    let black_rgb = Rgb { r: 0, g: 0, b: 0};
+    
+    let red_rgb = Rgb { r: 200, g: 20, b: 50 };
+    let white_rgb = Rgb { r: 255, g: 255, b: 255};
+
+    let height_mul = 0.1;
+    draw_solid_rect(&mut background_img, &white_rgb, (width as f32 * 0.2) as u32, height, (width as f32 * 0.8) as i32, 0);
+    draw_vertical_text(&mut background_img, main_text, (width as f32 * 0.85) as u32, (height as f32 * height_mul) as u32, "BebasKai", 350.0, "right", &red_rgb);
+
 }
 
 fn text_to_vec(text: &str) -> Vec<&str> {
