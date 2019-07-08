@@ -35,7 +35,7 @@ pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, width:
 }
 
 #[wasm_bindgen]
-pub fn draw_opaque_rect(mut img: &mut PhotonImage, background_color: &Rgba, width: u32, height: u32, x_pos: i32, y_pos: i32) {
+pub fn draw_opaque_rect(mut img: &mut PhotonImage, background_color: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
     draw_filled_rect_mut(&mut image, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 

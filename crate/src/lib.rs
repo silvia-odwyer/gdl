@@ -13,7 +13,6 @@ use wasm_bindgen::prelude::*;
 use web_sys::{CanvasRenderingContext2d, ImageData, HtmlCanvasElement};
 use wasm_bindgen::Clamped;
 use image::{GenericImageView, GenericImage, ImageBuffer, RgbaImage, Rgba};
-use imageproc::drawing::draw_text_mut;
 use imageproc::drawing::draw_filled_rect_mut;
 use palette::{Lch, Srgb, Srgba, Hue, Gradient};
 use palette::rgb::LinSrgba;
@@ -258,7 +257,7 @@ pub fn getImageData(canvas: &HtmlCanvasElement, ctx: &CanvasRenderingContext2d) 
     let height = canvas.height();
 
     // let data: ImageData = ctx.get_image_data(0.0, 0.0, 100.0, 100.0).unwrap();
-    let mut data = ctx.get_image_data(0.0, 0.0, width as f64, height as f64).unwrap();
+    let data = ctx.get_image_data(0.0, 0.0, width as f64, height as f64).unwrap();
     let vec_data = data.data().to_vec();
     return data;
 }
@@ -292,7 +291,7 @@ pub fn new_rgb(r:u8, g:u8, b:u8) -> Rgb {
 
 #[wasm_bindgen]
 pub fn to_raw_pixels(imgdata: ImageData) -> Vec<u8> {
-    let mut img_vec = imgdata.data().to_vec();
+    let img_vec = imgdata.data().to_vec();
     return img_vec;
 }
 
@@ -329,7 +328,6 @@ pub mod background;
 pub mod diagrams;
 pub mod collage;
 pub mod helpers;
-pub mod graphics;
 pub mod elements;
 pub mod presets;
 pub mod resize;

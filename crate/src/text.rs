@@ -28,25 +28,11 @@ pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, f
         
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
 
-    let mut image2 : DynamicImage = DynamicImage::new_luma8(
+    let image2 : DynamicImage = DynamicImage::new_luma8(
             image.width(), image.height());
 
     // include_bytes! only takes a string literal
-    let font_vec = match font {
-        "Roboto-Regular" => Vec::from(include_bytes!("../fonts/Roboto-Regular.ttf") as &[u8]),
-        "Lato-Regular" => Vec::from(include_bytes!("../fonts/Lato-Regular.ttf") as &[u8]),
-        "Lato-Bold" => Vec::from(include_bytes!("../fonts/Lato-Bold.ttf") as &[u8]),
-        "BebasKai" => Vec::from(include_bytes!("../fonts/BebasKai.ttf") as &[u8]),
-        "Oswald-Regular" => Vec::from(include_bytes!("../fonts/Oswald-Regular.ttf") as &[u8]),
-        "Norwester" => Vec::from(include_bytes!("../fonts/Norwester.ttf") as &[u8]),
-        "Montserrat-Regular" => Vec::from(include_bytes!("../fonts/Montserrat-Regular.ttf") as &[u8]),
-        "CaviarDreams" => Vec::from(include_bytes!("../fonts/CaviarDreams.ttf") as &[u8]),
-        "Roboto-Light" => Vec::from(include_bytes!("../fonts/Roboto-Light.ttf") as &[u8]),
-        "Roboto-Bold" => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8]),
-        "Roboto-Black" => Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]),
-        "Roboto-Thin" => Vec::from(include_bytes!("../fonts/Roboto-Thin.ttf") as &[u8]),
-        _ => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8])
-    };
+    let font_vec = open_font(font);
 
     let font = FontCollection::from_bytes(font_vec).unwrap().into_font().unwrap();
     let height = font_size;
@@ -67,14 +53,14 @@ pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, f
 /// * `x` - X-coordinate of top corner of text.
 /// * `y` - Y coordinae of top corner of text.
 #[wasm_bindgen]
-pub fn draw_text_with_border(img: &mut PhotonImage, text: &str, x: u32, y: u32) {
+pub fn draw_text_with_border(img: &mut PhotonImage, font: &str, text: &str, x: u32, y: u32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
 
     let mut image2 : DynamicImage = DynamicImage::new_luma8(
         image.width(), image.height());
 
-    let font = Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]);
-    let font = FontCollection::from_bytes(font).unwrap().into_font().unwrap();
+    let font_vec = open_font(font);
+    let font = FontCollection::from_bytes(font_vec).unwrap().into_font().unwrap();
     let height = 90f32;
     let scale = Scale { x: height * 1.0, y: height };
     draw_text_mut(&mut image2, Rgba([255u8, 255u8, 255u8, 255u8]), x, y, scale, &font, text);
@@ -128,18 +114,7 @@ pub fn draw_vertical_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font
     let mut image2 : DynamicImage = DynamicImage::new_rgba8(height / 2, width / 4);
 
     // include_bytes! only takes a string literal
-    let font_vec = match font {
-        "Roboto-Regular" => Vec::from(include_bytes!("../fonts/Roboto-Regular.ttf") as &[u8]),
-        "Lato-Regular" => Vec::from(include_bytes!("../fonts/Lato-Regular.ttf") as &[u8]),
-        "Lato-Bold" => Vec::from(include_bytes!("../fonts/Lato-Bold.ttf") as &[u8]),
-        "BebasKai" => Vec::from(include_bytes!("../fonts/BebasKai.ttf") as &[u8]),
-        "CaviarDreams" => Vec::from(include_bytes!("../fonts/CaviarDreams.ttf") as &[u8]),
-        "Roboto-Light" => Vec::from(include_bytes!("../fonts/Roboto-Light.ttf") as &[u8]),
-        "Roboto-Bold" => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8]),
-        "Roboto-Black" => Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]),
-        "Roboto-Thin" => Vec::from(include_bytes!("../fonts/Roboto-Thin.ttf") as &[u8]),
-        _ => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8])
-    };
+    let font_vec = open_font(font);
 
     let font = FontCollection::from_bytes(font_vec).unwrap().into_font().unwrap();
     let scale = Scale { x: font_size * 1.0, y: font_size };
@@ -148,7 +123,7 @@ pub fn draw_vertical_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font
     draw_text_mut(&mut image2, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), 10, 10, scale, &font, &text);
 
 
-    let mut image2 = image2.to_rgba();
+    let image2 = image2.to_rgba();
 
     // draw_text_mut(&mut image, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x + 10, y - 10, scale, &font, text);
     
@@ -166,3 +141,23 @@ pub fn draw_vertical_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font
     img.raw_pixels = container_img.raw_pixels();
 }
 
+fn open_font(font: &str) -> std::vec::Vec<u8> {
+    // include_bytes! only takes a string literal
+    let font_vec = match font {
+        "Roboto-Regular" => Vec::from(include_bytes!("../fonts/Roboto-Regular.ttf") as &[u8]),
+        "Lato-Regular" => Vec::from(include_bytes!("../fonts/Lato-Regular.ttf") as &[u8]),
+        "Lato-Bold" => Vec::from(include_bytes!("../fonts/Lato-Bold.ttf") as &[u8]),
+        "BebasKai" => Vec::from(include_bytes!("../fonts/BebasKai.ttf") as &[u8]),
+        "Oswald-Regular" => Vec::from(include_bytes!("../fonts/Oswald-Regular.ttf") as &[u8]),
+        "Norwester" => Vec::from(include_bytes!("../fonts/Norwester.ttf") as &[u8]),
+        "Montserrat-Regular" => Vec::from(include_bytes!("../fonts/Montserrat-Regular.ttf") as &[u8]),
+        "CaviarDreams" => Vec::from(include_bytes!("../fonts/CaviarDreams.ttf") as &[u8]),
+        "Roboto-Light" => Vec::from(include_bytes!("../fonts/Roboto-Light.ttf") as &[u8]),
+        "Roboto-Bold" => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8]),
+        "Roboto-Black" => Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]),
+        "Roboto-Thin" => Vec::from(include_bytes!("../fonts/Roboto-Thin.ttf") as &[u8]),
+        _ => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8])
+    };
+
+    return font_vec;
+}

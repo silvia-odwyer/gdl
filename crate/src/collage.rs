@@ -18,7 +18,7 @@ use imageproc::rect::Rect;
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn two_grid(mut photon_img: &PhotonImage, mut photon_img2: &PhotonImage, width: u32, height: u32) -> PhotonImage {
+pub fn two_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, width: u32, height: u32) -> PhotonImage {
     // Convert all photon images to DynamicImages, for interop with the image crate.
     let photon_imgs = vec![photon_img, photon_img2];
     let mut imgs = to_dyn_img_vec(photon_imgs);
@@ -44,7 +44,7 @@ pub fn two_grid(mut photon_img: &PhotonImage, mut photon_img2: &PhotonImage, wid
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn two_grid_text(mut photon_img: PhotonImage, photon_img2: PhotonImage, width: u32, height: u32) -> PhotonImage {
+pub fn two_grid_text(photon_img: PhotonImage, photon_img2: PhotonImage, width: u32, height: u32) -> PhotonImage {
     let image = helpers::dyn_image_from_raw(&photon_img);
     let image2 = helpers::dyn_image_from_raw(&photon_img2);
 
@@ -367,7 +367,7 @@ pub fn six_grid_text(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon
     return photon_img;
 }
 
-fn to_dyn_img_vec(mut imgs: Vec<&PhotonImage>) -> Vec<DynamicImage> {
+fn to_dyn_img_vec(imgs: Vec<&PhotonImage>) -> Vec<DynamicImage> {
     let mut dyn_imgs = vec![];
     for img in imgs {
         let image = helpers::dyn_image_from_raw(&img);
@@ -378,7 +378,7 @@ fn to_dyn_img_vec(mut imgs: Vec<&PhotonImage>) -> Vec<DynamicImage> {
 }
 
 // Resize images in a vec, returns a new vec with resized images.
-fn resize_imgs(mut imgs: &mut Vec<DynamicImage>, img_width: u32, img_height: u32) {
+fn resize_imgs(imgs: &mut Vec<DynamicImage>, img_width: u32, img_height: u32) {
     let sampling_filter = image::FilterType::Nearest;
 
     for i in 0..imgs.len() {

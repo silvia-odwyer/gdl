@@ -1,13 +1,10 @@
 /// Resize images to specific sizes/for various social media platforms.
 
 extern crate image;
-use image::{GenericImageView, DynamicImage};
 extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::prelude::*;
-use crate::{PhotonImage, helpers, Rgb};
-use crate::text::*;
-use crate::elements::*;
+use crate::{PhotonImage, helpers};
 
 /// Resize an image for a particular format on social media.
 /// Available formats include: pinterest, fb_ad, fb_post, instagram_post, twitter_header, linkedin_banner
@@ -41,7 +38,7 @@ pub fn resize_socialmedia(img: &PhotonImage, format: &str) -> PhotonImage {
 /// Resizes each image in a vec of PhotonImages to the desired social media format.
 pub fn resize_socialmedia_vec(imgs: Vec<PhotonImage>, format: &str) -> Vec<PhotonImage>{
     let mut resized_imgs = vec![];
-    for mut img in imgs {
+    for img in imgs {
         let resized_img = resize_socialmedia(&img, format);
         resized_imgs.push(resized_img);
     }
@@ -53,7 +50,7 @@ pub fn resize_socialmedia_vec(imgs: Vec<PhotonImage>, format: &str) -> Vec<Photo
 pub fn resize_socialmedia_all(img: &PhotonImage) -> Vec<PhotonImage> {
     let formats = ["linkedin_banner", "pinterest", "fb_ad", "fb_post", "instagram_post", "twitter_post", "twitter_post", "twitter_header"];
     let mut resized_imgs = vec![];
-    for mut format in &formats {
+    for format in &formats {
         let new_img = resize_socialmedia(&img, format);
         resized_imgs.push(new_img)
     }

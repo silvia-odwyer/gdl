@@ -10,19 +10,19 @@ use crate::helpers;
 
 #[wasm_bindgen]
 pub fn draw_flowchart(mut img: &mut PhotonImage, item1: &str) {
-        let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
-        let rgb = Rgb{ r: 255, g: 255, b: 255 };
-        let start_x: i32 = 20;
-        let start_y: i32 = 20;
-        let width: i32 = 130;
-        let height: i32 = 100;
-        draw_solid_rect(&mut img, &rgb, height as u32, width as u32, start_x, start_y);      
-        draw_solid_rect(&mut img, &rgb, height as u32, width as u32, start_x + width + 50, start_y);        
+    let image = helpers::dyn_image_from_raw(&img).to_rgba();
+    let rgb = Rgb{ r: 255, g: 255, b: 255 };
+    let start_x: i32 = 20;
+    let start_y: i32 = 20;
+    let width: i32 = 130;
+    let height: i32 = 100;
+    draw_solid_rect(&mut img, &rgb, height as u32, width as u32, start_x, start_y);      
+    draw_solid_rect(&mut img, &rgb, height as u32, width as u32, start_x + width + 50, start_y);        
 }
 
 #[wasm_bindgen]
 pub fn draw_barchart(mut img: &mut PhotonImage, title: &str, height: u32, width: u32) {
-    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
+    let image = helpers::dyn_image_from_raw(&img).to_rgba();
     let rgb = Rgb{ r: 255, g: 255, b: 255 };
     let start_x: i32 = 20;
     let mut start_y: i32 = 20;

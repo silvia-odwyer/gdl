@@ -195,6 +195,6 @@ pub fn gradient_background(width: u32, height: u32) -> PhotonImage {
 fn create_image_from_pixel(background_color: Rgb, width: u32, height: u32, ) -> DynamicImage {
     let pixel = image::Rgba([background_color.r, background_color.g, background_color.b, 255]);
     let image_buffer = ImageBuffer::from_pixel(width, height, pixel);
-    let mut rgba_img = image::ImageRgba8(image_buffer);
+    let rgba_img = image::ImageRgba8(image_buffer);
     return rgba_img;
 }
