@@ -58,7 +58,7 @@
           
           <div class="buttons">
             <button class="btn btn-default btn_fill pulse">Get Started</button>
-            <button class=" slide">Docs</button>
+            <button class=" slide"><a href="https://github.com/silvia-odwyer/gdl/docs">Docs</a></button>
           </div>
         </article>
   
@@ -130,17 +130,17 @@
           </section>
 
             
-          <section class="guide_pane">
-              <section>
+          <section class="feature_pane">
+              <div class="feature_lhs">
+                <img src="images/daisies.jpg">
+              </div>
+              <section class="feature_rhs">
                 <h2>Power Your Designs with Interactive Tooling</h2>
                 <p>     
                 gdl gives you the tools to create stunning colour schemes, add text effects, layout designs and more.     
                 </p>
                 <button class="btn btn_fill">Animate</button>
               </section>
-              <div class="container">
-  
-              </div>
             </section>
 
           <section class="guide_pane">
@@ -164,7 +164,7 @@
                 </a>
                 <p>, where you can test out the effects, view performance, and see if gdl is the right
                     library for your needs.</p>
-                <button class="btn btn_fill">View The Demo</button>
+                <button class="btn btn_fill"><a href="demo.html">View The Demo</a></button>
               </section>
 
             </section>
@@ -200,16 +200,16 @@
         <div class="footer_lhs">
           <h1 class="logo">gdl</h1>
           <p>Graphic Design with WebAssembly.</p>
-          <p>Copyright 2019 copy All Rights Reserved. Software open-sourced under MIT. </p>
+          <p>Copyright 2019 copy All Rights Reserved. Software open-sourced under Apache License 2.0. </p>
   
         </div>
   
         <div class="footer_rhs">
           <ul>
             <li>Home</li>
-            <li>About</li>
-            <li>GitHub</li>
-            <li>Docs</li>
+            <li><a href="demo.html">Demo</a></li>
+            <li><a href="https://github.com/silvia-odwyer/gdl">GitHub</a></li>
+            <li><a href="https://github.com/silvia-odwyer/gdl/docs">Docs</a></li>
           </ul>
         </div>
       </footer>
@@ -221,18 +221,17 @@
       // where to inject the demonstration in your page.
       const demo = new GDemo('#code');
       
-      const code = `
-      extern crate gdl;
-      fn main() {
-         // Open the image as a gdlImage type
-         let img = gdl::helpers::open_image("daisies.JPG");
-         
-         // Apply a Sobel effect to the image 
-         let filtered_img = gdl::conv::sobel_vertical(img);
-         
-         // Write the contents of this image in PNG format.
-         gdl::helpers::save_image(filtered_img, "new_image.PNG");
-     }
+      const code = `extern crate gdl;
+fn main() {
+// Open the image as a gdlImage type
+let img = gdl::helpers::open_image("daisies.JPG");
+
+// Apply a Sobel effect to the image 
+let filtered_img = gdl::conv::sobel_vertical(img);
+
+// Write the contents of this image in PNG format.
+gdl::helpers::save_image(filtered_img, "new_image.PNG");
+}
       `
       
       demo
