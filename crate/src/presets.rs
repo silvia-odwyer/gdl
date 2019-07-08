@@ -1,7 +1,6 @@
 /// Templates for rapid graphic creation.
 
 extern crate image;
-use image::{GenericImageView, DynamicImage};
 extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::Clamped;
@@ -44,7 +43,7 @@ pub fn centre_text(mut background_img: &mut PhotonImage, main_text: &str) {
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn text_shades(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
+pub fn text_shades(mut background_img: &mut PhotonImage, main_text: &str) {
     let width = background_img.width;
     let height = background_img.height;
 
@@ -65,7 +64,7 @@ pub fn text_shades(mut background_img: &mut PhotonImage, main_text: &str, width:
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn repeat_text(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
+pub fn repeat_text(mut background_img: &mut PhotonImage, main_text: &str) {
     let width = background_img.width;
     let height = background_img.height;
 
@@ -86,7 +85,7 @@ pub fn repeat_text(mut background_img: &mut PhotonImage, main_text: &str, width:
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn text_banner(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) {
+pub fn text_banner(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str) {
     let width = background_img.width;
     let height = background_img.height;
 
@@ -106,11 +105,11 @@ pub fn text_banner(mut background_img: &mut PhotonImage, main_text: &str, small_
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
+pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str) {
     let width = background_img.width;
     let height = background_img.height;
 
-    let mut height_mul: f32 = 0.4;
+    let height_mul: f32 = 0.4;
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     draw_solid_rect(&mut background_img, &black_rgb, height, (width as f32 * 0.2) as u32, 0, 0);
     
@@ -128,11 +127,11 @@ pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str, widt
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn rhs_text(mut background_img: &mut PhotonImage, main_text: &str, width: u32, height: u32) {
+pub fn rhs_text(mut background_img: &mut PhotonImage, main_text: &str) {
     let width = background_img.width;
     let height = background_img.height;
 
-    let mut height_mul: f32 = 0.4;
+    let height_mul: f32 = 0.4;
     let rgb = Rgb { r: 255, g: 255, b: 255};
     
     draw_text(&mut background_img, main_text, (width as f32 * 0.65) as u32, (height as f32 * height_mul) as u32, "BebasKai", 130.0, &rgb);
@@ -151,7 +150,7 @@ pub fn lhs_text(mut background_img: &mut PhotonImage, main_text: &str, small_tex
     let width = background_img.width;
     let height = background_img.height;
 
-    let mut height_mul: f32 = 0.4;
+    let height_mul: f32 = 0.4;
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
     draw_text(&mut background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 130.0, &black_rgb);
@@ -162,7 +161,6 @@ pub fn vertical_text_rhs(mut background_img: &mut PhotonImage, main_text: &str, 
     let width = background_img.width;
     let height = background_img.height;
 
-    let mut height_mul: f32 = 0.4;
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
     let red_rgb = Rgb { r: 200, g: 20, b: 50 };
@@ -176,7 +174,7 @@ pub fn vertical_text_rhs(mut background_img: &mut PhotonImage, main_text: &str, 
 
 #[wasm_bindgen]
 pub fn quote(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str) {
-    let width = background_img.width;
+    let _width = background_img.width;
     let height = background_img.height;
 
     let black_rgb = Rgb { r: 0, g: 0, b: 0};

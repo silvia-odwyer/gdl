@@ -7,7 +7,7 @@ extern crate rusttype;
 use wasm_bindgen::prelude::*;
 use imageproc::drawing::draw_text_mut;
 use imageproc::morphology::dilate_mut;
-use image::imageops::{rotate90, rotate270};
+use image::imageops::{rotate90, rotate270, rotate180};
 use imageproc::distance_transform::Norm;
 use rusttype::{FontCollection, Scale};
 use crate::{PhotonImage, helpers, Rgb};
@@ -100,9 +100,46 @@ pub fn draw_text_with_border(img: &mut PhotonImage, font: &str, text: &str, x: u
 /// * `font` - Font name. Fonts available include Roboto-Regular, BebasKai, Roboto-Light, among many others. 
 /// Full list of fonts available coming soon. 
 /// * `font_size`: f32 that represents the font's size.
+/// * `direction`: The direction the text should be facing, either "left" or "right".
 /// * `rgb`: Rgb text color.
 #[wasm_bindgen]
 pub fn draw_vertical_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, direction: &str, rgb: &Rgb) {
+   if direction == "left" { 
+       draw_rotated_text(img, text, x, y, font, font_size, "270", rgb);
+   }
+   else if direction == "right" {
+        draw_rotated_text(img, text, x, y, font, font_size, "90", rgb);
+   }
+}
+
+/// Draw single letters in a vertical column to create a vertical-text effect.
+#[wasm_bindgen]
+pub fn draw_vertical_text_single(img: &mut PhotonImage, text: &str, x: u32, mut y:u32, font: &str, font_size: f32, rgb: &Rgb) {
+    for c in text.split("") {
+        draw_text(img, c, x, y, font, font_size, rgb);
+        y += (font_size * 0.8) as u32;
+    }
+}
+
+/// Draw upside-down text.
+///
+/// ### Arguments
+/// * `img` - Mutable reference to a PhotonImage.
+/// * `text` - Text string to be drawn.
+/// * `x` - X-coordinate of top corner of text.
+/// * `y` - Y coordinae of top corner of text.
+/// * `font` - Font name. Fonts available include Roboto-Regular, BebasKai, Roboto-Light, among many others. 
+/// Full list of fonts available coming soon. 
+/// * `font_size`: f32 that represents the font's size.
+/// * `rgb`: Rgb text color.
+#[wasm_bindgen]
+pub fn draw_upsidedown_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
+        
+   draw_rotated_text(img, text, x, y, font, font_size, "180", rgb);
+}
+
+// Draw rotated text. Available: 90, 180, 270.
+fn draw_rotated_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rotation: &str, rgb: &Rgb) {
         
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
     
@@ -129,9 +166,11 @@ pub fn draw_vertical_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font
     
     let mut container_img = helpers::dyn_image_from_raw(&img);
 
-    let rotated_img = match direction {
-        "left" => rotate90(&image2),
-        _ => rotate270(&image2)
+    let rotated_img = match rotation { 
+        "90" => rotate90(&image2),
+        "180" => rotate180(&image2),
+        "270" => rotate270(&image2),
+        _ => rotate90(&image2)
     };
 
     let image2 = image::ImageRgba8(rotated_img);
@@ -140,6 +179,7 @@ pub fn draw_vertical_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font
 
     img.raw_pixels = container_img.raw_pixels();
 }
+
 
 fn open_font(font: &str) -> std::vec::Vec<u8> {
     // include_bytes! only takes a string literal
