@@ -22,12 +22,15 @@ pub fn centre_text(mut background_img: &mut PhotonImage, main_text: &str, width:
     let width = background_img.width;
     let height = background_img.height;
 
-    let word_vec = text_to_vec(main_text);
+    let font_size = 150.0;
+
+    let group_vec = text_to_vec(main_text, background_img.width, font_size);
 
     let mut height_mul: f32 = 0.3;
     let white_rgb = Rgb { r: 255, g: 255, b: 255};
-    for word in word_vec {
-        draw_text(&mut background_img, word, (width as f32 * 0.3) as u32, (height as f32 * height_mul) as u32, "BebasKai", 150.0, &white_rgb);
+    for word_vec in group_vec {
+        let text = word_vec.join(" ");
+        draw_text(&mut background_img, &text, (width as f32 * 0.3) as u32, (height as f32 * height_mul) as u32, "BebasKai", font_size, &white_rgb);
         height_mul += 0.15;
     }
   
@@ -155,7 +158,7 @@ pub fn lhs_text(mut background_img: &mut PhotonImage, main_text: &str, small_tex
 }
 
 #[wasm_bindgen]
-pub fn vertical_text_rhs(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) {
+pub fn vertical_text_rhs(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str) {
     let width = background_img.width;
     let height = background_img.height;
 
@@ -167,69 +170,55 @@ pub fn vertical_text_rhs(mut background_img: &mut PhotonImage, main_text: &str, 
 
     let height_mul = 0.1;
     draw_solid_rect(&mut background_img, &white_rgb, (width as f32 * 0.2) as u32, height, (width as f32 * 0.8) as i32, 0);
-    draw_vertical_text(&mut background_img, main_text, (width as f32 * 0.85) as u32, (height as f32 * height_mul) as u32, "BebasKai", 350.0, "right", &red_rgb);
+    draw_vertical_text(&mut background_img, main_text, (width as f32 * 0.85) as u32, (height as f32 * height_mul) as u32, "BebasKai", 100.0, "right", &red_rgb);
 
 }
 
-fn text_to_vec(text: &str) -> Vec<&str> {
-        // let mut str_portion = String::new();
-    // let mut word_vec = vec![];
-    // let words = main_text.split(" ").collect::<Vec<&str>>();    
-    // // let mut total_chars = 0;
-    // let mut i = 0;
-    // for word in &words {
-    //     i += 1;
-    //     total_chars += word.len();
-    //     println!("word: {} total chars is: {}", word, total_chars);
+#[wasm_bindgen]
+pub fn quote(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str) {
+    let width = background_img.width;
+    let height = background_img.height;
 
-    //     if total_chars > 7  && i < words.len() - 1 {
-    //         total_chars = 0;
-    //         word_vec.push(str_portion);
-    //         let mut str_portion = String::new().push_str(word);
-    //         continue;
-    //     }
-    //     else if total_chars > 7 && i < words.len() {
-    //         word_vec.push(str_portion.clone());
-    //     }
-    //     else {
-    //         str_portion.push_str(word);
-    //     }
-    // }
-
-
-    // println!("word vec: {:?}", word_vec);
-
-    // // Split main text into groups of strings
-    // let chars: Vec<char> = main_text.chars().collect();    
-    // let mut num_chars = 0;
-    // let mut str_vec = vec![];
-
-    // for c in chars {
-
-    //     if num_chars > 7 {
-    //         str_vec.push(str_portion);
-    //         str_portion = "".to_string();
-    //         continue;
-    //     }
-    //     num_chars += 1;
-    //     str_portion.push(c);
-    // }
-
-    // println!("str vec: {:?}", str_vec);
+    let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
-    
+    let red_rgb = Rgb { r: 200, g: 20, b: 50 };
+    let white_rgb = Rgb { r: 255, g: 255, b: 255};
+
+    let mut height_mul = 0.1;
+    let font_size = 100.0;
+
+    let group_vec = text_to_vec(main_text, background_img.width, font_size);
+    for word_vec in group_vec {
+        let text = word_vec.join(" ");
+        draw_text(&mut background_img, &text, 0, (height as f32 * height_mul) as u32, "Oswald", font_size, &black_rgb);
+        height_mul += 0.1;
+    }
+
+}
+
+fn text_to_vec(text: &str, width: u32, font_size: f32) -> Vec<Vec<&str>> {
+      
     let mut word_vec = vec![];
-
+    let font_size = 100.0;
+    let mut group_vec = vec![];
+    let mut total_width = 0;
     for word in text.split_whitespace() {
-        println!("> {}", word);
-        if word.len() > 7 {
+        // get len of word, num of chars, and multiply by font size.
+        let width_word = font_size * word.len() as f32;
+        total_width += width_word as u32;
+
+        if total_width > width {
+            group_vec.push(word_vec);
+            word_vec = vec![];
             word_vec.push(word);
-            continue;
+            total_width = width_word as u32;
         }
         else {
             word_vec.push(word);
         }
     }
+    
+    group_vec.push(word_vec);
 
-    return word_vec;
+    return group_vec
 }
