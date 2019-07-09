@@ -19,8 +19,6 @@ fn main() {
 
     // Draw text by passing in a mutable ref to the PhotonImage created above.
 
-    // A for loop could be used to avoid code repeation, of course, but this was omitted
-    // to maintain simplicity and showcase the fundamentals of GDL. 
     draw_vertical_text(&mut photon_img, "Roboto Bold", 50, 200, "Roboto-Bold", 90.0, "left", &rgb3);
 
     draw_vertical_text(&mut photon_img, "Roboto Regular", width - 150, 220, "Roboto-Regular", 90.0, "right", &rgb3);
@@ -28,9 +26,10 @@ fn main() {
     draw_upsidedown_text(&mut photon_img, "Break The Rules.", 10, 120, "Roboto Bold", 90.0, &rgb3);
 
     draw_vertical_text_single(&mut photon_img, "Roboto", width / 2, (height / 3 - 100), "Roboto-Regular", 90.0, &rgb3);
+    draw_vertical_text_single(&mut photon_img, "HELLO", (width / 2) + 100, (height / 3 - 100) "BebasKai", 120.0, &rgb2 );
 
     // Write the contents of this image in PNG format.
-    gdl::helpers::save_image(photon_img, "examples/example_output/text_output.png");
+    gdl::helpers::save_image(photon_img, "examples/example_output/text_effects.png");
 
     let end = PreciseTime::now();
     println!("Took {} seconds to create image.", start.to(end));

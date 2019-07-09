@@ -4,10 +4,9 @@ extern crate image;
 use image::{GenericImage, GenericImageView, DynamicImage, ImageBuffer, RgbaImage};
 extern crate imageproc;
 extern crate rusttype;
-use imageproc::drawing::draw_text_mut;
-use crate::{PhotonImage, Rgb, LinSrgba, Gradient, Lch, Srgba, Rgba};
+use imageproc::drawing::*;
+use crate::{PhotonImage, Rgb, LinSrgba, Gradient, Lch, Srgba, Rgba, Triangle};
 use palette::encoding::pixel::Pixel;
-use imageproc::drawing::draw_filled_rect_mut;
 use imageproc::rect::Rect;
 use crate::text::draw_text;
 use crate::helpers;
@@ -35,16 +34,35 @@ pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, width:
 }
 
 #[wasm_bindgen]
-pub fn draw_opaque_rect(mut img: &mut PhotonImage, background_color: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
+pub fn draw_opaque_rect(mut img: &mut PhotonImage, background_color: &Rgb, opacity: u8, width: u32, height: u32, x_pos: i32, y_pos: i32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
     draw_filled_rect_mut(&mut image, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 
                         Rgba([background_color.r, background_color.g, 
-                        background_color.b, 255u8]));
+                        background_color.b, opacity]));
     let dynimage = image::ImageRgba8(image);
     img.raw_pixels = dynimage.raw_pixels();
 }
 
+/// Draw a triangle.
+#[wasm_bindgen]
+pub fn draw_triangle(mut img: &mut PhotonImage, triangle: Triangle) {
+    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
+
+    let point = Point::new(triangle.x1, triangle.y1);
+    let point2 = Point::new(triangle.x2, triangle.y2);
+    let point3 = Point::new(triangle.x3, triangle.y3);
+
+    let points = vec![point, point2, point3];
+
+    draw_convex_polygon_mut(&mut image, 
+                        points.as_slice(), 
+                        Rgba([triangle.background_color.r, triangle.background_color.g, 
+                        triangle.background_color.b, 255u8]));
+    
+    let dynimage = image::ImageRgba8(image);
+    img.raw_pixels = dynimage.raw_pixels();
+}
 
 /// Draw a solid rectangle with text placed in-centre.
 /// 
@@ -95,6 +113,19 @@ pub fn draw_gradient_rect(img: &mut PhotonImage, height: u32, width: u32, x_pos:
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
 
     let rect = create_gradient(width, height);
+    let rect = helpers::dyn_image_from_raw(&rect).to_rgba();
+        
+    image::imageops::overlay(&mut image, &rect, x_pos, y_pos);
+
+    let dynimage = image::ImageRgba8(image);
+    img.raw_pixels = dynimage.raw_pixels();
+}
+
+#[wasm_bindgen]
+pub fn draw_preset_rect_gradient(img: &mut PhotonImage, width: u32, height: u32, x_pos: u32, y_pos: u32, preset_name: &str) {
+    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
+
+    let rect = create_gradient_preset(width, height, preset_name);
     let rect = helpers::dyn_image_from_raw(&rect).to_rgba();
         
     image::imageops::overlay(&mut image, &rect, x_pos, y_pos);
@@ -183,9 +214,17 @@ pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> PhotonImag
             LinSrgba::new(0.2039, 0.5803, 0.90196, 1.0),
             LinSrgba::new(0.40392156, 0.69803921, 0.43529 , 1.0),
         ]),
+        "pink_pastel" => Gradient::new(vec![
+            LinSrgba::new(0.93725, 0.19607, 0.85098, 1.0),
+            LinSrgba::new(0.537254, 1.0, 0.9921568, 1.0),
+        ]),
+        "mauve_pastel" => Gradient::new(vec![
+            LinSrgba::new(0.498039, 0.498039, 0.835294, 1.0),
+            LinSrgba::new(0.537254, 0.6588235, 0.905882, 1.0),
+        ]),
         _ => Gradient::new(vec![
             LinSrgba::new(0.2039, 0.5803, 0.90196, 1.0),
-            LinSrgba::new(0.40392156, 0.69803921, 0.43529 , 1.0),
+            LinSrgba::new(0.52549, 0.69803921, 0.43529 , 1.0),
         ])
 
     };
@@ -222,11 +261,10 @@ pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> PhotonImag
 // }
  
 // GRADIENT COLORS 
-// #3494e6 → #ec6ead: 52, 148, 230 -> 236, 110, 173
 // #67b26f → #4ca2cd: 103, 178, 111 -> 76 162 205
 // #ee0979 →  #ff6a00: 238, 9, 121 -> 255, 106, 0
-// #ef32d9 → #89fffd: 239, 50, 217 -> 137 255 253
-// #7f7fd5 → #86a8e7 → #91eae4: 127, 127, 213 -> 134, 168, 231 -> 145 234 228  
+
+
 // Telegram:  #1c92d2 → #f2fcfe 
 // Digital Water:  #74ebd5 → #acb6e5 
 // Hydrogen:  #667db6 →  #0082c8 →  #0082c8 →  #667db6
