@@ -8,6 +8,8 @@ use wasm_bindgen::prelude::*;
 use crate::{PhotonImage, helpers, Rgb};
 use crate::text::*;
 use crate::elements::*;
+use crate::helpers::dyn_image_from_raw;
+use crate::{graphics, resize};
 
 /// Preset: Centre text, with background image.
 /// 
@@ -192,6 +194,30 @@ pub fn quote(mut background_img: &mut PhotonImage, main_text: &str, small_text: 
         height_mul += 0.1;
     }
 
+}
+
+#[wasm_bindgen]
+pub fn postcard(background_img: PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) -> PhotonImage {
+    let white = Rgb { r: 255, g: 255, b: 255};
+    let blk = Rgb { r: 56, g: 123, b: 254};
+
+    let mut container_img = PhotonImage::new_with_background(width, height, &white);
+
+    let dyn_img = helpers::dyn_image_from_raw(&background_img);
+
+    let resized_img = resize::resize(&background_img, width - 20, height - 20);
+
+    let main_img_width = background_img.width;
+    let main_img_height = background_img.height;
+
+    graphics::draw_photonimage(&mut container_img, &resized_img, 10, 10);
+
+    let height_mul: f32 = 0.2;
+    let black_rgb = Rgb { r: 0, g: 0, b: 0};
+    
+    draw_text(&mut container_img, main_text, (main_img_width as f32 * 0.15) as u32, 
+    (main_img_height as f32 * height_mul) as u32, "MrDafoe-Regular", 130.0, &blk);
+    return container_img;
 }
 
 fn text_to_vec(text: &str, width: u32, font_size: f32) -> Vec<Vec<&str>> {
