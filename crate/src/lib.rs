@@ -133,18 +133,6 @@ impl PhotonImage {
         return PhotonImage {raw_pixels: new_vec, width: width, height: height}
     }
 
-    // pub fn word_cloud(&mut self) {
-    //     let words = vec!["hello", "bonjour", "hola", "life", "buna", "words", "codes", "freedom", "liberty"];
-    //     let mut inc = 20;
-    //     let mut inc_y = 30;
-    //     for word in words {
-    //         self.draw_text(&word, inc, inc_y, "Lato-Regular", 50.0);
-    //         inc += 100;
-    //         inc_y += 100;
-    //     }
-
-    // }
-
     pub fn raw_pix(self) -> Vec<u8> {
         self.raw_pixels
     }
@@ -211,7 +199,8 @@ impl Font {
 }
 
 
-/// Triangle struct
+/// Triangle struct, which represents the color and co-ordinates
+/// of a Triangle. 
 #[wasm_bindgen]
 #[derive(Debug)]
 pub struct Triangle {
@@ -226,12 +215,14 @@ pub struct Triangle {
 
 #[wasm_bindgen]
 impl Triangle {
+
+    /// Create a new Triangle, with specified co-ordinates for its 3 points, and a background color.
     pub fn new(background_color: Rgb, x1: i32, y1: i32, x2: i32, y2: i32, x3: i32, y3: i32) -> Triangle {
         return Triangle {background_color: background_color, x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3};
     }
 }
 
-
+/// Rgb color type.
 #[wasm_bindgen]
 #[derive(Debug)]
 pub struct Rgb {
@@ -242,6 +233,7 @@ pub struct Rgb {
 
 #[wasm_bindgen]
 impl Rgb {
+    /// Create a new Rgb color.
     pub fn new(&mut self, r: u8, g: u8, b: u8) -> Rgb {
         return Rgb {r: r, g: g, b: b}
     }
@@ -310,6 +302,7 @@ pub fn new_rgb(r:u8, g:u8, b:u8) -> Rgb {
     return rgb;
 }
 
+/// Convert ImageData to raw pixels.
 #[wasm_bindgen]
 pub fn to_raw_pixels(imgdata: ImageData) -> Vec<u8> {
     let img_vec = imgdata.data().to_vec();

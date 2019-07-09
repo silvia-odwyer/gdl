@@ -8,6 +8,7 @@ use crate::Rgb;
 use crate::PhotonImage;
 use crate::helpers;
 
+/// Draw a flowchart.
 #[wasm_bindgen]
 pub fn draw_flowchart(mut img: &mut PhotonImage, item1: &str) {
     let image = helpers::dyn_image_from_raw(&img).to_rgba();
@@ -20,6 +21,7 @@ pub fn draw_flowchart(mut img: &mut PhotonImage, item1: &str) {
     draw_solid_rect(&mut img, &rgb, height as u32, width as u32, start_x + width + 50, start_y);        
 }
 
+/// Draw a barchart, with a specified title and data.
 #[wasm_bindgen]
 pub fn draw_barchart(mut img: &mut PhotonImage, title: &str, height: u32, width: u32) {
     let image = helpers::dyn_image_from_raw(&img).to_rgba();
@@ -41,7 +43,8 @@ pub fn draw_barchart(mut img: &mut PhotonImage, title: &str, height: u32, width:
 
     draw_text(&mut img, title, 10, start_y as u32, "Lato-Regular", 50.0, &rgb_white);
 }
-    
+
+/// Draw a histogram with a specified title, and data.
 #[wasm_bindgen]
 pub fn draw_histogram(mut img: &mut PhotonImage, title: &str, height: u32, width: u32) {
     let rgb = Rgb{ r: 255, g: 255, b: 255 };

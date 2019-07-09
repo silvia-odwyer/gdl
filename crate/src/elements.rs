@@ -121,6 +121,15 @@ pub fn draw_gradient_rect(img: &mut PhotonImage, height: u32, width: u32, x_pos:
     img.raw_pixels = dynimage.raw_pixels();
 }
 
+/// Preset: Draw a gradient rectangle filled with a gradient.
+/// 
+/// ### Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `width` - u32 - Desired width of gradient rectangle.
+/// * `height` - u32 - Desired height of gradient rectangle.
+/// * `x_pos` - X-coordinate of top corner of rectangle on `img`
+/// * `y_pos` - y-coordinate of top corner of rectangle on `img`
+/// * `preset_name` - Name of the preset. Examples include "lemongrass", "pink_blue", "pastel_pink", "pastel_mauve"
 #[wasm_bindgen]
 pub fn draw_preset_rect_gradient(img: &mut PhotonImage, width: u32, height: u32, x_pos: u32, y_pos: u32, preset_name: &str) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
@@ -135,6 +144,15 @@ pub fn draw_preset_rect_gradient(img: &mut PhotonImage, width: u32, height: u32,
 }
 
 /// Draw two rectangles stacked on each other, for added depth.
+/// 
+/// ### Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `background_color1`: Rgb color of first rectangle.
+/// * `background_color2` : Rgb color of second rectangle.
+/// * `width` - u32 - Desired width of gradient rectangle.
+/// * `height` - u32 - Desired height of gradient rectangle.
+/// * `x_pos` - X-coordinate of top corner of rectangle on `img`
+/// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
 pub fn draw_stacked_rect(mut img: &mut PhotonImage, background_color1: &Rgb, background_color2: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
@@ -153,7 +171,10 @@ pub fn draw_stacked_rect(mut img: &mut PhotonImage, background_color1: &Rgb, bac
 }
 
 /// Create a gradient element in the shape of a Rect.
+/// 
 /// Returns a PhotonImage.
+/// 
+/// ### Arguments
 /// * `width` - u32 - Desired width of gradient.
 /// * `height` - u32 - Desired height of gradient.
 #[wasm_bindgen]

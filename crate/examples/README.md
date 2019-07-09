@@ -30,3 +30,8 @@ To run the example which adds text to an image:
 ```sh
 cargo run --example add_text 
 ```
+
+#### Examples
+`text` - Draw text of various fonts onto an image.
+`text_effects` - Showcases some of the various text effects available.
+`gradients` - Draws preset gradients onto a background.
