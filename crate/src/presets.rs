@@ -126,8 +126,6 @@ pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str) {
 /// * `img` - A mutable ref to a PhotonImage.
 /// * `main_text` - Main heading for the graphic.
 /// * `small_text` - Sub-heading/smaller text. 
-/// * `width` - u32 - Desired width of final graphic 
-/// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn rhs_text(mut background_img: &mut PhotonImage, main_text: &str) {
     let width = background_img.width;
@@ -158,6 +156,12 @@ pub fn lhs_text(mut background_img: &mut PhotonImage, main_text: &str, small_tex
     draw_text(&mut background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 130.0, &black_rgb);
 }
 
+/// Preset: Right-hand side vertical text.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `main_text` - Main heading for the graphic.
+/// * `small_text` - Sub-heading/smaller text. 
 #[wasm_bindgen]
 pub fn vertical_text_rhs(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str) {
     let width = background_img.width;
@@ -174,6 +178,14 @@ pub fn vertical_text_rhs(mut background_img: &mut PhotonImage, main_text: &str, 
 
 }
 
+/// Preset: Quote-style graphic, featuring prominence on the main text.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `main_text` - Main heading for the graphic.
+/// * `small_text` - Sub-heading/smaller text. 
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn quote(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str) {
     let _width = background_img.width;
@@ -196,6 +208,14 @@ pub fn quote(mut background_img: &mut PhotonImage, main_text: &str, small_text: 
 
 }
 
+/// Preset: Postcard-style image, featuring main text overlayed onto the image.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `main_text` - Main heading for the graphic.
+/// * `small_text` - Sub-heading/smaller text. 
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn postcard(background_img: PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) -> PhotonImage {
     let white = Rgb { r: 255, g: 255, b: 255};
@@ -220,6 +240,8 @@ pub fn postcard(background_img: PhotonImage, main_text: &str, small_text: &str, 
     return container_img;
 }
 
+// Convert a string of text to a vector containing vecs of words, 
+// which will fit on an individual line or within a constraint.
 fn text_to_vec(text: &str, width: u32, font_size: f32) -> Vec<Vec<&str>> {
       
     let mut word_vec = vec![];

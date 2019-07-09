@@ -113,6 +113,13 @@ pub fn draw_vertical_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font
 }
 
 /// Draw single letters in a vertical column to create a vertical-text effect.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a PhotonImage.
+/// * `text` - The text to be drawn onto the image.
+/// * `font` - The font type.
+/// * `font_size` - The size of the font.
+/// * `rgb` - Rgb color.
 #[wasm_bindgen]
 pub fn draw_vertical_text_single(img: &mut PhotonImage, text: &str, x: u32, mut y:u32, font: &str, font_size: f32, rgb: &Rgb) {
     for c in text.split("") {
@@ -148,9 +155,10 @@ fn draw_rotated_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &st
     let height = img.width;
     let width = img.height;
 
-    let mut image2 : DynamicImage = DynamicImage::new_rgba8(height / 2, width / 4);
+    let font_img_height = text.len() as f32 * (font_size * 0.48);
+    let font_img_width = font_size * 1.3;
+    let mut image2 : DynamicImage = DynamicImage::new_luma8(font_img_height as u32, font_img_width as u32);
 
-    // include_bytes! only takes a string literal
     let font_vec = open_font(font);
 
     let font = FontCollection::from_bytes(font_vec).unwrap().into_font().unwrap();
