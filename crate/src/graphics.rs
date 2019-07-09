@@ -20,3 +20,14 @@ pub fn create_image(width: u32, height: u32, background_color: Rgb) -> PhotonIma
     let raw_pixels = rgb_img.raw_pixels();
     return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
 }
+
+/// Draw a PhotonImage onto a container image.
+#[wasm_bindgen]
+pub fn draw_photonimage(mut container_img: &mut PhotonImage, photon_img: &PhotonImage, x_pos: u32, y_pos: u32) {
+    let mut dyn_container_img = helpers::dyn_image_from_raw(&container_img);
+    let dyn_photonimg = helpers::dyn_image_from_raw(&photon_img);
+
+    image::imageops::overlay(&mut dyn_container_img, &dyn_photonimg, x_pos, y_pos);
+    let raw_pixels = dyn_container_img.raw_pixels();
+    container_img.raw_pixels = raw_pixels;
+}

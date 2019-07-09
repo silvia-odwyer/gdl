@@ -54,7 +54,7 @@ impl PhotonImage {
         return PhotonImage {raw_pixels: new_vec, width: width, height: height}
     }
 
-    pub fn new_with_background(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
+    pub fn new_with_background(width: u32, height: u32, background_color: &Rgb) -> PhotonImage {
         // create a pixel 
         let pixel =  image::Rgba([background_color.r, background_color.g, background_color.b, 255]);
         let image_buffer = ImageBuffer::from_pixel(width, height, pixel);
@@ -211,6 +211,27 @@ impl Font {
 }
 
 
+/// Triangle struct
+#[wasm_bindgen]
+#[derive(Debug)]
+pub struct Triangle {
+    background_color: Rgb,
+    x1: i32,
+    y1: i32,
+    x2: i32,
+    y2: i32,
+    x3: i32,
+    y3: i32
+}
+
+#[wasm_bindgen]
+impl Triangle {
+    pub fn new(background_color: Rgb, x1: i32, y1: i32, x2: i32, y2: i32, x3: i32, y3: i32) -> Triangle {
+        return Triangle {background_color: background_color, x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3};
+    }
+}
+
+
 #[wasm_bindgen]
 #[derive(Debug)]
 pub struct Rgb {
@@ -328,6 +349,7 @@ pub mod background;
 pub mod diagrams;
 pub mod collage;
 pub mod helpers;
+pub mod graphics;
 pub mod elements;
 pub mod presets;
 pub mod resize;

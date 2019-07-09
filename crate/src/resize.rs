@@ -5,6 +5,7 @@ extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::prelude::*;
 use crate::{PhotonImage, helpers};
+use image::GenericImageView;
 
 /// Resize an image for a particular format on social media.
 /// Available formats include: pinterest, fb_ad, fb_post, instagram_post, twitter_header, linkedin_banner
@@ -55,4 +56,13 @@ pub fn resize_socialmedia_all(img: &PhotonImage) -> Vec<PhotonImage> {
         resized_imgs.push(new_img)
     }
     return resized_imgs;
+}
+
+pub fn resize(photon_img: &PhotonImage, width: u32, height: u32) -> PhotonImage {
+    let sampling_filter = image::FilterType::Nearest;
+
+    let dyn_img = helpers::dyn_image_from_raw(&photon_img);
+    let resized_img = image::ImageRgba8(image::imageops::resize(&dyn_img, width, height, sampling_filter));
+
+    return PhotonImage{ raw_pixels: resized_img.raw_pixels(), width: resized_img.width(), height: resized_img.height()}
 }
