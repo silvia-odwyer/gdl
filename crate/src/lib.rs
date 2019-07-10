@@ -12,7 +12,7 @@
 use wasm_bindgen::prelude::*;
 use web_sys::{CanvasRenderingContext2d, ImageData, HtmlCanvasElement};
 use wasm_bindgen::Clamped;
-use image::{GenericImageView, GenericImage, ImageBuffer, RgbaImage, Rgba};
+use image::{GenericImageView, GenericImage, ImageBuffer, DynamicImage, RgbaImage, Rgba};
 use imageproc::drawing::draw_filled_rect_mut;
 use palette::{Lch, Srgb, Srgba, Hue, Gradient};
 use palette::rgb::LinSrgba;
@@ -205,12 +205,12 @@ impl Font {
 #[derive(Debug)]
 pub struct Triangle {
     background_color: Rgb,
-    x1: i32,
-    y1: i32,
-    x2: i32,
-    y2: i32,
-    x3: i32,
-    y3: i32
+    pub x1: i32,
+    pub y1: i32,
+    pub x2: i32,
+    pub y2: i32,
+    pub x3: i32,
+    pub y3: i32
 }
 
 #[wasm_bindgen]
@@ -219,6 +219,10 @@ impl Triangle {
     /// Create a new Triangle, with specified co-ordinates for its 3 points, and a background color.
     pub fn new(background_color: Rgb, x1: i32, y1: i32, x2: i32, y2: i32, x3: i32, y3: i32) -> Triangle {
         return Triangle {background_color: background_color, x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3};
+    }
+
+    pub fn background_color(self) -> Rgb {
+        return self.background_color
     }
 }
 
@@ -283,6 +287,13 @@ pub fn putImageData(canvas: HtmlCanvasElement, ctx: CanvasRenderingContext2d, mu
 
     // Place the new imagedata onto the canvas
     ctx.put_image_data(&new_imgdata.unwrap(), 0.0, 0.0);
+}
+
+pub fn new_with_background(width: u32, height: u32, background_color: &Rgb) -> DynamicImage {
+    let pixel =  image::Rgba([background_color.r, background_color.g, background_color.b, 255]);
+    let image_buffer = ImageBuffer::from_pixel(width, height, pixel);
+    let rgba_img = image::ImageRgba8(image_buffer);
+    return rgba_img;
 }
 
 /// Convert the ImageData found in the canvas context to a PhotonImage,

@@ -9,7 +9,8 @@ use crate::{PhotonImage, helpers, Rgb};
 use crate::text::*;
 use crate::elements::*;
 use crate::helpers::dyn_image_from_raw;
-use crate::{graphics, resize};
+use crate::{graphics, resize, new_with_background};
+use image::{DynamicImage, GenericImageView};
 
 /// Preset: Centre text, with background image.
 /// 
@@ -19,19 +20,19 @@ use crate::{graphics, resize};
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn centre_text(mut background_img: &mut PhotonImage, main_text: &str) {
-    let width = background_img.width;
-    let height = background_img.height;
+pub fn centre_text(mut background_img: &mut DynamicImage, main_text: &str) {
+    let width = background_img.width();
+    let height = background_img.height();
 
     let font_size = 150.0;
 
-    let group_vec = text_to_vec(main_text, background_img.width, font_size);
+    let group_vec = text_to_vec(main_text, background_img.width(), font_size);
 
     let mut height_mul: f32 = 0.05;
     let white_rgb = Rgb { r: 255, g: 255, b: 255};
     for word_vec in group_vec {
         let text = word_vec.join(" ");
-        draw_text(&mut background_img, &text, (width as f32 * 0.3) as u32, (height as f32 * height_mul) as u32, "BebasKai", font_size, &white_rgb);
+        draw_text(background_img, &text, (width as f32 * 0.3) as u32, (height as f32 * height_mul) as u32, "BebasKai", font_size, &white_rgb);
         height_mul += 0.15;
     }
   
@@ -45,14 +46,14 @@ pub fn centre_text(mut background_img: &mut PhotonImage, main_text: &str) {
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn text_shades(mut background_img: &mut PhotonImage, main_text: &str) {
-    let width = background_img.width;
-    let height = background_img.height;
+pub fn text_shades(mut background_img: &mut DynamicImage, main_text: &str) {
+    let width = background_img.width();
+    let height = background_img.height();
 
     let mut height_mul: f32 = 0.05;
     let white_rgb = Rgb { r: 255, g: 255, b: 255};
     for _ in 0..(height / 50) as usize{
-        draw_text(&mut background_img, main_text, (width as f32 * 0.05) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &white_rgb);
+        draw_text(background_img, main_text, (width as f32 * 0.05) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &white_rgb);
         height_mul += 0.1;
     }
   
@@ -66,14 +67,14 @@ pub fn text_shades(mut background_img: &mut PhotonImage, main_text: &str) {
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn repeat_text(mut background_img: &mut PhotonImage, main_text: &str) {
-    let width = background_img.width;
-    let height = background_img.height;
+pub fn repeat_text(mut background_img: &mut DynamicImage, main_text: &str) {
+    let width = background_img.width();
+    let height = background_img.height();
 
     let mut height_mul: f32 = 0.05;
     let white_rgb = Rgb { r: 255, g: 255, b: 255};
     for _ in 0..(height / 50) as usize{
-        draw_text(&mut background_img, main_text, (width as f32 * 0.05) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &white_rgb);
+        draw_text(background_img, main_text, (width as f32 * 0.05) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &white_rgb);
         height_mul += 0.1;
     } 
 }
@@ -87,15 +88,15 @@ pub fn repeat_text(mut background_img: &mut PhotonImage, main_text: &str) {
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn text_banner(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str) {
-    let width = background_img.width;
-    let height = background_img.height;
+pub fn text_banner(mut background_img: &mut DynamicImage, main_text: &str, small_text: &str) {
+    let width = background_img.width();
+    let height = background_img.height();
 
     let mut height_mul: f32 = 0.4;
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
-    draw_text(&mut background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &black_rgb);
-    draw_text(&mut background_img, small_text, (width as f32 * 0.28) as u32, (height as f32 * (height_mul + 0.15)) as u32, "BebasKai", 30.0, &black_rgb);   
+    draw_text(background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &black_rgb);
+    draw_text(background_img, small_text, (width as f32 * 0.28) as u32, (height as f32 * (height_mul + 0.15)) as u32, "BebasKai", 30.0, &black_rgb);   
 }
 
 /// Preset: vertical text banner.
@@ -107,9 +108,9 @@ pub fn text_banner(mut background_img: &mut PhotonImage, main_text: &str, small_
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str) {
-    let width = background_img.width;
-    let height = background_img.height;
+pub fn vertical_text(mut background_img: &mut DynamicImage, main_text: &str) {
+    let width = background_img.width();
+    let height = background_img.height();
 
     let height_mul: f32 = 0.4;
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
@@ -117,7 +118,7 @@ pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str) {
     
     let white_rgb = Rgb {r: 255, g: 255, b: 255};
 
-    draw_vertical_text(&mut background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, "right", &white_rgb);
+    draw_vertical_text(background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, "right", &white_rgb);
 }
 
 /// Preset: Right-hand side text.
@@ -127,14 +128,14 @@ pub fn vertical_text(mut background_img: &mut PhotonImage, main_text: &str) {
 /// * `main_text` - Main heading for the graphic.
 /// * `small_text` - Sub-heading/smaller text. 
 #[wasm_bindgen]
-pub fn rhs_text(mut background_img: &mut PhotonImage, main_text: &str) {
-    let width = background_img.width;
-    let height = background_img.height;
+pub fn rhs_text(mut background_img: &mut DynamicImage, main_text: &str) {
+    let width = background_img.width();
+    let height = background_img.height();
 
     let height_mul: f32 = 0.4;
     let rgb = Rgb { r: 255, g: 255, b: 255};
     
-    draw_text(&mut background_img, main_text, (width as f32 * 0.65) as u32, (height as f32 * height_mul) as u32, "BebasKai", 130.0, &rgb);
+    draw_text(background_img, main_text, (width as f32 * 0.65) as u32, (height as f32 * height_mul) as u32, "BebasKai", 130.0, &rgb);
 }
 
 /// Preset: Left-hand side text.
@@ -146,14 +147,14 @@ pub fn rhs_text(mut background_img: &mut PhotonImage, main_text: &str) {
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn lhs_text(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) {
-    let width = background_img.width;
-    let height = background_img.height;
+pub fn lhs_text(mut background_img: &mut DynamicImage, main_text: &str, small_text: &str, width: u32, height: u32) {
+    let width = background_img.width();
+    let height = background_img.height();
 
     let height_mul: f32 = 0.4;
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
-    draw_text(&mut background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 130.0, &black_rgb);
+    draw_text(background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 130.0, &black_rgb);
 }
 
 /// Preset: Right-hand side vertical text.
@@ -163,9 +164,9 @@ pub fn lhs_text(mut background_img: &mut PhotonImage, main_text: &str, small_tex
 /// * `main_text` - Main heading for the graphic.
 /// * `small_text` - Sub-heading/smaller text. 
 #[wasm_bindgen]
-pub fn vertical_text_rhs(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str) {
-    let width = background_img.width;
-    let height = background_img.height;
+pub fn vertical_text_rhs(mut background_img: &mut DynamicImage, main_text: &str, small_text: &str) {
+    let width = background_img.width();
+    let height = background_img.height();
 
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
@@ -187,9 +188,9 @@ pub fn vertical_text_rhs(mut background_img: &mut PhotonImage, main_text: &str, 
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn quote(mut background_img: &mut PhotonImage, main_text: &str, small_text: &str) {
-    let _width = background_img.width;
-    let height = background_img.height;
+pub fn quote(mut background_img: &mut DynamicImage, main_text: &str, small_text: &str) {
+    let _width = background_img.width();
+    let height = background_img.height();
 
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
@@ -199,7 +200,7 @@ pub fn quote(mut background_img: &mut PhotonImage, main_text: &str, small_text: 
     let mut height_mul = 0.1;
     let font_size = 100.0;
 
-    let group_vec = text_to_vec(main_text, background_img.width, font_size);
+    let group_vec = text_to_vec(main_text, background_img.width(), font_size);
     for word_vec in group_vec {
         let text = word_vec.join(" ");
         draw_text(&mut background_img, &text, 0, (height as f32 * height_mul) as u32, "Oswald", font_size, &black_rgb);
@@ -217,20 +218,19 @@ pub fn quote(mut background_img: &mut PhotonImage, main_text: &str, small_text: 
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn postcard(background_img: PhotonImage, main_text: &str, small_text: &str, width: u32, height: u32) -> PhotonImage {
+pub fn postcard(background_img: DynamicImage, main_text: &str, small_text: &str, width: u32, height: u32) -> DynamicImage {
     let white = Rgb { r: 255, g: 255, b: 255};
     let blk = Rgb { r: 56, g: 123, b: 254};
 
-    let mut container_img = PhotonImage::new_with_background(width, height, &white);
+    let mut container_img = new_with_background(width, height, &white);
+    let sampling_filter = image::FilterType::Nearest;
 
-    let dyn_img = helpers::dyn_image_from_raw(&background_img);
+    let resized_img = image::ImageRgba8(image::imageops::resize(&background_img, width - 20, height - 20, sampling_filter));
 
-    let resized_img = resize::resize(&background_img, width - 20, height - 20);
+    let main_img_width = background_img.width();
+    let main_img_height = background_img.height();
 
-    let main_img_width = background_img.width;
-    let main_img_height = background_img.height;
-
-    graphics::draw_photonimage(&mut container_img, &resized_img, 10, 10);
+    image::imageops::overlay(&mut container_img, &resized_img, 10, 10);
 
     let height_mul: f32 = 0.2;
     let black_rgb = Rgb { r: 0, g: 0, b: 0};

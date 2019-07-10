@@ -1,6 +1,6 @@
 extern crate gdl;
 extern crate time;
-use gdl::{Rgb, PhotonImage};
+use gdl::{Rgb, PhotonImage, new_with_background};
 use gdl::text::*;
 use gdl::elements::*;
 use time::PreciseTime;
@@ -17,21 +17,21 @@ fn main() {
     let height = 500;
 
     // Create a new image with a background color (a PhotonImage is returned)
-    let mut photon_img: PhotonImage = PhotonImage::new_with_background(width, height, &black);
+    let mut img = new_with_background(width, height, &black);
 
     // Draw gradients
-    draw_preset_rect_gradient(&mut photon_img, 300, 300, 30, 30, "pinkblue");
-    draw_preset_rect_gradient(&mut photon_img, 300, 300, 330, 30, "pink_pastel");
-    draw_preset_rect_gradient(&mut photon_img, 300, 300, 630, 30, "lemongrass");
+    draw_preset_rect_gradient(&mut img, 300, 300, 30, 30, "pinkblue");
+    draw_preset_rect_gradient(&mut img, 300, 300, 330, 30, "pink_pastel");
+    draw_preset_rect_gradient(&mut img, 300, 300, 630, 30, "lemongrass");
 
     // Draw text
-    draw_text(&mut photon_img, "pink_blue", 90, 350, "Roboto-Light", 60.0, &white);
-    draw_text(&mut photon_img, "pink_pastel", 350, 350, "Roboto-Light", 60.0, &white);
-    draw_text(&mut photon_img, "lemongrass", 650, 350, "Roboto-Light", 60.0, &white);
+    draw_text(&mut img, "pink_blue", 90, 350, "Roboto-Light", 60.0, &white);
+    draw_text(&mut img, "pink_pastel", 350, 350, "Roboto-Light", 60.0, &white);
+    draw_text(&mut img, "lemongrass", 650, 350, "Roboto-Light", 60.0, &white);
 
 
     // Write the contents of this image in PNG format.
-    gdl::helpers::save_image(photon_img, "examples/example_output/gradients.png");
+    gdl::helpers::save_image(img, "example_output/gradients.png");
 
     let end = PreciseTime::now();
     println!("Took {} seconds to create image.", start.to(end));
