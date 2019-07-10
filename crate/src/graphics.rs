@@ -37,3 +37,21 @@ pub fn draw_photonimage(mut container_img: &mut PhotonImage, photon_img: &Photon
     let raw_pixels = dyn_container_img.raw_pixels();
     container_img.raw_pixels = raw_pixels;
 }
+
+/// Draw a border around a PhotonImage.
+/// 
+/// # Arguments
+/// * `container_img` - A mutable ref to a PhotonImage, which will be the container image.
+/// * `photon_img` - The image to be drawn onto the container image.
+/// * `width` - Desired width of the border. 
+/// * `background_color` - Rgb color of the border.
+#[wasm_bindgen]
+pub fn draw_border(mut photon_img: &mut PhotonImage, width: u32, background_color: &Rgb) {
+    let mut container_img = PhotonImage::new_with_background(photon_img.width + (width * 2), photon_img.height + (width * 2), background_color);
+
+    draw_photonimage(&mut container_img, photon_img, width, width);
+
+    photon_img.raw_pixels = container_img.raw_pixels;
+    photon_img.width = container_img.width;
+    photon_img.height = container_img.height;
+}

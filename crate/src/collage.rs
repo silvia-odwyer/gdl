@@ -18,14 +18,13 @@ use imageproc::rect::Rect;
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn two_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, width: u32, height: u32) -> PhotonImage {
+pub fn two_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, width: u32, height: u32) -> DynamicImage {
     // Convert all photon images to DynamicImages, for interop with the image crate.
-    let photon_imgs = vec![photon_img, photon_img2];
-    let mut imgs = to_dyn_img_vec(photon_imgs);
+    let mut imgs = vec![photon_img, photon_img2];
 
     // distribute the width evenly by allocating the same space to both images
     let img_width = width / 2;
-    resize_imgs(&mut imgs, img_width, height);
+    let imgs = resize_imgs(imgs, img_width, height);
 
     let mut container_img : DynamicImage = DynamicImage::new_rgba8(width, height);
 
@@ -33,7 +32,7 @@ pub fn two_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, width: u32,
     image::imageops::overlay(&mut container_img, &imgs[1], img_width, 0);
 
     // return the collage
-    return PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
+    return container_img;
 }
 
 /// Four grid collage.
@@ -44,10 +43,7 @@ pub fn two_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, width: u32,
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn two_grid_text(photon_img: PhotonImage, photon_img2: PhotonImage, width: u32, height: u32) -> PhotonImage {
-    let image = helpers::dyn_image_from_raw(&photon_img);
-    let image2 = helpers::dyn_image_from_raw(&photon_img2);
-
+pub fn two_grid_text(image: DynamicImage, image2: DynamicImage, width: u32, height: u32) -> DynamicImage {
     // distribute the width evenly by allocating the same space to both images
     let img_width = width / 2;
     let img_height = height / 2;
@@ -61,20 +57,20 @@ pub fn two_grid_text(photon_img: PhotonImage, photon_img2: PhotonImage, width: u
     image::imageops::overlay(&mut container_img, &image, 0, 0);
     image::imageops::overlay(&mut container_img, &image2, image.width(), image.height());
 
-    let mut photon_img = PhotonImage::new_from_rawpixels(container_img.raw_pixels(), container_img.width(), container_img.height());
     let white = Rgb{r: 255, g: 255, b: 255};
     let black = Rgb{r: 0, g: 0, b:0};
     let lilac = Rgb{r: 204, g: 195, b: 240};
     let yellow = Rgb{ r: 255, g: 226, b: 98};
-    draw_solid_rect(&mut photon_img, &yellow, img_height, img_width, image.width() as i32, 0);
-    draw_solid_rect(&mut photon_img, &lilac, img_height, img_width, 0, image.height() as i32);
+    draw_solid_rect(&mut container_img, &yellow, img_height, img_width, image.width() as i32, 0);
+    draw_solid_rect(&mut container_img, &lilac, img_height, img_width, 0, image.height() as i32);
     let rgb_white = Rgb { r: 255, g: 255, b: 255};
 
-    draw_text(&mut photon_img, "Daisies In the Underground", image.width() + 30, img_height / 2, "Roboto-Bold", 30.0, &rgb_white);
+    draw_text(&mut container_img, "Daisies In the Underground", image.width() + 30, img_height / 2, "Roboto-Bold", 30.0, &rgb_white);
     
-    return photon_img;
+    return container_img;
 
 }
+
 
 /// Split-pane collage, with text on LHS and collage on RHS.
 /// 
@@ -85,9 +81,7 @@ pub fn two_grid_text(photon_img: PhotonImage, photon_img2: PhotonImage, width: u
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn split_imgs_text(photon_img: PhotonImage, photon_img2: PhotonImage, width: u32, height: u32) -> PhotonImage {
-    let image = helpers::dyn_image_from_raw(&photon_img);
-    let image2 = helpers::dyn_image_from_raw(&photon_img2);
+pub fn split_imgs_text(image: DynamicImage, image2: DynamicImage, width: u32, height: u32) -> DynamicImage {
 
     // distribute the width evenly by allocating the same space to both images
     let img_width = width / 2;
@@ -102,15 +96,13 @@ pub fn split_imgs_text(photon_img: PhotonImage, photon_img2: PhotonImage, width:
     image::imageops::overlay(&mut container_img, &image, img_width, 0);
     image::imageops::overlay(&mut container_img, &image2, image.width(), image.height());
 
-    // return the collage
-    let mut photon_img = PhotonImage::new_from_rawpixels(container_img.raw_pixels(), container_img.width(), container_img.height());
     let white = Rgb{r: 255, g: 255, b: 255};
 
-    draw_solid_rect(&mut photon_img, &white, img_height * 2, img_width, 0, 0);
+    draw_solid_rect(&mut container_img, &white, img_height * 2, img_width, 0, 0);
 
-    draw_text(&mut photon_img, "Life Is An Adventure", 45, img_height / 2, "BebasKai", 80.0, &white);
+    draw_text(&mut container_img, "Life Is An Adventure", 45, img_height / 2, "BebasKai", 80.0, &white);
     
-    return photon_img;
+    return container_img;
 
 }
 
@@ -124,15 +116,15 @@ pub fn split_imgs_text(photon_img: PhotonImage, photon_img2: PhotonImage, width:
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn four_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_img3: &PhotonImage, photon_img4: &PhotonImage, width: u32, height: u32) -> PhotonImage {
-    let photon_imgs = vec![photon_img, photon_img2, photon_img3, photon_img4];
-    let mut imgs = to_dyn_img_vec(photon_imgs);
+pub fn four_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
+                photon_img4: &DynamicImage, width: u32, height: u32) -> DynamicImage {
+    let imgs = vec![photon_img, photon_img2, photon_img3, photon_img4];
 
     // distribute the width evenly by allocating the same space to all images
     let img_width = width / 2;
     let img_height = height / 2;
 
-    resize_imgs(&mut imgs, img_width, img_height);
+    let imgs = resize_imgs(imgs, img_width, img_height);
 
     let mut container_img : DynamicImage = DynamicImage::new_rgba8(width, height);
 
@@ -142,9 +134,9 @@ pub fn four_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_img
     image::imageops::overlay(&mut container_img, &imgs[3], img_width, img_height);
 
     // return the collage
-    let photon_img = PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
-    return photon_img;
+    return container_img;
 }
+
 
 /// Create a triple grid collage graphic.
 /// 
@@ -155,13 +147,12 @@ pub fn four_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_img
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn triple_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_img3: &PhotonImage, width: u32, height: u32) -> PhotonImage {
-    let photon_imgs = vec![photon_img, photon_img2, photon_img3];
-    let mut imgs = to_dyn_img_vec(photon_imgs);
+pub fn triple_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, width: u32, height: u32) -> DynamicImage {
+    let imgs = vec![photon_img, photon_img2, photon_img3];
 
     // distribute the width evenly by allocating the same space to both images
     let img_width = width / 3;
-    resize_imgs(&mut imgs, img_width, height);
+    let imgs = resize_imgs(imgs, img_width, height);
 
     let mut container_img : DynamicImage = DynamicImage::new_rgba8(width, height);
 
@@ -170,7 +161,7 @@ pub fn triple_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_i
     image::imageops::overlay(&mut container_img, &imgs[2], img_width * 2, 0);
 
     // return the collage
-    return PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
+    return container_img;
 }
 
 /// Four-image collage with a centre square containing text.
@@ -184,15 +175,15 @@ pub fn triple_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_i
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn four_grid_center_square(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_img3: &PhotonImage, photon_img4: &PhotonImage, text: &str, width: u32, height: u32) -> PhotonImage {
-    let photon_imgs = vec![photon_img, photon_img2, photon_img3, photon_img4];
-    let mut imgs = to_dyn_img_vec(photon_imgs);
+pub fn four_grid_center_square(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
+                                photon_img4: &DynamicImage, text: &str, width: u32, height: u32) -> DynamicImage {
+    let imgs = vec![photon_img, photon_img2, photon_img3, photon_img4];
 
     // distribute the width evenly by allocating the same space to both images
     let img_width = width / 2;
     let img_height = height / 2;
 
-    resize_imgs(&mut imgs, img_width, img_height);
+    let imgs = resize_imgs(imgs, img_width, img_height);
 
     let mut container_img : DynamicImage = DynamicImage::new_rgba8(width, height);
 
@@ -201,8 +192,6 @@ pub fn four_grid_center_square(photon_img: &PhotonImage, photon_img2: &PhotonIma
     image::imageops::overlay(&mut container_img, &imgs[2], 0, img_height);
     image::imageops::overlay(&mut container_img, &imgs[3], img_width, img_height);
 
-    // return the collage
-    let mut photon_img = PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
     let white_rgb = Rgb { r: 255, g: 255, b: 255};
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     // Draw a square in the center
@@ -220,34 +209,34 @@ pub fn four_grid_center_square(photon_img: &PhotonImage, photon_img2: &PhotonIma
             word_vec.push(word);
         }
     }
-    draw_solid_rect(&mut photon_img, &white_rgb, (width as f32 * 0.3) as u32, (height as f32 * 0.8) as u32, (width as f32 * 0.3) as i32, (height as f32 * 0.15) as i32);  
+    draw_solid_rect(&mut container_img, &white_rgb, (width as f32 * 0.3) as u32, (height as f32 * 0.8) as u32, (width as f32 * 0.3) as i32, (height as f32 * 0.15) as i32);  
     
      for word in word_vec {
-        draw_text(&mut photon_img, word, (width as f32 * 0.32) as u32, (height as f32 * height_mul) as u32, "BebasKai", 100.0, &black_rgb );  
+        draw_text(&mut container_img, word, (width as f32 * 0.32) as u32, (height as f32 * height_mul) as u32, "BebasKai", 100.0, &black_rgb );  
         height_mul += 0.15;
     }
     
-    return photon_img;
+    return container_img;
 }
 
+
 #[wasm_bindgen]
-pub fn moodboard(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_img3: &PhotonImage, photon_img4: &PhotonImage, text: &str, width: u32, height: u32) -> PhotonImage {
+pub fn moodboard(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
+photon_img4: &DynamicImage, text: &str, width: u32, height: u32) -> DynamicImage {
     
     // Exclude the first image, since it will have different dimensions when resized.
-    let photon_imgs = vec![photon_img2, photon_img3, photon_img4];
-    let mut imgs = to_dyn_img_vec(photon_imgs);
+    let imgs = vec![photon_img2, photon_img3, photon_img4];
 
     // distribute the width evenly by allocating the same space to both images
     let img_width = width / 4;
     let img_height = height / 4;
 
     let first_img_width: u32 = width - img_width;
-    let first_dyn_img = helpers::dyn_image_from_raw(&photon_img);
     let sampling_filter = image::FilterType::Nearest;
 
-    let image = image::ImageRgba8(image::imageops::resize(&first_dyn_img, first_img_width, (height as f32 * 0.8) as u32, sampling_filter));
+    let image = image::ImageRgba8(image::imageops::resize(photon_img, first_img_width, (height as f32 * 0.8) as u32, sampling_filter));
 
-    resize_imgs(&mut imgs, img_width, img_height);
+    let imgs = resize_imgs(imgs, img_width, img_height);
 
     let mut container_img : DynamicImage = DynamicImage::new_rgba8(width, height);
 
@@ -256,32 +245,30 @@ pub fn moodboard(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_img
     image::imageops::overlay(&mut container_img, &imgs[1], first_img_width, img_height);
     image::imageops::overlay(&mut container_img, &imgs[2], first_img_width, img_height * 2);
 
-    // return the collage
-    let mut photon_img = PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
     let white_rgb = Rgb { r: 255, g: 255, b: 255};
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     // Draw a square in the center
     
     let mut height_mul: f32 = 0.75;
     
-    draw_solid_rect(&mut photon_img, &white_rgb, width as u32, (height as f32 * 0.3) as u32, 0 as i32, (height as f32 * 0.75) as i32);  
+    draw_solid_rect(&mut container_img, &white_rgb, width as u32, (height as f32 * 0.3) as u32, 0 as i32, (height as f32 * 0.75) as i32);  
 
-    draw_text(&mut photon_img, text, (width as f32 * 0.10) as u32, (height as f32 * height_mul) as u32, "Oswald-Regular", 100.0, &black_rgb );  
+    draw_text(&mut container_img, text, (width as f32 * 0.10) as u32, (height as f32 * height_mul) as u32, "Oswald-Regular", 100.0, &black_rgb );  
     height_mul += 0.15;
     
-    return photon_img;
+    return container_img;
 }
 
 #[wasm_bindgen]
-pub fn feature_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_img3: &PhotonImage, main_text: &str, width: u32, height: u32) -> PhotonImage {
-    let photon_imgs = vec![photon_img, photon_img2, photon_img3];
-    let mut imgs = to_dyn_img_vec(photon_imgs);
+pub fn feature_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
+                    main_text: &str, width: u32, height: u32) -> DynamicImage {
+    let imgs = vec![photon_img, photon_img2, photon_img3];
 
     // distribute the width evenly by allocating the same space to all images
     let img_width = width / 2;
     let img_height = height / 2;
 
-    resize_imgs(&mut imgs, img_width, img_height);
+    let imgs = resize_imgs(imgs, img_width, img_height);
 
     let mut container_img : DynamicImage = DynamicImage::new_rgba8(width, height);
     let white = Rgb{r: 255, g: 255, b: 255};
@@ -295,22 +282,20 @@ pub fn feature_grid(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_
     image::imageops::overlay(&mut container_img, &imgs[1], 0, img_height);
     image::imageops::overlay(&mut container_img, &imgs[2], img_width, img_height);
 
-    // return the collage
-    let mut photon_img = PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
-    draw_text(&mut photon_img, main_text, (width as f32 * 0.1) as u32, (height as f32 * 0.3) as u32, "BebasKai", 100.0, &black_rgb );  
-    return photon_img;
+    draw_text(&mut container_img, main_text, (width as f32 * 0.1) as u32, (height as f32 * 0.3) as u32, "BebasKai", 100.0, &black_rgb );  
+    return container_img;
 }
 
 #[wasm_bindgen]
-pub fn triple_grid_text(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_img3: &PhotonImage, text: &str, width: u32, height: u32) -> PhotonImage {
-    let photon_imgs = vec![photon_img, photon_img2, photon_img3];
-    let mut imgs = to_dyn_img_vec(photon_imgs);
+pub fn triple_grid_text(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
+                        text: &str, width: u32, height: u32) -> DynamicImage {
+    let imgs = vec![photon_img, photon_img2, photon_img3];
 
     // distribute the width evenly by allocating the same space to both images
     let img_width = width / 3;
     let img_height = (height as f32 * 0.8) as u32;
-    resize_imgs(&mut imgs, img_width, img_height);
+    let imgs = resize_imgs(imgs, img_width, img_height);
 
     let mut container_img : DynamicImage = DynamicImage::new_rgba8(width, height);
     let white = Rgb{r: 255, g: 255, b: 255};
@@ -321,28 +306,23 @@ pub fn triple_grid_text(photon_img: &PhotonImage, photon_img2: &PhotonImage, pho
 
     let black_rgb = Rgb{ r: 0, g: 0, b:0 };
 
+    draw_solid_rect(&mut container_img, &white, width as u32, (height as f32 * 0.3) as u32, 0 as i32, (height as f32 * 0.75) as i32);  
+    draw_text(&mut container_img, text, (width as f32 * 0.05) as u32, (height as f32 * 0.8) as u32, "Montserrat-Regular", 90.0, &black_rgb );  
 
-    // return the collage
-    let mut photon_img =  PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
-
-    draw_solid_rect(&mut photon_img, &white, width as u32, (height as f32 * 0.3) as u32, 0 as i32, (height as f32 * 0.75) as i32);  
-    draw_text(&mut photon_img, text, (width as f32 * 0.05) as u32, (height as f32 * 0.8) as u32, "Montserrat-Regular", 90.0, &black_rgb );  
-
-    return photon_img;
+    return container_img;
 }
 
 #[wasm_bindgen]
-pub fn six_grid_text(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon_img3: &PhotonImage,
-                    photon_img4: &PhotonImage, photon_img5: &PhotonImage, photon_img6: &PhotonImage, 
-                    text: &str, width: u32, height: u32) -> PhotonImage {
+pub fn six_grid_text(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage,
+                    photon_img4: &DynamicImage, photon_img5: &DynamicImage, photon_img6: &DynamicImage, 
+                    text: &str, width: u32, height: u32) -> DynamicImage {
     
-    let photon_imgs = vec![photon_img, photon_img2, photon_img3, photon_img4, photon_img5, photon_img6];
-    let mut imgs = to_dyn_img_vec(photon_imgs);
+    let imgs = vec![photon_img, photon_img2, photon_img3, photon_img4, photon_img5, photon_img6];
 
     // distribute the width evenly by allocating the same space to both images
     let img_width = width / 3;
     let img_height = height / 3;
-    resize_imgs(&mut imgs, img_width, img_height);
+    let imgs = resize_imgs(imgs, img_width, img_height);
 
     let mut container_img : DynamicImage = DynamicImage::new_rgba8(width, height);
     let white = Rgb{r: 255, g: 255, b: 255};
@@ -357,15 +337,13 @@ pub fn six_grid_text(photon_img: &PhotonImage, photon_img2: &PhotonImage, photon
 
     let black_rgb = Rgb{ r: 0, g: 0, b:0 };
 
+    draw_solid_rect(&mut container_img, &white, width as u32, img_height, 0 as i32, img_height as i32);  
+    draw_text(&mut container_img, text, (width as f32 * 0.05) as u32, (img_height + (img_height as f32 * 0.3) as u32) as u32, "Montserrat-Regular", 90.0, &black_rgb );  
 
-    // return the collage
-    let mut photon_img =  PhotonImage {raw_pixels: container_img.raw_pixels(), width: container_img.width(), height: container_img.height()};
-
-    draw_solid_rect(&mut photon_img, &white, width as u32, img_height, 0 as i32, img_height as i32);  
-    draw_text(&mut photon_img, text, (width as f32 * 0.05) as u32, (img_height + (img_height as f32 * 0.3) as u32) as u32, "Montserrat-Regular", 90.0, &black_rgb );  
-
-    return photon_img;
+    return container_img;
 }
+
+
 
 fn to_dyn_img_vec(imgs: Vec<&PhotonImage>) -> Vec<DynamicImage> {
     let mut dyn_imgs = vec![];
@@ -378,13 +356,16 @@ fn to_dyn_img_vec(imgs: Vec<&PhotonImage>) -> Vec<DynamicImage> {
 }
 
 // Resize images in a vec, returns a new vec with resized images.
-fn resize_imgs(imgs: &mut Vec<DynamicImage>, img_width: u32, img_height: u32) {
+fn resize_imgs(imgs: Vec<&DynamicImage>, img_width: u32, img_height: u32) -> Vec<DynamicImage> {
     let sampling_filter = image::FilterType::Nearest;
+    let mut resized_imgs = vec![];
 
     for i in 0..imgs.len() {
-        let item = &imgs[i];
+        let item = imgs[i];
         let image = image::ImageRgba8(image::imageops::resize(item, img_width, img_height, sampling_filter));
 
-        imgs[i] = image;
+        resized_imgs.push(image);
     }
+
+    return resized_imgs;
 }
