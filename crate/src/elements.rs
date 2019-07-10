@@ -23,45 +23,52 @@ use wasm_bindgen::Clamped;
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
-pub fn draw_solid_rect(mut img: &mut PhotonImage, background_color: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
-    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
-    draw_filled_rect_mut(&mut image, 
+pub fn draw_solid_rect(mut img: &mut DynamicImage, background_color: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {    
+    draw_filled_rect_mut(img, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 
                         Rgba([background_color.r, background_color.g, 
                         background_color.b, 255u8]));
-    let dynimage = image::ImageRgba8(image);
-    img.raw_pixels = dynimage.raw_pixels();
+
 }
 
 #[wasm_bindgen]
-pub fn draw_opaque_rect(mut img: &mut PhotonImage, background_color: &Rgb, opacity: u8, width: u32, height: u32, x_pos: i32, y_pos: i32) {
-    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
-    draw_filled_rect_mut(&mut image, 
+pub fn draw_opaque_rect(mut img: &mut DynamicImage, background_color: &Rgb, opacity: u8, width: u32, height: u32, x_pos: i32, y_pos: i32) {
+    
+    draw_filled_rect_mut(img, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 
                         Rgba([background_color.r, background_color.g, 
                         background_color.b, opacity]));
-    let dynimage = image::ImageRgba8(image);
-    img.raw_pixels = dynimage.raw_pixels();
 }
 
 /// Draw a triangle.
 #[wasm_bindgen]
-pub fn draw_triangle(mut img: &mut PhotonImage, triangle: Triangle) {
-    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
-
+pub fn draw_triangle(mut img: &mut DynamicImage, triangle: Triangle) {
     let point = Point::new(triangle.x1, triangle.y1);
     let point2 = Point::new(triangle.x2, triangle.y2);
     let point3 = Point::new(triangle.x3, triangle.y3);
 
     let points = vec![point, point2, point3];
 
-    draw_convex_polygon_mut(&mut image, 
+    draw_convex_polygon_mut(img, 
                         points.as_slice(), 
                         Rgba([triangle.background_color.r, triangle.background_color.g, 
                         triangle.background_color.b, 255u8]));
-    
-    let dynimage = image::ImageRgba8(image);
-    img.raw_pixels = dynimage.raw_pixels();
+}
+
+/// Draw an equilateral triangle.
+#[wasm_bindgen]
+pub fn draw_equilateral_triangle(mut img: &mut DynamicImage, side_len: u32, x_pos: i32, y_pos: i32, background_color: &Rgb) {
+
+    let point = Point::new(x_pos, y_pos);
+    let point2 = Point::new(x_pos + side_len as i32, y_pos);
+    let point3 = Point::new((x_pos + (side_len / 2) as i32), y_pos * 3);
+
+    let points = vec![point, point2, point3];
+
+    draw_convex_polygon_mut(img, 
+                        points.as_slice(), 
+                        Rgba([background_color.r, background_color.g, 
+                            background_color.b, 255u8]));
 }
 
 /// Draw a solid rectangle with text placed in-centre.
@@ -75,10 +82,10 @@ pub fn draw_triangle(mut img: &mut PhotonImage, triangle: Triangle) {
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
-pub fn draw_rect_text(mut img: &mut PhotonImage, text: &str, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
-    draw_solid_rect(&mut img, &background_color, height as u32, width as u32, x_pos, y_pos);      
+pub fn draw_rect_text(mut img: &mut DynamicImage, text: &str, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
+    draw_solid_rect(img, &background_color, height as u32, width as u32, x_pos, y_pos);      
     let rgb_white = Rgb { r: 255, g: 255, b: 255};
-    draw_text(&mut img, text, (x_pos as f32 + (width as f32 * 0.05)) as u32, (y_pos + 10) as u32, "Roboto-Bold", 30.0, &rgb_white);
+    draw_text(img, text, (x_pos as f32 + (width as f32 * 0.05)) as u32, (y_pos + 10) as u32, "Roboto-Bold", 30.0, &rgb_white);
 }
 
 /// Draw a solid rectangle with a given background colour. 
@@ -109,16 +116,10 @@ pub fn draw_rect_text(mut img: &mut PhotonImage, text: &str, background_color: &
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
-pub fn draw_gradient_rect(img: &mut PhotonImage, height: u32, width: u32, x_pos: u32, y_pos: u32) {
-    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
-
+pub fn draw_gradient_rect(img: &mut DynamicImage, height: u32, width: u32, x_pos: u32, y_pos: u32) {
     let rect = create_gradient(width, height);
-    let rect = helpers::dyn_image_from_raw(&rect).to_rgba();
         
-    image::imageops::overlay(&mut image, &rect, x_pos, y_pos);
-
-    let dynimage = image::ImageRgba8(image);
-    img.raw_pixels = dynimage.raw_pixels();
+    image::imageops::overlay(img, &rect, x_pos, y_pos);
 }
 
 /// Preset: Draw a gradient rectangle filled with a gradient.
@@ -131,16 +132,10 @@ pub fn draw_gradient_rect(img: &mut PhotonImage, height: u32, width: u32, x_pos:
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 /// * `preset_name` - Name of the preset. Examples include "lemongrass", "pink_blue", "pastel_pink", "pastel_mauve"
 #[wasm_bindgen]
-pub fn draw_preset_rect_gradient(img: &mut PhotonImage, width: u32, height: u32, x_pos: u32, y_pos: u32, preset_name: &str) {
-    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
-
+pub fn draw_preset_rect_gradient(img: &mut DynamicImage, width: u32, height: u32, x_pos: u32, y_pos: u32, preset_name: &str) {
     let rect = create_gradient_preset(width, height, preset_name);
-    let rect = helpers::dyn_image_from_raw(&rect).to_rgba();
         
-    image::imageops::overlay(&mut image, &rect, x_pos, y_pos);
-
-    let dynimage = image::ImageRgba8(image);
-    img.raw_pixels = dynimage.raw_pixels();
+    image::imageops::overlay(img, &rect, x_pos, y_pos);
 }
 
 /// Draw two rectangles stacked on each other, for added depth.
@@ -154,20 +149,16 @@ pub fn draw_preset_rect_gradient(img: &mut PhotonImage, width: u32, height: u32,
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
-pub fn draw_stacked_rect(mut img: &mut PhotonImage, background_color1: &Rgb, background_color2: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
-    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
-    draw_filled_rect_mut(&mut image, 
+pub fn draw_stacked_rect(mut img: &mut DynamicImage, background_color1: &Rgb, background_color2: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
+    draw_filled_rect_mut(img, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 
                         Rgba([background_color1.r, background_color1.g, 
                         background_color1.b, 255u8]));
 
-    draw_filled_rect_mut(&mut image, 
+    draw_filled_rect_mut(img, 
                         Rect::at(x_pos + 10, y_pos + 10).of_size(width, height), 
                         Rgba([background_color2.r, background_color2.g, 
                         background_color2.b, 255u8]));
-
-    let dynimage = image::ImageRgba8(image);
-    img.raw_pixels = dynimage.raw_pixels();
 }
 
 /// Create a gradient element in the shape of a Rect.
@@ -178,7 +169,7 @@ pub fn draw_stacked_rect(mut img: &mut PhotonImage, background_color1: &Rgb, bac
 /// * `width` - u32 - Desired width of gradient.
 /// * `height` - u32 - Desired height of gradient.
 #[wasm_bindgen]
-pub fn create_gradient(width: u32, height: u32) -> PhotonImage {
+pub fn create_gradient(width: u32, height: u32) -> DynamicImage {
     let mut image = RgbaImage::new(width, height);
 
     // Create a gradient.
@@ -212,8 +203,7 @@ pub fn create_gradient(width: u32, height: u32) -> PhotonImage {
         }
     }
     let rgba_img = image::ImageRgba8(image);
-    let raw_pixels = rgba_img.raw_pixels();
-    return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
+    return rgba_img;
 }
 
 /// Apply a preset gradient by passing in a name. 
@@ -223,7 +213,7 @@ pub fn create_gradient(width: u32, height: u32) -> PhotonImage {
 /// * `height` - u32 - Desired height of rectangle.
 /// * `name` - The preset to be used. Presets available include: pinkblue, lemongrass
 #[wasm_bindgen]
-pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> PhotonImage {
+pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> DynamicImage {
     let mut image = RgbaImage::new(width, height);
 
     let gradient = match name {
@@ -268,8 +258,7 @@ pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> PhotonImag
         }
     }
     let rgba_img = image::ImageRgba8(image);
-    let raw_pixels = rgba_img.raw_pixels();
-    return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
+    return rgba_img;
 }
 
 // #[wasm_bindgen]

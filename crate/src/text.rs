@@ -1,7 +1,7 @@
 /// Draw text onto images.
 
 extern crate image;
-use image::{Rgba, DynamicImage};
+use image::{Rgba, DynamicImage, GenericImage, GenericImageView};
 extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::prelude::*;
@@ -10,7 +10,7 @@ use imageproc::morphology::dilate_mut;
 use image::imageops::{rotate90, rotate270, rotate180};
 use imageproc::distance_transform::Norm;
 use rusttype::{FontCollection, Scale};
-use crate::{PhotonImage, helpers, Rgb};
+use crate::{PhotonImage, Rgb};
 
 /// Draw text onto an image.
 ///
@@ -24,10 +24,8 @@ use crate::{PhotonImage, helpers, Rgb};
 /// * `font_size`: f32 that represents the font's size.
 /// * `rgb`: Rgb text color.
 #[wasm_bindgen]
-pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
+pub fn draw_text(image: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
         
-    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
-
     let image2 : DynamicImage = DynamicImage::new_luma8(
             image.width(), image.height());
 
@@ -40,10 +38,8 @@ pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, f
     let white = Rgb{r: 255, g: 255, b: 255};
     let black = Rgb{r: 0, g: 0, b:0};
 
-    draw_text_mut(&mut image, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x + 10, y - 10, scale, &font, text);
-    let dynimage = image::ImageRgba8(image);
-    img.raw_pixels = dynimage.raw_pixels();
-    }
+    draw_text_mut(image, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x + 10, y - 10, scale, &font, text);
+}
 
 /// Draw text onto an image with a border around the text.
 ///
@@ -53,8 +49,7 @@ pub fn draw_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, f
 /// * `x` - X-coordinate of top corner of text.
 /// * `y` - Y coordinae of top corner of text.
 #[wasm_bindgen]
-pub fn draw_text_with_border(img: &mut PhotonImage, font: &str, text: &str, x: u32, y: u32) {
-    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
+pub fn draw_text_with_border(image: &mut DynamicImage, font: &str, text: &str, x: u32, y: u32) {
 
     let mut image2 : DynamicImage = DynamicImage::new_luma8(
         image.width(), image.height());
@@ -81,10 +76,7 @@ pub fn draw_text_with_border(img: &mut PhotonImage, font: &str, text: &str, x: u
     // pink
     // draw_text_mut(&mut image, Rgba([244u8, 36u8, 154u8, 255u8]), x + 10, y - 10, scale, &font, text);
 
-    draw_text_mut(&mut image, Rgba([193u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
-
-    let dynimage = image::ImageRgba8(image);
-    img.raw_pixels = dynimage.raw_pixels();
+    draw_text_mut(image, Rgba([193u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
 }
 
 /// Draw vertical text onto an image.
@@ -103,7 +95,7 @@ pub fn draw_text_with_border(img: &mut PhotonImage, font: &str, text: &str, x: u
 /// * `direction`: The direction the text should be facing, either "left" or "right".
 /// * `rgb`: Rgb text color.
 #[wasm_bindgen]
-pub fn draw_vertical_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, direction: &str, rgb: &Rgb) {
+pub fn draw_vertical_text(img: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, direction: &str, rgb: &Rgb) {
    if direction == "left" { 
        draw_rotated_text(img, text, x, y, font, font_size, "270", rgb);
    }
@@ -121,7 +113,7 @@ pub fn draw_vertical_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font
 /// * `font_size` - The size of the font.
 /// * `rgb` - Rgb color.
 #[wasm_bindgen]
-pub fn draw_vertical_text_single(img: &mut PhotonImage, text: &str, x: u32, mut y:u32, font: &str, font_size: f32, rgb: &Rgb) {
+pub fn draw_vertical_text_single(img: &mut DynamicImage, text: &str, x: u32, mut y:u32, font: &str, font_size: f32, rgb: &Rgb) {
     for c in text.split("") {
         draw_text(img, c, x, y, font, font_size, rgb);
         y += (font_size * 0.8) as u32;
@@ -140,20 +132,18 @@ pub fn draw_vertical_text_single(img: &mut PhotonImage, text: &str, x: u32, mut 
 /// * `font_size`: f32 that represents the font's size.
 /// * `rgb`: Rgb text color.
 #[wasm_bindgen]
-pub fn draw_upsidedown_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
+pub fn draw_upsidedown_text(img: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
         
    draw_rotated_text(img, text, x, y, font, font_size, "180", rgb);
 }
 
 // Draw rotated text. Available: 90, 180, 270.
-fn draw_rotated_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rotation: &str, rgb: &Rgb) {
-        
-    let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
-    
+fn draw_rotated_text(image: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rotation: &str, rgb: &Rgb) {
+            
     // Since the image will be rotated, the height of the container image will be the width of the 
     // text image.
-    let height = img.width;
-    let width = img.height;
+    let height = image.width();
+    let width = image.height();
 
     let font_img_height = text.len() as f32 * (font_size * 0.48);
     let font_img_width = font_size * 1.3;
@@ -172,8 +162,6 @@ fn draw_rotated_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &st
 
     // draw_text_mut(&mut image, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x + 10, y - 10, scale, &font, text);
     
-    let mut container_img = helpers::dyn_image_from_raw(&img);
-
     let rotated_img = match rotation { 
         "90" => rotate90(&image2),
         "180" => rotate180(&image2),
@@ -181,13 +169,10 @@ fn draw_rotated_text(img: &mut PhotonImage, text: &str, x: u32, y:u32, font: &st
         _ => rotate90(&image2)
     };
 
-    let image2 = image::ImageRgba8(rotated_img);
+    let mut image2 = image::ImageRgba8(rotated_img);
 
-    image::imageops::overlay(&mut container_img, &image2, x, y);
-
-    img.raw_pixels = container_img.raw_pixels();
+    image::imageops::overlay(image, &mut image2, x, y);
 }
-
 
 fn open_font(font: &str) -> std::vec::Vec<u8> {
     // include_bytes! only takes a string literal
