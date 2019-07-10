@@ -5,7 +5,7 @@ use image::{GenericImage, GenericImageView, DynamicImage, ImageBuffer, RgbaImage
 extern crate imageproc;
 extern crate rusttype;
 use imageproc::drawing::*;
-use crate::{PhotonImage, Rgb, LinSrgba, Gradient, Lch, Srgba, Rgba, Triangle};
+use crate::{PhotonImage, Rgb, LinSrgba, Gradient, Lch, Srgba, Rgba};
 use palette::encoding::pixel::Pixel;
 use imageproc::rect::Rect;
 use crate::text::draw_text;
@@ -279,3 +279,31 @@ pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> DynamicIma
 // Digital Water:  #74ebd5 → #acb6e5 
 // Hydrogen:  #667db6 →  #0082c8 →  #0082c8 →  #667db6
 // Blue Coral:  #36d1dc →  #5b86e5 
+
+
+/// Triangle struct, which represents the color and co-ordinates
+/// of a Triangle. 
+#[wasm_bindgen]
+#[derive(Debug)]
+pub struct Triangle {
+    background_color: Rgb,
+    pub x1: i32,
+    pub y1: i32,
+    pub x2: i32,
+    pub y2: i32,
+    pub x3: i32,
+    pub y3: i32
+}
+
+#[wasm_bindgen]
+impl Triangle {
+
+    /// Create a new Triangle, with specified co-ordinates for its 3 points, and a background color.
+    pub fn new(background_color: Rgb, x1: i32, y1: i32, x2: i32, y2: i32, x3: i32, y3: i32) -> Triangle {
+        return Triangle {background_color: background_color, x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3};
+    }
+
+    pub fn background_color(self) -> Rgb {
+        return self.background_color
+    }
+}

@@ -198,33 +198,23 @@ impl Font {
     }
 }
 
-
-/// Triangle struct, which represents the color and co-ordinates
-/// of a Triangle. 
-#[wasm_bindgen]
 #[derive(Debug)]
-pub struct Triangle {
-    background_color: Rgb,
-    pub x1: i32,
-    pub y1: i32,
-    pub x2: i32,
-    pub y2: i32,
-    pub x3: i32,
-    pub y3: i32
+pub struct Barchart {
+    pub title: String,
+    pub color: Rgb,
+    pub data: Vec<u16>,
+    pub labels: Vec<String>,
+    pub height: u32, 
+    pub width: u32
 }
 
 #[wasm_bindgen]
-impl Triangle {
-
-    /// Create a new Triangle, with specified co-ordinates for its 3 points, and a background color.
-    pub fn new(background_color: Rgb, x1: i32, y1: i32, x2: i32, y2: i32, x3: i32, y3: i32) -> Triangle {
-        return Triangle {background_color: background_color, x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3};
-    }
-
-    pub fn background_color(self) -> Rgb {
-        return self.background_color
+impl Barchart {
+    pub fn new(title: String, color: Rgb, data: Vec<u16>, labels: Vec<String>, height: u32, width: u32) -> Barchart {
+        return Barchart { title: title, color: color, data: data, labels: labels, width: width, height: height};
     }
 }
+
 
 /// Rgb color type.
 #[wasm_bindgen]
