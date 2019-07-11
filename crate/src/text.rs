@@ -10,12 +10,12 @@ use imageproc::morphology::dilate_mut;
 use image::imageops::{rotate90, rotate270, rotate180};
 use imageproc::distance_transform::Norm;
 use rusttype::{FontCollection, Scale};
-use crate::{PhotonImage, Rgb};
+use crate::{Rgb};
 
 /// Draw text onto an image.
 ///
 /// ### Arguments
-/// * `img` - Mutable reference to a PhotonImage.
+/// * `img` - Mutable reference to a DynamicImage.
 /// * `text` - Text string to be drawn.
 /// * `x` - X-coordinate of top corner of text.
 /// * `y` - Y coordinae of top corner of text.
@@ -44,7 +44,7 @@ pub fn draw_text(image: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str
 /// Draw text onto an image with a border around the text.
 ///
 /// ### Arguments
-/// * `img` - Mutable reference to a PhotonImage.
+/// * `img` - Mutable reference to a DynamicImage.
 /// * `text` - Text string to be drawn.
 /// * `x` - X-coordinate of top corner of text.
 /// * `y` - Y coordinae of top corner of text.
@@ -85,7 +85,7 @@ pub fn draw_text_with_border(image: &mut DynamicImage, font: &str, text: &str, x
 /// then rotating this image by 90 degrees.
 ///
 /// ### Arguments
-/// * `img` - Mutable reference to a PhotonImage.
+/// * `img` - Mutable reference to a DynamicImage.
 /// * `text` - Text string to be drawn.
 /// * `x` - X-coordinate of top corner of text.
 /// * `y` - Y coordinae of top corner of text.
@@ -107,7 +107,7 @@ pub fn draw_vertical_text(img: &mut DynamicImage, text: &str, x: u32, y:u32, fon
 /// Draw single letters in a vertical column to create a vertical-text effect.
 /// 
 /// # Arguments
-/// * `img` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
 /// * `text` - The text to be drawn onto the image.
 /// * `font` - The font type.
 /// * `font_size` - The size of the font.
@@ -123,7 +123,7 @@ pub fn draw_vertical_text_single(img: &mut DynamicImage, text: &str, x: u32, mut
 /// Draw upside-down text.
 ///
 /// ### Arguments
-/// * `img` - Mutable reference to a PhotonImage.
+/// * `img` - Mutable reference to a DynamicImage.
 /// * `text` - Text string to be drawn.
 /// * `x` - X-coordinate of top corner of text.
 /// * `y` - Y coordinae of top corner of text.
@@ -182,6 +182,7 @@ fn open_font(font: &str) -> std::vec::Vec<u8> {
         "Lato-Bold" => Vec::from(include_bytes!("../fonts/Lato-Bold.ttf") as &[u8]),
         "BebasKai" => Vec::from(include_bytes!("../fonts/BebasKai.ttf") as &[u8]),
         "Oswald-Regular" => Vec::from(include_bytes!("../fonts/Oswald-Regular.ttf") as &[u8]),
+        "MrDafoe-Regular" => Vec::from(include_bytes!("../fonts/MrDafoe-Regular.ttf") as &[u8]),
         "Norwester" => Vec::from(include_bytes!("../fonts/Norwester.ttf") as &[u8]),
         "Montserrat-Regular" => Vec::from(include_bytes!("../fonts/Montserrat-Regular.ttf") as &[u8]),
         "CaviarDreams" => Vec::from(include_bytes!("../fonts/CaviarDreams.ttf") as &[u8]),

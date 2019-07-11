@@ -5,7 +5,7 @@ use image::{GenericImageView, DynamicImage, Rgba};
 extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::prelude::*;
-use crate::{PhotonImage, helpers, Rgb};
+use crate::{helpers, Rgb, PhotonImage};
 use crate::text::*;
 use crate::elements::*;
 use imageproc::drawing::draw_filled_rect_mut;
@@ -13,8 +13,8 @@ use imageproc::rect::Rect;
 
 /// Two grid collage.
 /// # Arguments
-/// * `img` - A mutable ref to a PhotonImage.
-/// * `img2` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `img2` - A mutable ref to a DynamicImage.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
@@ -37,8 +37,8 @@ pub fn two_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, width: u3
 
 /// Four grid collage.
 /// # Arguments
-/// * `img` - A mutable ref to a PhotonImage.
-/// * `img2` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `img2` - A mutable ref to a DynamicImage.
 /// * `main_text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
@@ -75,8 +75,8 @@ pub fn two_grid_text(image: DynamicImage, image2: DynamicImage, width: u32, heig
 /// Split-pane collage, with text on LHS and collage on RHS.
 /// 
 /// # Arguments
-/// * `img` - A mutable ref to a PhotonImage.
-/// * `img2` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `img2` - A mutable ref to a DynamicImage.
 /// * `main_text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
@@ -109,10 +109,10 @@ pub fn split_imgs_text(image: DynamicImage, image2: DynamicImage, width: u32, he
 /// Four grid collage.
 /// 
 /// # Arguments
-/// * `img` - A mutable ref to a PhotonImage.
-/// * `img2` - A mutable ref to a PhotonImage.
-/// * `img3` - A mutable ref to a PhotonImage.
-/// * `img4` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `img2` - A mutable ref to a DynamicImage.
+/// * `img3` - A mutable ref to a DynamicImage.
+/// * `img4` - A mutable ref to a DynamicImage.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
@@ -141,9 +141,9 @@ pub fn four_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_i
 /// Create a triple grid collage graphic.
 /// 
 /// # Arguments
-/// * `img` - A mutable ref to a PhotonImage.
-/// * `img2` - A mutable ref to a PhotonImage.
-/// * `img3` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `img2` - A mutable ref to a DynamicImage.
+/// * `img3` - A mutable ref to a DynamicImage.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
@@ -167,10 +167,10 @@ pub fn triple_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon
 /// Four-image collage with a centre square containing text.
 /// 
 /// # Arguments
-/// * `img` - A mutable ref to a PhotonImage.
-/// * `img2` - A mutable ref to a PhotonImage.
-/// * `img3` - A mutable ref to a PhotonImage.
-/// * `img4` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `img2` - A mutable ref to a DynamicImage.
+/// * `img3` - A mutable ref to a DynamicImage.
+/// * `img4` - A mutable ref to a DynamicImage.
 /// * `text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic

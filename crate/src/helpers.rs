@@ -13,16 +13,9 @@ pub fn square_distance(color1 : Rgb, color2 : Rgb) -> i32{
     return i32::pow(r1 - r2, 2) + i32::pow(g1 - g2, 2) + i32::pow(b1 - b2, 2);
 }
 
-pub fn open_image(img_path: &'static str) -> PhotonImage {
+pub fn open_image(img_path: &'static str) -> DynamicImage {
     let img = image::open(img_path).unwrap();
-
-    let (width, height) = img.dimensions();
-
-    // Convert the DynamicImage type to raw vec representing RGBA pixels (not RGB)
-    let raw_pixels = img.to_rgba().to_vec();
-
-    let photon_image: PhotonImage = PhotonImage {raw_pixels: raw_pixels, width: width, height: height};
-    return photon_image;
+    return img;
 }
 
 pub fn open_dyn_image(img_path: &'static str) -> DynamicImage {
@@ -41,15 +34,9 @@ pub fn save_dyn_image(img: DynamicImage, filtered_img_path: &str) {
     img.save(filtered_img_path).unwrap();
 }
 
-pub fn save_image(img: PhotonImage, filtered_img_path: &str) {
-    let raw_pixels = img.raw_pixels;
-    let width = img.width;
-    let height = img.height;
-
-    let img_buffer = ImageBuffer::from_vec(width, height, raw_pixels).unwrap();
-    let dynimage = image::ImageRgba8(img_buffer);
+pub fn save_image(img: DynamicImage, filtered_img_path: &str) {
     
-    dynimage.save(filtered_img_path).unwrap();
+    img.save(filtered_img_path).unwrap();
 }
 
 pub fn get_pixels(img: DynamicImage) -> Vec<u8>{
