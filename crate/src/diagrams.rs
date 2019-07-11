@@ -215,27 +215,63 @@ pub fn draw_horizontal_image_barchart(mut img: &mut DynamicImage, bar_img: &Dyna
 }
 
 /// Draw a vertical barchart, with a specified title and data.
-pub fn draw_linechart(mut img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Chart) {
+pub fn draw_linechart(mut img: &mut DynamicImage, chart: &Chart) {
+    draw_labels(&mut img, chart);
+    let axis_len = (chart.width as f32 * 0.8);
+    let y_origin = 20.0 + axis_len;
+    let x_inc = axis_len / chart.data.len() as f32;
 
-    let start_x: u32 = 20;
-    let mut start_y: u32 = 20;
+    let mut start_x = 20.0;
+    let line_pixel = image::Rgba([255, 167, 90, 255]);
+    let max_item = chart.data.iter().max().unwrap();
 
-    let max_item = barchart.data.iter().max().unwrap();
-    let mut max_bar_width: u32 = barchart.width - 2 * (barchart.width / 10);
-    let num_bars: u32 = barchart.data.len() as u32;
-    let bar_height: u32 = ((barchart.height / num_bars) as f32 * 0.8) as u32;
+    let mut start_y = y_origin;
+    
+    for item in &chart.data {
+        let div = max_item / item;
 
-    let yellow = Rgb{ r: 255, g: 226, b: 98};
+        let y_dist = y_origin - (axis_len / div as f32);
+        draw_line_segment_mut(img, (start_x as f32, start_y as f32), (start_x + x_inc, y_dist), line_pixel);
+        start_x += x_inc;
+        start_y = y_dist;
+    }
 
-    for item in &barchart.data {
-        let div =  max_item / item;
-        let bar_width = max_bar_width / div as u32;
 
-        draw_image_as_bar(img, bar_img, bar_width, bar_height, start_x, start_y);
+}
 
-        start_y += bar_height + 30;
+fn draw_labels(mut img: &mut DynamicImage, chart: &Chart) {
+    draw_axes(img, chart);
+    let yellow = Rgb { r: 150, g: 150, b: 30};
+    let mut start_x = 20.0;
+
+    let start_y = 20.0 + (chart.width as f32 * 0.8);
+    
+    for label in &chart.labels {
+        draw_text(img, label, start_x as u32, start_y as u32, "Roboto-Regular", 30.0, &yellow);
+
+        start_x += 300.0;
     }    
-    draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
+}
+
+fn draw_axes(img: &mut DynamicImage, chart: &Chart) {
+    let line_pixel = image::Rgba([255, 167, 90, 255]);
+
+    let axis_len = chart.width as f32 * 0.8;
+    // Origin point
+    let start_x = 20.0;
+    let start_y = 20.0 + axis_len;
+
+    // End point on y-axis 
+    let end_y_yaxis: f32 = start_y - axis_len;
+
+    // End point on x-axis
+    let end_x_xaxis: f32 = start_x + axis_len;
+    
+    // Draw y-axis
+    draw_line_segment_mut(img, (start_x as f32, start_y as f32), (start_x, end_y_yaxis), line_pixel);
+
+    // Draw x-axis 
+    draw_line_segment_mut(img, (start_x as f32, start_y as f32), (end_x_xaxis, start_y), line_pixel);
 }
 
 
