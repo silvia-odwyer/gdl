@@ -219,6 +219,7 @@ pub fn draw_linechart(mut img: &mut DynamicImage, chart: &Chart) {
     draw_labels(&mut img, chart);
     let axis_len = (chart.width as f32 * 0.8);
     let y_origin = 20.0 + axis_len;
+
     let x_inc = axis_len / chart.data.len() as f32;
 
     let mut start_x = 20.0;
@@ -228,19 +229,20 @@ pub fn draw_linechart(mut img: &mut DynamicImage, chart: &Chart) {
     let mut start_y = y_origin;
     
     for item in &chart.data {
-        let div = max_item / item;
+        let div: f32 = *max_item as f32 / *item as f32;
 
-        let y_dist = y_origin - (axis_len / div as f32);
+        let y_dist = y_origin - (axis_len / div);
         draw_line_segment_mut(img, (start_x as f32, start_y as f32), (start_x + x_inc, y_dist), line_pixel);
         start_x += x_inc;
         start_y = y_dist;
     }
 
-
 }
 
 fn draw_labels(mut img: &mut DynamicImage, chart: &Chart) {
     draw_axes(img, chart);
+    let axis_len = chart.width as f32 * 0.8;
+    let x_inc = axis_len / chart.data.len() as f32;
     let yellow = Rgb { r: 150, g: 150, b: 30};
     let mut start_x = 20.0;
 
@@ -249,7 +251,7 @@ fn draw_labels(mut img: &mut DynamicImage, chart: &Chart) {
     for label in &chart.labels {
         draw_text(img, label, start_x as u32, start_y as u32, "Roboto-Regular", 30.0, &yellow);
 
-        start_x += 300.0;
+        start_x += x_inc;
     }    
 }
 
