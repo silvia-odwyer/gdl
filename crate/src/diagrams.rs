@@ -24,17 +24,29 @@ pub fn draw_flowchart(mut img: &mut DynamicImage, item1: &str) {
 }
 
 /// Draw a barchart, with a specified title and data.
+/// 
+/// ### Arguments
+/// * `img` - Image to draw the barchart onto.
+/// * `barchart` - Barchart struct, which contains all data & meta-data about the barchart.
 pub fn draw_horizontal_barchart(mut img: &mut DynamicImage, barchart: &Chart) {
     draw_horizontal_bars(img, &barchart, "barchart");
 }
 
 /// Draw a vertical barchart, with a specified title and data.
+/// 
+/// ### Arguments
+/// * `img` - Image to draw the barchart onto.
+/// * `barchart` - Barchart struct, which contains all data & meta-data about the barchart.
 pub fn draw_vertical_barchart(mut img: &mut DynamicImage, barchart: &Chart) {
 
     draw_vertical_bars(img, barchart, "barchart");
 }
 
 /// Draw a histogram with a specified title, and data.
+/// 
+/// /// ### Arguments
+/// * `img` - Image to draw the barchart onto.
+/// * `barchart` - Barchart struct, which contains all data & meta-data about the barchart.
 #[wasm_bindgen]
 pub fn draw_horizontal_histogram(mut img: &mut DynamicImage, barchart: &Chart) {
     draw_horizontal_bars(img, &barchart, "histogram");
@@ -43,12 +55,21 @@ pub fn draw_horizontal_histogram(mut img: &mut DynamicImage, barchart: &Chart) {
 
 
 /// Draw a vertical barchart, with a specified title and data.
-pub fn draw_vertical_histogram(mut img: &mut DynamicImage, barchart: &Chart) {
+/// 
+/// ### Arguments
+/// * `img` - Image to draw the barchart onto.
+/// * `histogram` - Chart struct, which contains all data & meta-data about the barchart.
+pub fn draw_vertical_histogram(mut img: &mut DynamicImage, histogram: &Chart) {
 
-    draw_vertical_bars(img, barchart, "histogram");
+    draw_vertical_bars(img, histogram, "histogram");
 }
 
-/// Draw a vertical barchart, with a specified title and data.
+/// Draw a vertical barchart, where the bars are filled with a gradient.
+///
+/// ### Arguments
+/// * `img` - Image to draw the barchart onto.
+/// * `barchart` - Barchart struct, which contains all data & meta-data about the barchart.
+/// * `preset` - Preset name for the gradient. Can be: "pinkblue", "pastel_pink", "pastel_mauve", "lemongrass"
 pub fn draw_vertical_gradient_barchart(mut img: &mut DynamicImage, barchart: &Chart, preset: &str) {
 
     let mut start_x: u32 = 20;
@@ -102,7 +123,12 @@ fn draw_vertical_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type: 
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
 
-/// Draw a vertical barchart, with a specified title and data.
+/// Draw a vertical barchart, where the bars are filled with a gradient.
+/// 
+/// ### Arguments
+/// * `img` - Image to draw the barchart onto.
+/// * `barchart` - Barchart struct, which contains all data & meta-data about the barchart.
+/// * `preset` - Preset name for the gradient. Can be: "pinkblue", "pastel_pink", "pastel_mauve", "lemongrass"
 pub fn draw_horizontal_gradient_barchart(mut img: &mut DynamicImage, barchart: &Chart, preset: &str) {
 
     let start_x: u32 = 20;
@@ -160,6 +186,11 @@ fn draw_horizontal_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type
 }
 
 /// Draw a vertical barchart, where each bar is denoted by an image.
+/// 
+/// ### Arguments
+/// * `img` - Image to draw the barchart onto.
+/// * `bar_img` - Image the bars should contain.
+/// * `barchart` - Chart struct, which contains all data & meta-data about the barchart.
 pub fn draw_vertical_image_barchart(mut img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Chart) {
 
     let mut start_x: u32 = 20;
@@ -191,6 +222,11 @@ pub fn draw_vertical_image_barchart(mut img: &mut DynamicImage, bar_img: &Dynami
 //
 
 /// Draw a vertical barchart, with a specified title and data.
+/// 
+/// ### Arguments
+/// * `img` - Image to draw the barchart onto.
+/// * `bar_img` - Image the bars should contain.
+/// * `barchart` - Chart struct, which contains all data & meta-data about the barchart.
 pub fn draw_horizontal_image_barchart(mut img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Chart) {
 
     let start_x: u32 = 20;
@@ -214,7 +250,11 @@ pub fn draw_horizontal_image_barchart(mut img: &mut DynamicImage, bar_img: &Dyna
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
 
-/// Draw a vertical barchart, with a specified title and data.
+/// Draw a linechart, with a specified title and data.
+///
+/// #### Arguments
+/// * `img` - Image to draw the linechart onto.
+/// * `chart` - Chart struct, which contains all data & meta-data about the barchart.
 pub fn draw_linechart(mut img: &mut DynamicImage, chart: &Chart) {
     draw_labels(&mut img, chart);
     let axis_len = (chart.width as f32 * 0.8);
@@ -233,6 +273,37 @@ pub fn draw_linechart(mut img: &mut DynamicImage, chart: &Chart) {
 
         let y_dist = y_origin - (axis_len / div);
         draw_line_segment_mut(img, (start_x as f32, start_y as f32), (start_x + x_inc, y_dist), line_pixel);
+        start_x += x_inc;
+        start_y = y_dist;
+    }
+
+}
+
+/// Draw a linechart and accentuate the points, with a specified title and data.
+pub fn draw_linechart_points(mut img: &mut DynamicImage, chart: &Chart) {
+    draw_labels(&mut img, chart);
+    let axis_len = (chart.width as f32 * 0.8);
+    let y_origin = 20.0 + axis_len;
+
+    let x_inc = axis_len / chart.data.len() as f32;
+
+    let mut start_x = 20.0;
+    let line_pixel = image::Rgba([255, 167, 90, 255]);
+    let max_item = chart.data.iter().max().unwrap();
+
+    let mut start_y = y_origin;
+    
+    for item in &chart.data {
+        let div: f32 = *max_item as f32 / *item as f32;
+
+        let y_dist = y_origin - (axis_len / div);
+        draw_line_segment_mut(img, (start_x as f32, start_y as f32), (start_x + x_inc, y_dist), line_pixel);
+
+        // draw circle at end coordinate.
+        let circle_radius = ;
+        let white_pixel = ;
+        draw_filled_circle_mut(img, (start_x + x_inc, y_dist), circle_radius, white_pixel);
+
         start_x += x_inc;
         start_y = y_dist;
     }
@@ -285,6 +356,7 @@ fn draw_image_as_bar(mut img: &mut DynamicImage, bar_img: &DynamicImage, bar_wid
 
 // STRUCTS 
 
+/// Chart type, containing data, labels, and other metadata about a chart.
 #[derive(Debug)]
 pub struct Chart {
     pub title: String,
@@ -297,8 +369,9 @@ pub struct Chart {
 
 #[wasm_bindgen]
 impl Chart {
+
+    /// Create a new chart.
     pub fn new(title: String, color: Rgb, data: Vec<u16>, labels: Vec<String>, height: u32, width: u32) -> Chart {
         return Chart { title: title, color: color, data: data, labels: labels, width: width, height: height};
     }
 }
-
