@@ -198,24 +198,6 @@ impl Font {
     }
 }
 
-#[derive(Debug)]
-pub struct Barchart {
-    pub title: String,
-    pub color: Rgb,
-    pub data: Vec<u16>,
-    pub labels: Vec<String>,
-    pub height: u32, 
-    pub width: u32
-}
-
-#[wasm_bindgen]
-impl Barchart {
-    pub fn new(title: String, color: Rgb, data: Vec<u16>, labels: Vec<String>, height: u32, width: u32) -> Barchart {
-        return Barchart { title: title, color: color, data: data, labels: labels, width: width, height: height};
-    }
-}
-
-
 /// Rgb color type.
 #[wasm_bindgen]
 #[derive(Debug)]

@@ -5,7 +5,6 @@ use wasm_bindgen::Clamped;
 use crate::text::draw_text;
 use crate::elements::draw_solid_rect;
 use crate::Rgb;
-use crate::Barchart;
 use image::{DynamicImage, Rgba};
 use imageproc::drawing::*;
 use crate::helpers;
@@ -25,24 +24,32 @@ pub fn draw_flowchart(mut img: &mut DynamicImage, item1: &str) {
 }
 
 /// Draw a barchart, with a specified title and data.
-pub fn draw_horizontal_barchart(mut img: &mut DynamicImage, barchart: &Barchart) {
+pub fn draw_horizontal_barchart(mut img: &mut DynamicImage, barchart: &Chart) {
     draw_horizontal_bars(img, &barchart, "barchart");
 }
 
 /// Draw a vertical barchart, with a specified title and data.
-pub fn draw_vertical_barchart(mut img: &mut DynamicImage, barchart: &Barchart) {
+pub fn draw_vertical_barchart(mut img: &mut DynamicImage, barchart: &Chart) {
 
     draw_vertical_bars(img, barchart, "barchart");
 }
 
+/// Draw a histogram with a specified title, and data.
+#[wasm_bindgen]
+pub fn draw_horizontal_histogram(mut img: &mut DynamicImage, barchart: &Chart) {
+    draw_horizontal_bars(img, &barchart, "histogram");
+
+}
+
+
 /// Draw a vertical barchart, with a specified title and data.
-pub fn draw_vertical_histogram(mut img: &mut DynamicImage, barchart: &Barchart) {
+pub fn draw_vertical_histogram(mut img: &mut DynamicImage, barchart: &Chart) {
 
     draw_vertical_bars(img, barchart, "histogram");
 }
 
 /// Draw a vertical barchart, with a specified title and data.
-pub fn draw_vertical_gradient_barchart(mut img: &mut DynamicImage, barchart: &Barchart, preset: &str) {
+pub fn draw_vertical_gradient_barchart(mut img: &mut DynamicImage, barchart: &Chart, preset: &str) {
 
     let mut start_x: u32 = 20;
     let mut start_y: u32 = (barchart.height - 40);
@@ -66,7 +73,7 @@ pub fn draw_vertical_gradient_barchart(mut img: &mut DynamicImage, barchart: &Ba
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
 
-fn draw_vertical_bars(mut img: &mut DynamicImage, barchart: &Barchart, chart_type: &str) {
+fn draw_vertical_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type: &str) {
     let bar_gap = match chart_type {
         "barchart" => 30,
         "histogram" => 0,
@@ -96,7 +103,7 @@ fn draw_vertical_bars(mut img: &mut DynamicImage, barchart: &Barchart, chart_typ
 }
 
 /// Draw a vertical barchart, with a specified title and data.
-pub fn draw_horizontal_gradient_barchart(mut img: &mut DynamicImage, barchart: &Barchart, preset: &str) {
+pub fn draw_horizontal_gradient_barchart(mut img: &mut DynamicImage, barchart: &Chart, preset: &str) {
 
     let start_x: u32 = 20;
     let mut start_y: u32 = 20;
@@ -119,14 +126,7 @@ pub fn draw_horizontal_gradient_barchart(mut img: &mut DynamicImage, barchart: &
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
 
-/// Draw a histogram with a specified title, and data.
-#[wasm_bindgen]
-pub fn draw_horizontal_histogram(mut img: &mut DynamicImage, barchart: &Barchart) {
-    draw_horizontal_bars(img, &barchart, "histogram");
-
-}
-
-fn draw_horizontal_bars(mut img: &mut DynamicImage, barchart: &Barchart, chart_type: &str) {
+fn draw_horizontal_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type: &str) {
     let bar_gap = match chart_type {
         "barchart" => 30,
         "histogram" => 0,
@@ -160,7 +160,7 @@ fn draw_horizontal_bars(mut img: &mut DynamicImage, barchart: &Barchart, chart_t
 }
 
 /// Draw a vertical barchart, where each bar is denoted by an image.
-pub fn draw_vertical_image_barchart(mut img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Barchart) {
+pub fn draw_vertical_image_barchart(mut img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Chart) {
 
     let mut start_x: u32 = 20;
     let mut start_y: u32 = (barchart.height - 40);
@@ -191,7 +191,7 @@ pub fn draw_vertical_image_barchart(mut img: &mut DynamicImage, bar_img: &Dynami
 //
 
 /// Draw a vertical barchart, with a specified title and data.
-pub fn draw_horizontal_image_barchart(mut img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Barchart) {
+pub fn draw_horizontal_image_barchart(mut img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Chart) {
 
     let start_x: u32 = 20;
     let mut start_y: u32 = 20;
@@ -214,8 +214,53 @@ pub fn draw_horizontal_image_barchart(mut img: &mut DynamicImage, bar_img: &Dyna
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
 
+/// Draw a vertical barchart, with a specified title and data.
+pub fn draw_linechart(mut img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Chart) {
+
+    let start_x: u32 = 20;
+    let mut start_y: u32 = 20;
+
+    let max_item = barchart.data.iter().max().unwrap();
+    let mut max_bar_width: u32 = barchart.width - 2 * (barchart.width / 10);
+    let num_bars: u32 = barchart.data.len() as u32;
+    let bar_height: u32 = ((barchart.height / num_bars) as f32 * 0.8) as u32;
+
+    let yellow = Rgb{ r: 255, g: 226, b: 98};
+
+    for item in &barchart.data {
+        let div =  max_item / item;
+        let bar_width = max_bar_width / div as u32;
+
+        draw_image_as_bar(img, bar_img, bar_width, bar_height, start_x, start_y);
+
+        start_y += bar_height + 30;
+    }    
+    draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
+}
+
+
 fn draw_image_as_bar(mut img: &mut DynamicImage, bar_img: &DynamicImage, bar_width: u32, bar_height: u32, start_x: u32, start_y: u32) {
     let sampling_filter = image::FilterType::Nearest;
     let resized_img = image::ImageRgba8(image::imageops::resize(bar_img, bar_width as u32, bar_height as u32, sampling_filter));
     image::imageops::overlay(img, &resized_img, start_x, start_y);        
 }
+
+// STRUCTS 
+
+#[derive(Debug)]
+pub struct Chart {
+    pub title: String,
+    pub color: Rgb,
+    pub data: Vec<u16>,
+    pub labels: Vec<String>,
+    pub height: u32, 
+    pub width: u32
+}
+
+#[wasm_bindgen]
+impl Chart {
+    pub fn new(title: String, color: Rgb, data: Vec<u16>, labels: Vec<String>, height: u32, width: u32) -> Chart {
+        return Chart { title: title, color: color, data: data, labels: labels, width: width, height: height};
+    }
+}
+
