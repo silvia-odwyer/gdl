@@ -11,7 +11,9 @@ import LargeFruit from "./fruit.jpg";
 var canvas, canvas2, canvas3, watermark_canvas;
 var ctx, ctx2, ctx3, watermark_ctx;
 
-import("../crate/pkg").then(module => {
+import("../../crate/pkg").then(module => {
+
+
   var startTime;
   var endTime;
   module.run();
@@ -82,7 +84,11 @@ import("../crate/pkg").then(module => {
     "draw_text_light" : function() { return module.draw_text(rust_image, "Hello and welcome :)", 20, 220, "Roboto-Light", 90, white_rgb)},
     "draw_text_black" : function() { return module.draw_text(rust_image, "Hello and welcome :)", 20, 290, "Roboto-Black", 90, white_rgb)},
     "draw_text_border" : function() { return module.draw_text_with_border(rust_image, "Hello and Welcome :)", 20, 350, rgb)},
-    
+    "text_shades" : function() { return module.text_shades(rust_image, "Welcome to the machine", canvas.width, canvas.height)},
+    "repeat_text" : function() { return module.repeat_text(rust_image, "Visit newdev.net", canvas.width, canvas.height)},
+    "centre_text" : function() { return module.centre_text(rust_image, "Visit newdev.net", canvas.width, canvas.height)},
+    "vertical_text" : function() { return module.vertical_text(rust_image, "Visit newdev.net", canvas.width, canvas.height)},
+    "text_banner" : function() { return module.text_banner(rust_image, "The Lemonade Company", "Making great lemonade since 2002.", canvas.width, canvas.height)},
     "collage" : function() { return }
     };
     filter_dict[filter_name]();
@@ -128,7 +134,7 @@ import("../crate/pkg").then(module => {
     console.time("wasm_time"); 
     console.log(canvas2.height);
     console.log(canvas2.width);
-
+    ctx.drawImage(img2, 0, 0)
     startTime = performance.now();
 
     // Get the name of the effect the user wishes to apply to the image
@@ -149,7 +155,8 @@ import("../crate/pkg").then(module => {
     "circles" : function() { return module.circle_background(canvas.width, canvas.height)},
     "gradient_background" : function() { return module.gradient_background(canvas.width, canvas.height)},
     "spaced_circles" : function() { return module.spaced_circle_background(canvas.width, canvas.height)},
-    "solid" : function() { return module.solid_background(canvas.width, canvas.height, rgb)},
+     "solid" : function() { return module.solid_background(canvas.width, canvas.height, rgb)},
+     "lemongrass_gradient" : function() { return module.create_gradient_preset(canvas.width, canvas.height, "lemongrass")},
     "four_grid_square" : function() { return module.four_grid_center_square(rust_image2, rust_image3, rust_image2, rust_image3, "Cafeterie Parisian", canvas.width, canvas.height)}
     };
     let new_image = filter_dict[filter_name]();
