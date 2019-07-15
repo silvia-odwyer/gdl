@@ -57,8 +57,6 @@ pub fn two_grid_text(image: DynamicImage, image2: DynamicImage, width: u32, heig
     image::imageops::overlay(&mut container_img, &image, 0, 0);
     image::imageops::overlay(&mut container_img, &image2, image.width(), image.height());
 
-    let white = Rgb{r: 255, g: 255, b: 255};
-    let black = Rgb{r: 0, g: 0, b:0};
     let lilac = Rgb{r: 204, g: 195, b: 240};
     let yellow = Rgb{ r: 255, g: 226, b: 98};
     draw_solid_rect(&mut container_img, &yellow, img_height, img_width, image.width() as i32, 0);

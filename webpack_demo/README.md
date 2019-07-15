@@ -25,9 +25,10 @@ npm install
 
 4. Start a development server at http://localhost:8080
 
-`npm run start` -- Serve the project locally for development at
-  `http://localhost:8080`.
-
+```sh
+# Serves the project locally for development at `http://localhost:8080`.
+npm run start 
+```
 
 **Building**
 * `npm run build` -- Bundle the project (in production mode).

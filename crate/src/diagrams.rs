@@ -280,35 +280,35 @@ pub fn draw_linechart(mut img: &mut DynamicImage, chart: &Chart) {
 }
 
 /// Draw a linechart and accentuate the points, with a specified title and data.
-pub fn draw_linechart_points(mut img: &mut DynamicImage, chart: &Chart) {
-    draw_labels(&mut img, chart);
-    let axis_len = (chart.width as f32 * 0.8);
-    let y_origin = 20.0 + axis_len;
+// pub fn draw_linechart_points(mut img: &mut DynamicImage, chart: &Chart) {
+//     draw_labels(&mut img, chart);
+//     let axis_len = (chart.width as f32 * 0.8);
+//     let y_origin = 20.0 + axis_len;
 
-    let x_inc = axis_len / chart.data.len() as f32;
+//     let x_inc = axis_len / chart.data.len() as f32;
 
-    let mut start_x = 20.0;
-    let line_pixel = image::Rgba([255, 167, 90, 255]);
-    let max_item = chart.data.iter().max().unwrap();
+//     let mut start_x = 20.0;
+//     let line_pixel = image::Rgba([255, 167, 90, 255]);
+//     let max_item = chart.data.iter().max().unwrap();
 
-    let mut start_y = y_origin;
+//     let mut start_y = y_origin;
     
-    for item in &chart.data {
-        let div: f32 = *max_item as f32 / *item as f32;
+//     for item in &chart.data {
+//         let div: f32 = *max_item as f32 / *item as f32;
 
-        let y_dist = y_origin - (axis_len / div);
-        draw_line_segment_mut(img, (start_x as f32, start_y as f32), (start_x + x_inc, y_dist), line_pixel);
+//         let y_dist = y_origin - (axis_len / div);
+//         draw_line_segment_mut(img, (start_x as f32, start_y as f32), (start_x + x_inc, y_dist), line_pixel);
 
-        // draw circle at end coordinate.
-        let circle_radius = ;
-        let white_pixel = ;
-        draw_filled_circle_mut(img, (start_x + x_inc, y_dist), circle_radius, white_pixel);
+//         // draw circle at end coordinate.
+//         // let circle_radius = ;
+//         // let white_pixel = ;
+//         draw_filled_circle_mut(img, (start_x + x_inc, y_dist), circle_radius, white_pixel);
 
-        start_x += x_inc;
-        start_y = y_dist;
-    }
+//         start_x += x_inc;
+//         start_y = y_dist;
+//     }
 
-}
+// }
 
 fn draw_labels(mut img: &mut DynamicImage, chart: &Chart) {
     draw_axes(img, chart);

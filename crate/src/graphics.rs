@@ -1,12 +1,8 @@
 extern crate image;
-use image::{GenericImage, GenericImageView, Rgba, DynamicImage, ImageBuffer, ImageRgba8};
+use image::{Rgba, DynamicImage, ImageBuffer, ImageRgba8};
 extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::prelude::*;
-use imageproc::drawing::draw_text_mut;
-use imageproc::morphology::dilate_mut;
-use imageproc::distance_transform::Norm;
-use rusttype::{FontCollection, Scale};
 use crate::{PhotonImage, helpers, Rgb};
 
 /// Add text to an image.

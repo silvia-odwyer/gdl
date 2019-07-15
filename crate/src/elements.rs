@@ -1,11 +1,11 @@
 /// Add shapes and other elements to images.
 
 extern crate image;
-use image::{GenericImage, GenericImageView, DynamicImage, ImageBuffer, RgbaImage};
+use image::{GenericImage, GenericImageView, DynamicImage, RgbaImage};
 extern crate imageproc;
 extern crate rusttype;
 use imageproc::drawing::*;
-use crate::{PhotonImage, Rgb, LinSrgba, Gradient, Lch, Srgba, Rgba};
+use crate::{Rgb, LinSrgba, Gradient, Lch, Srgba, Rgba};
 use palette::encoding::pixel::Pixel;
 use imageproc::rect::Rect;
 use crate::text::draw_text;

@@ -195,7 +195,6 @@ pub fn quote(mut background_img: &mut DynamicImage, main_text: &str, small_text:
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
     let red_rgb = Rgb { r: 200, g: 20, b: 50 };
-    let white_rgb = Rgb { r: 255, g: 255, b: 255};
 
     let mut height_mul = 0.1;
     let font_size = 100.0;

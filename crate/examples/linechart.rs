@@ -13,7 +13,7 @@ fn main() {
     let mut img = new_with_background(1500, 1500, &black);
     
     let data: Vec<u16> = vec![0, 5, 40, 20, 30];
-    let labels: Vec<String> = vec!["one".to_string(), "c_spec".to_string(), "d_spec".to_string(), "e_spec".to_string()];
+    let labels: Vec<String> = vec!["a_spec".to_string(), "b_spec".to_string(), "c_spec".to_string(), "d_spec".to_string()];
     let blue = Rgb { r: 40, g: 50, b: 200};
 
     let barchart = Chart::new("Earnings for 2019/2020".to_string(), blue, data, labels, 1500, 1500);
