@@ -20,7 +20,7 @@ use image::{DynamicImage, GenericImageView};
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn centre_text(mut background_img: &mut DynamicImage, main_text: &str) {
+pub fn centre_text(background_img: &mut DynamicImage, main_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
 
@@ -46,7 +46,7 @@ pub fn centre_text(mut background_img: &mut DynamicImage, main_text: &str) {
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn text_shades(mut background_img: &mut DynamicImage, main_text: &str) {
+pub fn text_shades(background_img: &mut DynamicImage, main_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
 
@@ -67,7 +67,7 @@ pub fn text_shades(mut background_img: &mut DynamicImage, main_text: &str) {
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn repeat_text(mut background_img: &mut DynamicImage, main_text: &str) {
+pub fn repeat_text(background_img: &mut DynamicImage, main_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
 
@@ -86,13 +86,13 @@ pub fn repeat_text(mut background_img: &mut DynamicImage, main_text: &str) {
 /// * `main_text` - Main heading for the graphic.
 /// * `small_text` - Sub-heading/smaller text. 
 /// * `width` - u32 - Desired width of final graphic 
-/// * `height` - ù32 - Desired height of final graphic
+/// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn text_banner(mut background_img: &mut DynamicImage, main_text: &str, small_text: &str) {
+pub fn text_banner(background_img: &mut DynamicImage, main_text: &str, small_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
 
-    let mut height_mul: f32 = 0.4;
+    let height_mul: f32 = 0.4;
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
     draw_text(background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &black_rgb);
@@ -128,7 +128,7 @@ pub fn vertical_text(mut background_img: &mut DynamicImage, main_text: &str) {
 /// * `main_text` - Main heading for the graphic.
 /// * `small_text` - Sub-heading/smaller text. 
 #[wasm_bindgen]
-pub fn rhs_text(mut background_img: &mut DynamicImage, main_text: &str) {
+pub fn rhs_text(background_img: &mut DynamicImage, main_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
 
@@ -145,9 +145,9 @@ pub fn rhs_text(mut background_img: &mut DynamicImage, main_text: &str) {
 /// * `main_text` - Main heading for the graphic.
 /// * `small_text` - Sub-heading/smaller text. 
 /// * `width` - u32 - Desired width of final graphic 
-/// * `height` - ù32 - Desired height of final graphic
+/// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn lhs_text(mut background_img: &mut DynamicImage, main_text: &str, small_text: &str, width: u32, height: u32) {
+pub fn lhs_text(background_img: &mut DynamicImage, main_text: &str, small_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
 
@@ -188,14 +188,12 @@ pub fn vertical_text_rhs(mut background_img: &mut DynamicImage, main_text: &str,
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn quote(mut background_img: &mut DynamicImage, main_text: &str, small_text: &str) {
+pub fn quote(mut background_img: &mut DynamicImage, main_text: &str, _small_text: &str) {
     let _width = background_img.width();
     let height = background_img.height();
 
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
-    let red_rgb = Rgb { r: 200, g: 20, b: 50 };
-
     let mut height_mul = 0.1;
     let font_size = 100.0;
 
@@ -217,9 +215,8 @@ pub fn quote(mut background_img: &mut DynamicImage, main_text: &str, small_text:
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn postcard(background_img: &DynamicImage, main_text: &str, small_text: &str, width: u32, height: u32) -> DynamicImage {
+pub fn postcard(background_img: &DynamicImage, main_text: &str, _small_text: &str, width: u32, height: u32) -> DynamicImage {
     let white = Rgb { r: 255, g: 255, b: 255};
-    let blk = Rgb { r: 56, g: 123, b: 254};
 
     let mut container_img = new_with_background(width, height, &white);
     let sampling_filter = image::FilterType::Nearest;

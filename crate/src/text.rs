@@ -36,7 +36,6 @@ pub fn draw_text(image: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str
     let height = font_size;
     let scale = Scale { x: height * 1.0, y: height };
     let white = Rgb{r: 255, g: 255, b: 255};
-    let black = Rgb{r: 0, g: 0, b:0};
 
     draw_text_mut(image, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x + 10, y - 10, scale, &font, text);
 }
@@ -73,9 +72,6 @@ pub fn draw_text_with_border(image: &mut DynamicImage, font: &str, text: &str, x
             }
         }
     }
-    // pink
-    // draw_text_mut(&mut image, Rgba([244u8, 36u8, 154u8, 255u8]), x + 10, y - 10, scale, &font, text);
-
     draw_text_mut(image, Rgba([193u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
 }
 

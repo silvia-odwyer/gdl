@@ -16,14 +16,14 @@ use wasm_bindgen::Clamped;
 /// Draw a solid rectangle with a given background colour. 
 /// 
 /// # Arguments
-/// * `img` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
 /// * `background_color` - Rgb color of rectangle.
 /// * `width` - u32 - Desired width of rectangle.
 /// * `height` - u32 - Desired height of rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
-pub fn draw_solid_rect(mut img: &mut DynamicImage, background_color: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {    
+pub fn draw_solid_rect(img: &mut DynamicImage, background_color: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {    
     draw_filled_rect_mut(img, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 
                         Rgba([background_color.r, background_color.g, 
@@ -31,8 +31,17 @@ pub fn draw_solid_rect(mut img: &mut DynamicImage, background_color: &Rgb, width
 
 }
 
+/// Draw an opaque rectangle, where the opacity is set to a certain u8 value. 
+/// 
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `background_color` - Rgb color of rectangle.
+/// * `opacity` - The opacity of the rectangle.
+/// * `width` - u32 - Desired width of rectangle.
+/// * `height` - u32 - Desired height of rectangle.
+/// * `x_pos` - X-coordinate of top corner of rectangle on `img`
+/// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
-pub fn draw_opaque_rect(mut img: &mut DynamicImage, background_color: &Rgb, opacity: u8, width: u32, height: u32, x_pos: i32, y_pos: i32) {
+pub fn draw_opaque_rect(img: &mut DynamicImage, background_color: &Rgb, opacity: u8, width: u32, height: u32, x_pos: i32, y_pos: i32) {
     
     draw_filled_rect_mut(img, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 
@@ -41,8 +50,11 @@ pub fn draw_opaque_rect(mut img: &mut DynamicImage, background_color: &Rgb, opac
 }
 
 /// Draw a triangle.
+/// 
+/// /// * `img` - A mutable ref to a DynamicImage.
+/// * `triangle` - Triangle struct.
 #[wasm_bindgen]
-pub fn draw_triangle(mut img: &mut DynamicImage, triangle: Triangle) {
+pub fn draw_triangle(img: &mut DynamicImage, triangle: Triangle) {
     let point = Point::new(triangle.x1, triangle.y1);
     let point2 = Point::new(triangle.x2, triangle.y2);
     let point3 = Point::new(triangle.x3, triangle.y3);
@@ -56,8 +68,13 @@ pub fn draw_triangle(mut img: &mut DynamicImage, triangle: Triangle) {
 }
 
 /// Draw an equilateral triangle.
+/// 
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `side_len` - Side of the equilateral triangle, which will constitute all 3 sides.
+/// * `x_pos` - X-coordinate of top point of triangle on `img`
+/// * `y_pos` - y-coordinate of top point of triangle on `img`
 #[wasm_bindgen]
-pub fn draw_equilateral_triangle(mut img: &mut DynamicImage, side_len: u32, x_pos: i32, y_pos: i32, background_color: &Rgb) {
+pub fn draw_equilateral_triangle(img: &mut DynamicImage, side_len: u32, x_pos: i32, y_pos: i32, background_color: &Rgb) {
 
     let point = Point::new(x_pos, y_pos);
     let point2 = Point::new(x_pos + side_len as i32, y_pos);
@@ -74,7 +91,7 @@ pub fn draw_equilateral_triangle(mut img: &mut DynamicImage, side_len: u32, x_po
 /// Draw a solid rectangle with text placed in-centre.
 /// 
 /// # Arguments
-/// * `img` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
 /// * `text` - Text to be placed inside the rectangle.
 /// * `background_color` - Rgb color of rectangle.
 /// * `width` - u32 - Desired width of rectangle.
@@ -82,14 +99,14 @@ pub fn draw_equilateral_triangle(mut img: &mut DynamicImage, side_len: u32, x_po
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
-pub fn draw_rect_text(mut img: &mut DynamicImage, text: &str, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
+pub fn draw_rect_text(img: &mut DynamicImage, text: &str, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
     draw_solid_rect(img, &background_color, height as u32, width as u32, x_pos, y_pos);      
     let rgb_white = Rgb { r: 255, g: 255, b: 255};
     draw_text(img, text, (x_pos as f32 + (width as f32 * 0.05)) as u32, (y_pos + 10) as u32, "Roboto-Bold", 30.0, &rgb_white);
 }
 
 /// Draw a solid rectangle with a given background colour. 
-// pub fn draw_diamond(mut img: &mut PhotonImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
+// pub fn draw_diamond(mut img: &mut DynamicImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
 //     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
 //     let mut image2 : ImageBuffer = ImageBuffer::new(height, width);
 
@@ -108,7 +125,7 @@ pub fn draw_rect_text(mut img: &mut DynamicImage, text: &str, background_color: 
 /// Draw a rectangle filled with a gradient.
 /// 
 /// ### Arguments
-/// * `img` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
 /// * `text` - Text to be placed inside the rectangle.
 /// * `background_color` - Rgb color of rectangle.
 /// * `width` - u32 - Desired width of gradient rectangle.
@@ -125,7 +142,7 @@ pub fn draw_gradient_rect(img: &mut DynamicImage, height: u32, width: u32, x_pos
 /// Preset: Draw a gradient rectangle filled with a gradient.
 /// 
 /// ### Arguments
-/// * `img` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
 /// * `width` - u32 - Desired width of gradient rectangle.
 /// * `height` - u32 - Desired height of gradient rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
@@ -141,7 +158,7 @@ pub fn draw_preset_rect_gradient(img: &mut DynamicImage, width: u32, height: u32
 /// Draw two rectangles stacked on each other, for added depth.
 /// 
 /// ### Arguments
-/// * `img` - A mutable ref to a PhotonImage.
+/// * `img` - A mutable ref to a DynamicImage.
 /// * `background_color1`: Rgb color of first rectangle.
 /// * `background_color2` : Rgb color of second rectangle.
 /// * `width` - u32 - Desired width of gradient rectangle.
@@ -149,7 +166,7 @@ pub fn draw_preset_rect_gradient(img: &mut DynamicImage, width: u32, height: u32
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
-pub fn draw_stacked_rect(mut img: &mut DynamicImage, background_color1: &Rgb, background_color2: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
+pub fn draw_stacked_rect(img: &mut DynamicImage, background_color1: &Rgb, background_color2: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
     draw_filled_rect_mut(img, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 
                         Rgba([background_color1.r, background_color1.g, 
@@ -163,7 +180,7 @@ pub fn draw_stacked_rect(mut img: &mut DynamicImage, background_color1: &Rgb, ba
 
 /// Create a gradient element in the shape of a Rect.
 /// 
-/// Returns a PhotonImage.
+/// Returns a DynamicImage.
 /// 
 /// ### Arguments
 /// * `width` - u32 - Desired width of gradient.

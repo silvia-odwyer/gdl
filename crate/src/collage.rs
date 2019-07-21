@@ -20,7 +20,7 @@ use imageproc::rect::Rect;
 #[wasm_bindgen]
 pub fn two_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, width: u32, height: u32) -> DynamicImage {
     // Convert all photon images to DynamicImages, for interop with the image crate.
-    let mut imgs = vec![photon_img, photon_img2];
+    let imgs = vec![photon_img, photon_img2];
 
     // distribute the width evenly by allocating the same space to both images
     let img_width = width / 2;
@@ -252,7 +252,6 @@ photon_img4: &DynamicImage, text: &str, width: u32, height: u32) -> DynamicImage
     draw_solid_rect(&mut container_img, &white_rgb, width as u32, (height as f32 * 0.3) as u32, 0 as i32, (height as f32 * 0.75) as i32);  
 
     draw_text(&mut container_img, text, (width as f32 * 0.10) as u32, (height as f32 * height_mul) as u32, "Oswald-Regular", 100.0, &black_rgb );  
-    height_mul += 0.15;
     
     return container_img;
 }

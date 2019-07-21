@@ -13,7 +13,7 @@ use crate::elements::draw_preset_rect_gradient;
 
 /// Draw a flowchart.
 #[wasm_bindgen]
-pub fn draw_flowchart(mut img: &mut DynamicImage, item1: &str) {
+pub fn draw_flowchart(img: &mut DynamicImage, item1: &str) {
     let rgb = Rgb{ r: 255, g: 255, b: 255 };
     let start_x: i32 = 20;
     let start_y: i32 = 20;
@@ -28,7 +28,7 @@ pub fn draw_flowchart(mut img: &mut DynamicImage, item1: &str) {
 /// ### Arguments
 /// * `img` - Image to draw the barchart onto.
 /// * `barchart` - Barchart struct, which contains all data & meta-data about the barchart.
-pub fn draw_horizontal_barchart(mut img: &mut DynamicImage, barchart: &Chart) {
+pub fn draw_horizontal_barchart(img: &mut DynamicImage, barchart: &Chart) {
     draw_horizontal_bars(img, &barchart, "barchart");
 }
 
@@ -37,7 +37,7 @@ pub fn draw_horizontal_barchart(mut img: &mut DynamicImage, barchart: &Chart) {
 /// ### Arguments
 /// * `img` - Image to draw the barchart onto.
 /// * `barchart` - Barchart struct, which contains all data & meta-data about the barchart.
-pub fn draw_vertical_barchart(mut img: &mut DynamicImage, barchart: &Chart) {
+pub fn draw_vertical_barchart(img: &mut DynamicImage, barchart: &Chart) {
 
     draw_vertical_bars(img, barchart, "barchart");
 }
@@ -48,7 +48,7 @@ pub fn draw_vertical_barchart(mut img: &mut DynamicImage, barchart: &Chart) {
 /// * `img` - Image to draw the barchart onto.
 /// * `barchart` - Barchart struct, which contains all data & meta-data about the barchart.
 #[wasm_bindgen]
-pub fn draw_horizontal_histogram(mut img: &mut DynamicImage, barchart: &Chart) {
+pub fn draw_horizontal_histogram(img: &mut DynamicImage, barchart: &Chart) {
     draw_horizontal_bars(img, &barchart, "histogram");
 
 }
@@ -59,7 +59,7 @@ pub fn draw_horizontal_histogram(mut img: &mut DynamicImage, barchart: &Chart) {
 /// ### Arguments
 /// * `img` - Image to draw the barchart onto.
 /// * `histogram` - Chart struct, which contains all data & meta-data about the barchart.
-pub fn draw_vertical_histogram(mut img: &mut DynamicImage, histogram: &Chart) {
+pub fn draw_vertical_histogram(img: &mut DynamicImage, histogram: &Chart) {
 
     draw_vertical_bars(img, histogram, "histogram");
 }
@@ -70,13 +70,13 @@ pub fn draw_vertical_histogram(mut img: &mut DynamicImage, histogram: &Chart) {
 /// * `img` - Image to draw the barchart onto.
 /// * `barchart` - Barchart struct, which contains all data & meta-data about the barchart.
 /// * `preset` - Preset name for the gradient. Can be: "pinkblue", "pastel_pink", "pastel_mauve", "lemongrass"
-pub fn draw_vertical_gradient_barchart(mut img: &mut DynamicImage, barchart: &Chart, preset: &str) {
+pub fn draw_vertical_gradient_barchart(img: &mut DynamicImage, barchart: &Chart, preset: &str) {
 
     let mut start_x: u32 = 20;
-    let mut start_y: u32 = (barchart.height - 40);
+    let start_y: u32 = (barchart.height - 40);
 
     let max_item = barchart.data.iter().max().unwrap();
-    let mut max_bar_height: u32 = barchart.height - 2 * (barchart.height / 10);
+    let max_bar_height: u32 = barchart.height - 2 * (barchart.height / 10);
     let num_bars: u32 = barchart.data.len() as u32;
     let bar_width: u32 = ((barchart.height / num_bars) as f32 * 0.8) as u32;
 
@@ -89,12 +89,11 @@ pub fn draw_vertical_gradient_barchart(mut img: &mut DynamicImage, barchart: &Ch
 
         start_x += bar_width + 30;    
     }    
-    let rgb_white = Rgb { r: 255, g: 255, b: 255};
 
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
 
-fn draw_vertical_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type: &str) {
+fn draw_vertical_bars(img: &mut DynamicImage, barchart: &Chart, chart_type: &str) {
     let bar_gap = match chart_type {
         "barchart" => 30,
         "histogram" => 0,
@@ -102,10 +101,10 @@ fn draw_vertical_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type: 
     };
 
     let mut start_x: u32 = 20;
-    let mut start_y: u32 = (barchart.height - 40);
+    let start_y: u32 = (barchart.height - 40);
 
     let max_item = barchart.data.iter().max().unwrap();
-    let mut max_bar_height: u32 = barchart.height - 2 * (barchart.height / 10);
+    let max_bar_height: u32 = barchart.height - 2 * (barchart.height / 10);
     let num_bars: u32 = barchart.data.len() as u32;
     let bar_width: u32 = ((barchart.height / num_bars) as f32 * 0.8) as u32;
     
@@ -118,8 +117,6 @@ fn draw_vertical_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type: 
 
     let yellow = Rgb{ r: 255, g: 226, b: 98};
 
-    let rgb_white = Rgb { r: 255, g: 255, b: 255};
-
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
 
@@ -129,13 +126,13 @@ fn draw_vertical_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type: 
 /// * `img` - Image to draw the barchart onto.
 /// * `barchart` - Barchart struct, which contains all data & meta-data about the barchart.
 /// * `preset` - Preset name for the gradient. Can be: "pinkblue", "pastel_pink", "pastel_mauve", "lemongrass"
-pub fn draw_horizontal_gradient_barchart(mut img: &mut DynamicImage, barchart: &Chart, preset: &str) {
+pub fn draw_horizontal_gradient_barchart(img: &mut DynamicImage, barchart: &Chart, preset: &str) {
 
     let start_x: u32 = 20;
     let mut start_y: u32 = 20;
 
     let max_item = barchart.data.iter().max().unwrap();
-    let mut max_bar_width: u32 = barchart.width - 2 * (barchart.width / 10);
+    let max_bar_width: u32 = barchart.width - 2 * (barchart.width / 10);
     let num_bars: u32 = barchart.data.len() as u32;
     let bar_height: u32 = ((barchart.height / num_bars) as f32 * 0.8) as u32;
 
@@ -152,7 +149,7 @@ pub fn draw_horizontal_gradient_barchart(mut img: &mut DynamicImage, barchart: &
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
 
-fn draw_horizontal_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type: &str) {
+fn draw_horizontal_bars(img: &mut DynamicImage, barchart: &Chart, chart_type: &str) {
     let bar_gap = match chart_type {
         "barchart" => 30,
         "histogram" => 0,
@@ -163,7 +160,7 @@ fn draw_horizontal_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type
     let mut start_y: i32 = 20;
 
     let max_item = barchart.data.iter().max().unwrap();
-    let mut max_bar_width: u32 = barchart.width - 2 * (barchart.width / 10);
+    let max_bar_width: u32 = barchart.width - 2 * (barchart.width / 10);
     let num_bars: u32 = barchart.data.len() as u32;
     let bar_height: u32 = ((barchart.height / num_bars) as f32 * 0.8) as u32;
 
@@ -180,7 +177,6 @@ fn draw_horizontal_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type
             Rgba([255u8, 255u8, 255u8, 255u8]))
         }
     }    
-    let rgb_white = Rgb { r: 255, g: 255, b: 255};
 
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
@@ -191,13 +187,13 @@ fn draw_horizontal_bars(mut img: &mut DynamicImage, barchart: &Chart, chart_type
 /// * `img` - Image to draw the barchart onto.
 /// * `bar_img` - Image the bars should contain.
 /// * `barchart` - Chart struct, which contains all data & meta-data about the barchart.
-pub fn draw_vertical_image_barchart(mut img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Chart) {
+pub fn draw_vertical_image_barchart(img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Chart) {
 
     let mut start_x: u32 = 20;
-    let mut start_y: u32 = (barchart.height - 40);
+    let start_y: u32 = (barchart.height - 40);
 
     let max_item = barchart.data.iter().max().unwrap();
-    let mut max_bar_height: u32 = barchart.height - 2 * (barchart.height / 10);
+    let max_bar_height: u32 = barchart.height - 2 * (barchart.height / 10);
     let num_bars: u32 = barchart.data.len() as u32;
     let bar_width: u32 = ((barchart.height / num_bars) as f32 * 0.8) as u32;
 
@@ -219,21 +215,19 @@ pub fn draw_vertical_image_barchart(mut img: &mut DynamicImage, bar_img: &Dynami
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
 
-//
-
 /// Draw a vertical barchart, with a specified title and data.
 /// 
 /// ### Arguments
 /// * `img` - Image to draw the barchart onto.
 /// * `bar_img` - Image the bars should contain.
 /// * `barchart` - Chart struct, which contains all data & meta-data about the barchart.
-pub fn draw_horizontal_image_barchart(mut img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Chart) {
+pub fn draw_horizontal_image_barchart(img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Chart) {
 
     let start_x: u32 = 20;
     let mut start_y: u32 = 20;
 
     let max_item = barchart.data.iter().max().unwrap();
-    let mut max_bar_width: u32 = barchart.width - 2 * (barchart.width / 10);
+    let max_bar_width: u32 = barchart.width - 2 * (barchart.width / 10);
     let num_bars: u32 = barchart.data.len() as u32;
     let bar_height: u32 = ((barchart.height / num_bars) as f32 * 0.8) as u32;
 
@@ -310,7 +304,8 @@ pub fn draw_linechart(mut img: &mut DynamicImage, chart: &Chart) {
 
 // }
 
-fn draw_labels(mut img: &mut DynamicImage, chart: &Chart) {
+// Draw labels onto the axes of a chart, typically for bar or line charts.
+fn draw_labels(img: &mut DynamicImage, chart: &Chart) {
     draw_axes(img, chart);
     let axis_len = chart.width as f32 * 0.8;
     let x_inc = axis_len / chart.data.len() as f32;
@@ -326,6 +321,7 @@ fn draw_labels(mut img: &mut DynamicImage, chart: &Chart) {
     }    
 }
 
+// Draw x and y-axes to the image, mainly for bar charts and line charts.
 fn draw_axes(img: &mut DynamicImage, chart: &Chart) {
     let line_pixel = image::Rgba([255, 167, 90, 255]);
 
@@ -347,8 +343,9 @@ fn draw_axes(img: &mut DynamicImage, chart: &Chart) {
     draw_line_segment_mut(img, (start_x as f32, start_y as f32), (end_x_xaxis, start_y), line_pixel);
 }
 
-
-fn draw_image_as_bar(mut img: &mut DynamicImage, bar_img: &DynamicImage, bar_width: u32, bar_height: u32, start_x: u32, start_y: u32) {
+// Draw an image as a bar component of a bar chart. 
+// This can be used for custom bar colours or custom bar images within bar charts.
+fn draw_image_as_bar(img: &mut DynamicImage, bar_img: &DynamicImage, bar_width: u32, bar_height: u32, start_x: u32, start_y: u32) {
     let sampling_filter = image::FilterType::Nearest;
     let resized_img = image::ImageRgba8(image::imageops::resize(bar_img, bar_width as u32, bar_height as u32, sampling_filter));
     image::imageops::overlay(img, &resized_img, start_x, start_y);        
