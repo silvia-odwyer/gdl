@@ -12,6 +12,7 @@ use crate::text::draw_text;
 use crate::helpers;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::Clamped;
+use imageproc::pixelops::interpolate;
 
 /// Draw a solid rectangle with a given background colour. 
 /// 
@@ -69,6 +70,8 @@ pub fn draw_triangle(img: &mut DynamicImage, triangle: Triangle) {
 
 /// Draw an equilateral triangle.
 /// 
+/// Not represented by a Triangle struct, because all sides are equal, and only one value should be entered.
+/// 
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `side_len` - Side of the equilateral triangle, which will constitute all 3 sides.
 /// * `x_pos` - X-coordinate of top point of triangle on `img`
@@ -78,7 +81,7 @@ pub fn draw_equilateral_triangle(img: &mut DynamicImage, side_len: u32, x_pos: i
 
     let point = Point::new(x_pos, y_pos);
     let point2 = Point::new(x_pos + side_len as i32, y_pos);
-    let point3 = Point::new((x_pos + (side_len / 2) as i32), y_pos * 3);
+    let point3 = Point::new(x_pos + (side_len / 2) as i32, y_pos * 3);
 
     let points = vec![point, point2, point3];
 
@@ -176,6 +179,31 @@ pub fn draw_stacked_rect(img: &mut DynamicImage, background_color1: &Rgb, backgr
                         Rect::at(x_pos + 10, y_pos + 10).of_size(width, height), 
                         Rgba([background_color2.r, background_color2.g, 
                         background_color2.b, 255u8]));
+}
+
+/// Draw multiple borders stacked on each other, for added depth.
+/// 
+/// ### Arguments
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `background_color1`: Rgb color of first rectangle.
+/// * `background_color2` : Rgb color of second rectangle.
+/// * `width` - u32 - Desired width of gradient rectangle.
+/// * `height` - u32 - Desired height of gradient rectangle.
+/// * `x_pos` - X-coordinate of top corner of rectangle on `img`
+/// * `y_pos` - y-coordinate of top corner of rectangle on `img`
+#[wasm_bindgen]
+pub fn draw_stacked_borders(img: &mut DynamicImage, background_color: &Rgb, width: u32, height: u32, mut x_pos: i32, mut y_pos: i32) {
+    
+    
+    for i in 0..3 {
+        draw_hollow_rect_mut(img, 
+                        Rect::at(x_pos, y_pos).of_size(width, height), 
+                        Rgba([background_color.r, background_color.g, 
+                        background_color.b, 255u8]));
+
+        x_pos -= 40;
+        y_pos += 40;
+    }
 }
 
 /// Create a gradient element in the shape of a Rect.

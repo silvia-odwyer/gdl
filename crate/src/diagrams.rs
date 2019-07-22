@@ -23,7 +23,7 @@ pub fn draw_flowchart(img: &mut DynamicImage, item1: &str) {
     draw_solid_rect(img, &rgb, height as u32, width as u32, start_x + width + 50, start_y);        
 }
 
-/// Draw a barchart, with a specified title and data.
+/// Draw a horizontal barchart, with a specified title and data.
 /// 
 /// ### Arguments
 /// * `img` - Image to draw the barchart onto.
@@ -94,6 +94,7 @@ pub fn draw_vertical_gradient_barchart(img: &mut DynamicImage, barchart: &Chart,
 }
 
 fn draw_vertical_bars(img: &mut DynamicImage, barchart: &Chart, chart_type: &str) {
+
     let bar_gap = match chart_type {
         "barchart" => 30,
         "histogram" => 0,
@@ -106,11 +107,18 @@ fn draw_vertical_bars(img: &mut DynamicImage, barchart: &Chart, chart_type: &str
     let max_item = barchart.data.iter().max().unwrap();
     let max_bar_height: u32 = barchart.height - 2 * (barchart.height / 10);
     let num_bars: u32 = barchart.data.len() as u32;
+    println!("num_bars {}", barchart.data.len());
     let bar_width: u32 = ((barchart.height / num_bars) as f32 * 0.8) as u32;
     
     for item in &barchart.data {
-        let div =  max_item / item;
-        let bar_height = max_bar_height / div as u32;
+        let mut bar_height = 0;
+
+        if *item > 0 as u16 {
+            let div =  max_item / item;
+            bar_height = max_bar_height / div as u32;
+
+        }
+
         draw_solid_rect(img, &barchart.color, bar_width as u32, bar_height as u32, start_x as i32, (start_y - bar_height) as i32);
         start_x += bar_width + bar_gap;    
     }
@@ -143,7 +151,7 @@ pub fn draw_horizontal_gradient_barchart(img: &mut DynamicImage, barchart: &Char
         let div =  max_item / item;
         let bar_width = max_bar_width / div as u32;
         draw_preset_rect_gradient(img, bar_width as u32, bar_height as u32, start_x, start_y , preset);
-        start_y += (bar_height + bar_gap);    
+        start_y += bar_height + bar_gap;    
     }    
 
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
@@ -190,7 +198,7 @@ fn draw_horizontal_bars(img: &mut DynamicImage, barchart: &Chart, chart_type: &s
 pub fn draw_vertical_image_barchart(img: &mut DynamicImage, bar_img: &DynamicImage, barchart: &Chart) {
 
     let mut start_x: u32 = 20;
-    let start_y: u32 = (barchart.height - 40);
+    let start_y: u32 = barchart.height - 40;
 
     let max_item = barchart.data.iter().max().unwrap();
     let max_bar_height: u32 = barchart.height - 2 * (barchart.height / 10);
@@ -251,7 +259,7 @@ pub fn draw_horizontal_image_barchart(img: &mut DynamicImage, bar_img: &DynamicI
 /// * `chart` - Chart struct, which contains all data & meta-data about the barchart.
 pub fn draw_linechart(mut img: &mut DynamicImage, chart: &Chart) {
     draw_labels(&mut img, chart);
-    let axis_len = (chart.width as f32 * 0.8);
+    let axis_len = chart.width as f32 * 0.8;
     let y_origin = 20.0 + axis_len;
 
     let x_inc = axis_len / chart.data.len() as f32;
@@ -326,6 +334,7 @@ fn draw_axes(img: &mut DynamicImage, chart: &Chart) {
     let line_pixel = image::Rgba([255, 167, 90, 255]);
 
     let axis_len = chart.width as f32 * 0.8;
+
     // Origin point
     let start_x = 20.0;
     let start_y = 20.0 + axis_len;

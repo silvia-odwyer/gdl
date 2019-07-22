@@ -5,11 +5,10 @@ extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::Clamped;
 use wasm_bindgen::prelude::*;
-use crate::{helpers, Rgb};
+use crate::{Rgb};
 use crate::text::*;
 use crate::elements::*;
-use crate::helpers::dyn_image_from_raw;
-use crate::{graphics, resize, new_with_background};
+use crate::{new_with_background};
 use image::{DynamicImage, GenericImageView};
 
 /// Preset: Centre text, with background image.
