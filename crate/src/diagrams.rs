@@ -93,6 +93,8 @@ pub fn draw_vertical_gradient_barchart(img: &mut DynamicImage, barchart: &Chart,
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
 
+// Draw vertical bars, either as a histogram or bar chart. 
+// This is a private function, but may become public in the future.
 fn draw_vertical_bars(img: &mut DynamicImage, barchart: &Chart, chart_type: &str) {
 
     let bar_gap = match chart_type {
@@ -157,6 +159,8 @@ pub fn draw_horizontal_gradient_barchart(img: &mut DynamicImage, barchart: &Char
     draw_text(img, &barchart.title, 10, start_y as u32, "Lato-Regular", 50.0, &yellow);
 }
 
+// Draw a horizontal chart, either as a histogram or as a barchart,
+// with horizontal bars.
 fn draw_horizontal_bars(img: &mut DynamicImage, barchart: &Chart, chart_type: &str) {
     let bar_gap = match chart_type {
         "barchart" => 30,

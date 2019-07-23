@@ -185,10 +185,9 @@ pub fn draw_stacked_rect(img: &mut DynamicImage, background_color1: &Rgb, backgr
 /// 
 /// ### Arguments
 /// * `img` - A mutable ref to a DynamicImage.
-/// * `background_color1`: Rgb color of first rectangle.
-/// * `background_color2` : Rgb color of second rectangle.
-/// * `width` - u32 - Desired width of gradient rectangle.
-/// * `height` - u32 - Desired height of gradient rectangle.
+/// * `background_color1`: Rgb color of all borders.
+/// * `width` - u32 - Desired width of rectangle.
+/// * `height` - u32 - Desired height of rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 #[wasm_bindgen]
@@ -204,6 +203,53 @@ pub fn draw_stacked_borders(img: &mut DynamicImage, background_color: &Rgb, widt
         x_pos -= 40;
         y_pos += 40;
     }
+}
+
+/// Draw multiple borders stacked on each other, for added depth.
+/// 
+/// ### Arguments
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `background_color1`: Rgb color of first rectangle.
+/// * `background_color2` : Rgb color of second rectangle.
+/// * `width` - u32 - Desired width of gradient rectangle.
+/// * `height` - u32 - Desired height of gradient rectangle.
+/// * `x_pos` - X-coordinate of top corner of rectangle on `img`
+/// * `y_pos` - y-coordinate of top corner of rectangle on `img`
+#[wasm_bindgen]
+pub fn draw_inline_border_rect(img: &mut DynamicImage, background_color: &Rgb, background_color2: &Rgb,  width: u32, height: u32, x_pos: i32, y_pos: i32) {
+
+    draw_filled_rect_mut(img, 
+        Rect::at(x_pos, y_pos).of_size(width, height), 
+        Rgba([background_color.r, background_color.g, 
+        background_color.b, 255u8]));
+
+    // Draw border
+    let INSET = 10;
+
+    let line_width_horizontal = width - (2 * INSET) as u32;
+    draw_filled_rect_mut(img, 
+        Rect::at(x_pos + INSET, y_pos + INSET).of_size(line_width_horizontal, 10), 
+        Rgba([background_color2.r, background_color2.g, 
+        background_color2.b, 255u8]));
+
+    // draw_filled_rect_mut(img, 
+    //     Rect::at(x_pos + INSET, y_pos + INSET).of_size(10, height - (2 * INSET) as u32, ), 
+    //     Rgba([background_color2.r, background_color2.g, 
+    //     background_color2.b, 255u8]));
+
+    draw_filled_rect_mut(img, 
+        Rect::at(x_pos + INSET, height as i32).of_size(line_width_horizontal, 10 ), 
+        Rgba([background_color2.r, background_color2.g, 
+        background_color2.b, 255u8]));
+
+    // draw_filled_rect_mut(img, 
+    //     Rect::at(line_width_horizontal as i32, y_pos).of_size(10, height - (2 * INSET) as u32, ), 
+    //     Rgba([background_color2.r, background_color2.g, 
+    //     background_color2.b, 255u8]));
+
+        // Rect::at(x_pos + INSET, y_pos + INSET).of_size(width - (2 * INSET) as u32, height - (2 * INSET) as u32), 
+
+
 }
 
 /// Create a gradient element in the shape of a Rect.
@@ -348,7 +394,29 @@ impl Triangle {
         return Triangle {background_color: background_color, x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3};
     }
 
+    /// Get the background colour of the Triangle.
     pub fn background_color(self) -> Rgb {
         return self.background_color
     }
+
+    /// Get the x1 co-ordinate of the Triangle.
+    pub fn x1(self) -> i32 {
+        return self.x1
+    }
+
+    /// Get the x1 value of the Triangle.
+    pub fn x2(self) -> i32 {
+        return self.x2
+    }
+
+    /// Get the y1 value of the Triangle.
+    pub fn y1(self) -> i32 {
+        return self.y1
+    }
+
+    /// Get the y2 value of the Triangle.
+    pub fn y2(self) -> i32 {
+        return self.y2
+    }
+
 }
