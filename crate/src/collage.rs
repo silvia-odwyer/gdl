@@ -218,6 +218,16 @@ pub fn four_grid_center_square(photon_img: &DynamicImage, photon_img2: &DynamicI
 }
 
 
+/// Create a moodboard style graphic with 4 images within a collage.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `img2` - A mutable ref to a DynamicImage.
+/// * `img3` - A mutable ref to a DynamicImage.
+/// * `img4` - A mutable ref to a DynamicImage.
+/// * `text` - Main heading for the graphic.
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn moodboard(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
 photon_img4: &DynamicImage, text: &str, width: u32, height: u32) -> DynamicImage {
@@ -256,6 +266,15 @@ photon_img4: &DynamicImage, text: &str, width: u32, height: u32) -> DynamicImage
     return container_img;
 }
 
+/// Three-image collage containing main text, and a feature-style grid.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `img2` - A mutable ref to a DynamicImage.
+/// * `img3` - A mutable ref to a DynamicImage.
+/// * `text` - Main heading for the graphic.
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn feature_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
                     main_text: &str, width: u32, height: u32) -> DynamicImage {
@@ -284,6 +303,16 @@ pub fn feature_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photo
     return container_img;
 }
 
+/// Triple-image collage with a centre square containing text.
+/// 
+/// # Arguments
+/// * `img` - A mutable ref to a DynamicImage.
+/// * `img2` - A mutable ref to a DynamicImage.
+/// * `img3` - A mutable ref to a DynamicImage.
+/// * `img4` - A mutable ref to a DynamicImage.
+/// * `text` - Main heading for the graphic.
+/// * `width` - u32 - Desired width of final graphic 
+/// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
 pub fn triple_grid_text(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
                         text: &str, width: u32, height: u32) -> DynamicImage {
