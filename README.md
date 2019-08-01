@@ -13,7 +13,8 @@ GDL allows you to create:
 
 The following designs were created with GDL:
 
-[Designs created with GDL](https://i.imgur.com/coOmEVQ.png)
+![Imgur](http://i.imgur.com/coOmEVQ.png)
+
 
 All background/foreground images used in the designs are in the Public Domain, and available from Unsplash.
 
@@ -31,7 +32,7 @@ GDL-rs = "*"
 
 Clone this repo:
 ```sh
-git clone https://github.com/silvia-odwyer/GDL
+git clone https://github.com/silvia-odwyer/gdl
 ```
 
 Run the binary, which will create a sample graphic:
@@ -40,7 +41,7 @@ cd crate
 cargo run --release 
 ```
 
-See the [examples dir](https://github.com/silvia-odwyer/gdl/tree/master/crate/examples) for more examples.
+See [/examples](https://github.com/silvia-odwyer/gdl/tree/master/crate/examples) for more examples.
 
 ### Why GDL?
 Designing batches of graphics for large numbers of blog posts can be quite cumbersome for bloggers and freelance writers. Hence why I created GDL. 

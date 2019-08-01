@@ -275,23 +275,25 @@
                   <button class="btn btn-default btn_fill pulse"><a href="https://github.com/silvia-odwyer/gdl">Get Started</a></button>
                 </section>
 
-                <article>
+                <img src="https://i.imgur.com/CaiPUru.png"/>
+
+                <!-- <article>
                   <div id="code">
                   <pre>
                     <code>  extern crate gdl;
-  use gdl::{presets};
+  use gdl::{presets, new_with_background};
 
   fn main() {
-    let img = open_image("image.JPG");
-    
-    let postcard = presets::postcard(&mut img, "Welcome", "to Paris");
-    
-    save_image(postcard, "new_image.PNG");
+    let background_color = Rgb { r: 255, g:226, b: 98};
+    let mut img = new_with_background(800, 800, &background_color);
+
+    presets::text_banner(&mut img, "The Lemonade Co.", "Making lemonade since 2002.");
+    gdl::helpers::save_image(img, "image.png");
   }
                     </code>
                   </pre>
                 </div>
-                </article>
+                </article> -->
                 
   
             </section>
