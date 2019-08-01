@@ -9,10 +9,9 @@ use crate::{Rgb, LinSrgba, Gradient, Lch, Srgba, Rgba};
 use palette::encoding::pixel::Pixel;
 use imageproc::rect::Rect;
 use crate::text::draw_text;
-use crate::helpers;
+// use crate::helpers;
 use wasm_bindgen::prelude::*;
-use wasm_bindgen::Clamped;
-use imageproc::pixelops::interpolate;
+// use wasm_bindgen::Clamped;
 
 /// Draw a solid rectangle with a given background colour. 
 /// 
@@ -194,7 +193,7 @@ pub fn draw_stacked_rect(img: &mut DynamicImage, background_color1: &Rgb, backgr
 pub fn draw_stacked_borders(img: &mut DynamicImage, background_color: &Rgb, width: u32, height: u32, mut x_pos: i32, mut y_pos: i32) {
     
     
-    for i in 0..3 {
+    for _ in 0..3 {
         draw_hollow_rect_mut(img, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 
                         Rgba([background_color.r, background_color.g, 
@@ -224,11 +223,13 @@ pub fn draw_inline_border_rect(img: &mut DynamicImage, background_color: &Rgb, b
         background_color.b, 255u8]));
 
     // Draw border
-    let INSET = 10;
+    let inset = 10;
 
-    let line_width_horizontal = width - (2 * INSET) as u32;
+    let horizontal_width = width - (2 * inset) as u32;
+    let _vertical_height = height - (2 * inset) as u32;
+
     draw_filled_rect_mut(img, 
-        Rect::at(x_pos + INSET, y_pos + INSET).of_size(line_width_horizontal, 10), 
+        Rect::at(x_pos + inset, y_pos + inset).of_size(horizontal_width, 10), 
         Rgba([background_color2.r, background_color2.g, 
         background_color2.b, 255u8]));
 
@@ -238,7 +239,7 @@ pub fn draw_inline_border_rect(img: &mut DynamicImage, background_color: &Rgb, b
     //     background_color2.b, 255u8]));
 
     draw_filled_rect_mut(img, 
-        Rect::at(x_pos + INSET, height as i32).of_size(line_width_horizontal, 10 ), 
+        Rect::at(x_pos + inset, 550).of_size(horizontal_width, 10 ), 
         Rgba([background_color2.r, background_color2.g, 
         background_color2.b, 255u8]));
 
@@ -270,7 +271,7 @@ pub fn create_gradient(width: u32, height: u32) -> DynamicImage {
         LinSrgba::new(0.1, 1.0, 0.1, 1.0),
     ]);
 
-    let grad3 = Gradient::new(vec![
+    let _grad3 = Gradient::new(vec![
         Lch::from(LinSrgba::new(1.0, 0.1, 0.1, 1.0)),
         Lch::from(LinSrgba::new(0.1, 0.1, 1.0, 1.0)),
         Lch::from(LinSrgba::new(0.1, 1.0, 0.1, 1.0)),

@@ -13,7 +13,6 @@ use wasm_bindgen::prelude::*;
 use web_sys::{CanvasRenderingContext2d, ImageData, HtmlCanvasElement};
 use wasm_bindgen::Clamped;
 use image::{GenericImageView, GenericImage, ImageBuffer, DynamicImage, RgbaImage, Rgba};
-use imageproc::drawing::draw_filled_rect_mut;
 use palette::{Lch, Srgb, Srgba, Hue, Gradient};
 use palette::rgb::LinSrgba;
 use palette::encoding::pixel::Pixel;
@@ -49,7 +48,7 @@ impl PhotonImage {
     }
     
     pub fn new_from_imgdata(&mut self, img_data: ImageData, width: u32, height: u32) -> PhotonImage {
-        let raw_pixels = to_raw_pixels(img_data);
+        let _raw_pixels = to_raw_pixels(img_data);
         let new_vec = Vec::new();
         return PhotonImage {raw_pixels: new_vec, width: width, height: height}
     }
@@ -64,16 +63,16 @@ impl PhotonImage {
         return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
     }
 
-    pub fn new_with_pattern(width: u32, height: u32, background_color: Rgb) {
-        // create a pixel 
-        // let pixel =  image::Rgba([background_color.r, background_color.g, background_color.b, 255]);
-        // let image_buffer = ImageBuffer::from_pixel(width, height, pixel);
-        // let rgba_img = image::ImageRgba8(image_buffer);
+    // pub fn new_with_pattern(width: u32, height: u32, background_color: Rgb) {
+    //     // create a pixel 
+    //     // let pixel =  image::Rgba([background_color.r, background_color.g, background_color.b, 255]);
+    //     // let image_buffer = ImageBuffer::from_pixel(width, height, pixel);
+    //     // let rgba_img = image::ImageRgba8(image_buffer);
 
 
-        // let raw_pixels = rgba_img.raw_pixels();
-        // return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
-    }
+    //     // let raw_pixels = rgba_img.raw_pixels();
+    //     // return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
+    // }
 
     pub fn new_with_gradient(width: u32, height: u32) -> PhotonImage {
         // create a pixel 
@@ -86,7 +85,7 @@ impl PhotonImage {
 
         //The same colors and offsets as in grad1, but in a color space where the hue
         // is a component
-        let grad3 = Gradient::new(vec![
+        let _grad3 = Gradient::new(vec![
             Lch::from(LinSrgba::new(1.0, 0.1, 0.1, 1.0)),
             Lch::from(LinSrgba::new(0.1, 0.1, 1.0, 1.0)),
             Lch::from(LinSrgba::new(0.1, 1.0, 0.1, 1.0)),
@@ -135,8 +134,7 @@ impl PhotonImage {
 
     pub fn raw_pix(self) -> Vec<u8> {
         self.raw_pixels
-    }
-        
+    } 
 }
 
 
@@ -216,7 +214,7 @@ impl Rgb {
 }
 
 #[wasm_bindgen]
-pub fn drawRectWeb(ctx: CanvasRenderingContext2d) {
+pub fn draw_rect_web(ctx: CanvasRenderingContext2d) {
     ctx.rect(10.0, 20.0, 50.0, 50.0);
     ctx.stroke();
 }
@@ -238,22 +236,9 @@ pub fn run() -> Result<(), JsValue> {
     Ok(())
 }
 
-/// Get the ImageData from a 2D canvas context
-#[wasm_bindgen]
-pub fn getImageData(canvas: &HtmlCanvasElement, ctx: &CanvasRenderingContext2d) -> ImageData {
-    set_panic_hook();
-    let width = canvas.width();
-    let height = canvas.height();
-
-    // let data: ImageData = ctx.get_image_data(0.0, 0.0, 100.0, 100.0).unwrap();
-    let data = ctx.get_image_data(0.0, 0.0, width as f64, height as f64).unwrap();
-    let vec_data = data.data().to_vec();
-    return data;
-}
-
 /// Place the ImageData onto the 2D context.
 #[wasm_bindgen]
-pub fn putImageData(canvas: HtmlCanvasElement, ctx: CanvasRenderingContext2d, mut new_image: PhotonImage) {
+pub fn put_image_data(canvas: HtmlCanvasElement, ctx: CanvasRenderingContext2d, mut new_image: PhotonImage) {
     // Convert the raw pixels back to an ImageData object.
     let new_imgdata = ImageData::new_with_u8_clamped_array_and_sh(Clamped(&mut new_image.raw_pixels), canvas.width(), canvas.height());
 
@@ -273,7 +258,7 @@ pub fn new_with_background(width: u32, height: u32, background_color: &Rgb) -> D
 #[wasm_bindgen]
 #[no_mangle]
 pub fn open_image(canvas: HtmlCanvasElement, ctx: CanvasRenderingContext2d) -> PhotonImage {
-    let imgdata = getImageData(&canvas, &ctx);
+    let imgdata = get_image_data(&canvas, &ctx);
     let raw_pixels = to_raw_pixels(imgdata);
     return PhotonImage {raw_pixels: raw_pixels, width: canvas.width(), height: canvas.height() }
 }

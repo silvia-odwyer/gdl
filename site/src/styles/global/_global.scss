@@ -5,7 +5,6 @@
 html, body {
   margin: 0;
   padding: 0;
-
   color: black;
 }
 
@@ -249,7 +248,6 @@ button:hover {
   transform: scaleY(1);
 }
 
-
 .buttons button {
   margin-right: 1em;
 }
@@ -477,59 +475,5 @@ footer ul li {
 
 
   perspective: 30px;
-  
-  // &:before {
-  //   content: '';
-  //   display: block;
-  //   visibility: visible;
-  //   position: absolute;
-  //   top: 0; right: 0; bottom: 0; left: 0;
-  //   margin: auto;
-  //   box-shadow: 0 1em 2em rgba(0,0,0,0.3);
-  // }
-}
 
-.tiler .cell { 
-  pointer-events: none;
-  opacity: 0;
-
-  transform: translateZ(-15px);
-  transform-style: preserve-3d;
-
-  transition-property: transform, opacity;
-  transition-duration: 0.5s, 0.4s;
-  transition-timing-function: cubic-bezier(.65,.01,.15,1.33);//, linear;
-
-  /* The center character index */
-  --center-x: calc((var(--col-total) - 1) / 2);
-  --center-y: calc((var(--row-total) - 1) / 2);
-
-  /* Offset from center, positive & negative */
-  --offset-x: calc(var(--col-index) - var(--center-x));
-  --offset-y: calc(var(--row-index) - var(--center-y));
-
-  /* Absolute distance from center, only positive */
-  --distance-x: calc(
-    (var(--offset-x) * var(--offset-x)) / var(--center-x)
-  );
-
-  /* Absolute distance from center, only positive */
-  --distance-y: calc(
-    (var(--offset-y) * var(--offset-y)) / var(--center-y)
-  );
-
-  transition-delay: calc( 0.1s * var(--distance-y) + 0.1s * var(--distance-x) );
-}
-
-// .tiler { transition: z-index 0.3s linear; }
-
-.tiler-overlay { z-index: 2; }
-.tiler:hover {
- 
-  .cell { 
-    // pointer-events: auto;
-    transform: scale(1);
-    opacity: 1; 
-  
-  }
 }

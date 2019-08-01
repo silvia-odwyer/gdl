@@ -8,7 +8,7 @@ use wasm_bindgen::prelude::*;
 use imageproc::drawing::{draw_filled_circle_mut};
 use crate::{Rgb};
 use image::GenericImageView;
-use palette::{Lch, Srgb, Srgba, Hue, Gradient, Pixel};
+use palette::{Lch, Srgba, Gradient, Pixel};
 use palette::rgb::LinSrgba;
 use image::{ImageBuffer, RgbaImage};
 use std::convert::TryInto;
@@ -54,7 +54,7 @@ pub fn spaced_circle_background(width: u32, height: u32) -> DynamicImage {
 
     let white_pixel = image::Rgba([123, 10, 180, 255]);
     let circle_radius: i32 = (width as i32 / 10) - 35;
-    let end: usize = (width / 10).try_into().unwrap();
+    let _end: usize = (width / 10).try_into().unwrap();
 
     for x in 0..8 {
         for y in 0..10 {
@@ -157,7 +157,7 @@ pub fn gradient_background(width: u32, height: u32) -> DynamicImage {
 
     //The same colors and offsets as in grad1, but in a color space where the hue
     // is a component
-    let grad3 = Gradient::new(vec![
+    let _grad3 = Gradient::new(vec![
         Lch::from(LinSrgba::new(1.0, 0.1, 0.1, 1.0)),
         Lch::from(LinSrgba::new(0.1, 0.1, 1.0, 1.0)),
         Lch::from(LinSrgba::new(0.1, 1.0, 0.1, 1.0)),
@@ -182,7 +182,7 @@ pub fn gradient_background(width: u32, height: u32) -> DynamicImage {
         }
     }
     let rgba_img = image::ImageRgba8(image);
-    let raw_pixels = rgba_img.raw_pixels();
+    let _raw_pixels = rgba_img.raw_pixels();
     return rgba_img;
 }
 

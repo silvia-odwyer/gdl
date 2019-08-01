@@ -5,7 +5,7 @@ use image::{GenericImageView, DynamicImage, Rgba};
 extern crate imageproc;
 extern crate rusttype;
 use wasm_bindgen::prelude::*;
-use crate::{helpers, Rgb, PhotonImage};
+use crate::{Rgb};
 use crate::text::*;
 use crate::elements::*;
 use imageproc::drawing::draw_filled_rect_mut;
@@ -257,7 +257,7 @@ photon_img4: &DynamicImage, text: &str, width: u32, height: u32) -> DynamicImage
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     // Draw a square in the center
     
-    let mut height_mul: f32 = 0.75;
+    let height_mul: f32 = 0.75;
     
     draw_solid_rect(&mut container_img, &white_rgb, width as u32, (height as f32 * 0.3) as u32, 0 as i32, (height as f32 * 0.75) as i32);  
 
@@ -370,16 +370,6 @@ pub fn six_grid_text(photon_img: &DynamicImage, photon_img2: &DynamicImage, phot
 }
 
 
-
-fn to_dyn_img_vec(imgs: Vec<&PhotonImage>) -> Vec<DynamicImage> {
-    let mut dyn_imgs = vec![];
-    for img in imgs {
-        let image = helpers::dyn_image_from_raw(&img);
-        dyn_imgs.push(image);
-    }
-
-    return dyn_imgs
-}
 
 // Resize images in a vec, returns a new vec with resized images.
 fn resize_imgs(imgs: Vec<&DynamicImage>, img_width: u32, img_height: u32) -> Vec<DynamicImage> {

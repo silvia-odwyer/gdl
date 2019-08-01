@@ -1,98 +1,45 @@
-extern crate image;
-use image::{GenericImageView, GenericImage, ImageBuffer};
-extern crate metallic;
-use metallic::{Rgb, PhotonImage, ColorScheme};
-use std::io::Read;
-use std::string::String;
+extern crate gdl;
+extern crate time;
+use gdl::{Rgb, PhotonImage, ColorScheme, diagrams, background, text};
+use gdl::text::*;
+use gdl::{presets, new_with_background};
+use gdl::diagrams::{Chart};
+use gdl::elements::*;
+use time::PreciseTime;
 
+// See the examples dir for more examples
 fn main() {
-    // Open the image (a PhotonImage is returned) and get dimensions
-    let img = metallic::helpers::open_image("examples/input_images/daisies_fuji.jpg");
-    let img2 = metallic::helpers::open_image("examples/input_images/fruit_med.jpg");
-    let watermark = metallic::helpers::open_image("examples/input_images/watermark.jpg");
+    // GRAPHIC 1
+    let start = PreciseTime::now();
+    let yellow = Rgb { r: 255, g:226, b: 98};
+    let mut img = new_with_background(800, 800, &yellow);
 
-    // Apply a filter to the pixels
-    let rgb1 = Rgb{r: 120, g: 130, b: 54};
-    let rgb2 = Rgb{r: 0, g: 0, b: 0};
-    let red = Rgb{r: 204, g: 0, b: 0};
-    let black = Rgb { r: 0, g: 0, b:0};
+    presets::text_banner(&mut img, "The Lemonade Co.", "Making great lemonade since 2002.");
+    gdl::helpers::save_image(img, "output_graphic1.png");
 
-    let mut photon_img = PhotonImage::new_with_background(800, 400, black);
-    let rgb4 = Rgb{r: 120, g: 130, b: 54};
-    let cs = ColorScheme::new(rgb4);
+    let end = PreciseTime::now();
+    println!("Took {} seconds to create Graphic 1.", start.to(end));
 
-    photon_img.draw_text_with_border("Paris", 20, 10);
-    photon_img.draw_text("Case Studies/Industry Buzz/", 20, 80, "Roboto-Bold", 20.0);
+    // GRAPHIC 2 
+    let mut alleyway = gdl::helpers::open_image("examples/input_images/city_square.jpg");
+    let white = Rgb { r: 255, g: 255, b: 255};
 
-    // photon_img.draw_text_with_border("London", 20, 710);
-    // photon_img.draw_text("Beijing", 20, 790);   
-    let rgb3 = Rgb{r: 120, g: 130, b: 54};
+    draw_text(&mut alleyway, "Visit", 230, 270, "BebasKai", 140.0, &white);
+    draw_text(&mut alleyway, "Stockholm", 230, 390, "BebasKai", 140.0, &white);
 
-    // metallic::text::draw_text(&new_img, "Welcome to Metallic", 10, 10);
+    gdl::helpers::save_image(alleyway, "output_graphic2.png");
 
-    // Write the contents of this image in JPG format.
-    metallic::helpers::save_image(photon_img, "background_img.png");
+    let end = PreciseTime::now();
+    println!("Took {} seconds to create Graphic 2.", start.to(end));
 
-    drawCitiesGraphic();
-}
+    // GRAPHIC 3 
+    let mut night = gdl::helpers::open_image("examples/input_images/drive.jpg");
+    let white = Rgb { r: 255, g: 255, b: 255};
 
-fn drawCitiesGraphic() {
-    // Open the image (a PhotonImage is returned) and get dimensions
-    let img = metallic::helpers::open_image("examples/input_images/daisies_fuji.jpg");
-    let img2 = metallic::helpers::open_image("examples/input_images/fruit_med.jpg");
-    let watermark = metallic::helpers::open_image("examples/input_images/watermark.jpg");
+    draw_vertical_text(&mut night, "BUCHAREST BY NIGHT", 0, 0, "BebasKai", 110.0, "right", &white);
+    gdl::helpers::save_image(night, "output_graphic3.png");
 
-    // Apply a filter to the pixels
-    let rgb1 = Rgb{r: 120, g: 130, b: 54};
-    let rgb2 = Rgb{r: 0, g: 0, b: 0};
-    let new_img = metallic::graphics::create_image(500, 500, rgb1);
-    let mut photon_img = PhotonImage::new_with_background(1000, 1000, rgb2);
-    let rgb4 = Rgb{r: 120, g: 130, b: 54};
-    let cs = ColorScheme::new(rgb4);
+    let end = PreciseTime::now();
+    println!("Took {} seconds to create Graphic 2.", start.to(end));
 
-    photon_img.draw_text("Dublin", 20, 10, "Roboto-Black", 90.0);
-    photon_img.draw_text("New York", 20, 80, "Roboto-Bold", 80.0);
-    // photon_img.draw_text_with_border("Paris", 20, 150);
-    photon_img.draw_text("Bucharest", 20, 150, "Roboto-Regular", 70.0);
-    // photon_img.draw_text_with_border("Tokyo", 20, 290);
-    // photon_img.draw_text("Cairo", 20, 360);
-    // photon_img.draw_text_with_border("London", 20, 430);
-    // photon_img.draw_text("Beijing", 20, 500);
-    // photon_img.draw_text_with_border("Tokyo", 20, 570);
-    photon_img.draw_text("Paris", 20, 220, "Roboto-Light", 60.0);
-
-    // photon_img.draw_text_with_border("London", 20, 710);
-    // photon_img.draw_text("Beijing", 20, 790);   
-    let rgb3 = Rgb{r: 120, g: 130, b: 54};
-
-
-    // metallic::text::draw_text(&new_img, "Welcome to Metallic", 10, 10);
-
-    // Write the contents of this image in JPG format.
-    metallic::helpers::save_image(photon_img, "background_img.png");
-}
-
-fn eatSleepCode() {
-        // Open the image (a PhotonImage is returned) and get dimensions
-    let img = metallic::helpers::open_image("examples/input_images/daisies_fuji.jpg");
-    let img2 = metallic::helpers::open_image("examples/input_images/fruit_med.jpg");
-    let watermark = metallic::helpers::open_image("examples/input_images/watermark.jpg");
-
-    let rgb2 = Rgb{r: 0, g: 0, b: 0};
-    let mut photon_img = PhotonImage::new_with_background(1000, 1000, rgb2);
-    let rgb4 = Rgb{r: 120, g: 130, b: 54};
-    let cs = ColorScheme::new(rgb4);
-
-    photon_img.draw_text("EAT", 250, 10 + 100, "Roboto-Black", 90.0);
-    photon_img.draw_text("SLEEP", 250, 80 + 100, "Roboto-Bold", 80.0);
-    
-    photon_img.draw_text("CODE ", 250, 250, "Roboto-Regular", 90.0);
-
-    photon_img.draw_text("REPEAT", 250, 320, "Roboto-Light", 90.0);
-    photon_img.draw_text("Then do it all over again", 450, 280, "Roboto-Regular", 10.0);
-   
-    let rgb3 = Rgb{r: 120, g: 130, b: 54};
-
-    // Write the contents of this image in JPG format.
-    metallic::helpers::save_image(photon_img, "background_img.png");
 }

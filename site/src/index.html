@@ -12,7 +12,8 @@
   <meta property="og:image" content="https://i.imgur.com/lxRBpeb.jpg">
   <meta property="og:image:alt" content="A blue package, symbolizing what webpack does.">
   <meta property="og:description" content="A WebAssembly graphic design library that delivers blazing performance and can be called via JS.">
-
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <!-- Mobile header color for Chrome, Firefox OS and Opera -->
   <meta name="theme-color" content="#2c638f">
   <!-- Mobile header color Windows Phone -->
@@ -50,8 +51,8 @@
           <ul>
             <li>Home</li>
             <li><a href="https://silvia-odwyer.github.com/gdl/docs">Docs</a></li>
-            <li><a href="demo.html">Demo</a></li>
-            <li><a href="https://silvia-odwyer.github.com/gdl/docs">GitHub</a></li>
+            <li><a href="https://github.com/silvia-odwyer/gdl#run-the-examples">Demo</a></li>
+            <li><a href="https://github.com/silvia-odwyer/gdl">GitHub</a></li>
           </ul>
         </nav>
   
@@ -64,39 +65,39 @@
           </p>
           
           <div class="buttons">
-            <button class="btn btn-default btn_fill pulse">Get Started</button>
-            <button class=" slide"><a href="https://github.com/silvia-odwyer/gdl/docs">Docs</a></button>
+            <button class="btn btn-default btn_fill pulse"><a href="https://github.com/silvia-odwyer/gdl#run-the-examples">Get Started</a></button>
+            <button class=" slide" id="docs"><a href="https://github.com/silvia-odwyer/gdl/docs">Docs</a></button>
           </div>
         </article>
   
         <article class="landing_image">              
               <div class="tiler">
-                <img src="../../designs/bucharest_metro.png" />
+                <img src="https://i.imgur.com/2An7BAu.png" />
               </div>
               
               
               <div class="tiler">
-                <img src="../../designs/cafe.png" />
+                <img src="https://i.imgur.com/xU7n5md.png" />
               </div>
               
               
               <div class="tiler">
-                <img src="../../designs/lemonade.png" />
+                <img src="https://i.imgur.com/InHwyoC.png" />
               </div>
               
               
               <div class="tiler">
-                <img src="../../designs/stockholm.png" />
+                <img src="https://i.imgur.com/oZxfiEI.png" />
               </div>
               
               
               <div class="tiler">
-                <img src="../../designs/summer_collection.png" />
+                <img src="https://i.imgur.com/kXjCcK9.png" />
               </div>
               
               
               <div class="tiler">
-                <img src="../../designs/travel.png" />
+                <img src="https://i.imgur.com/eePyZ42.png" />
               </div>
         </article>
       </article>
@@ -106,22 +107,22 @@
         <p>Unlike other libraries, this library is built with 100% pure Rust, so security and safety is guaranteed. </p>
   
         <ul class="features_list">
-          <li>
-            <h3>Data Visualisation</h3>
-            <p>Visualise data by creating bar charts, line charts, and more. </p>
-            <h5>Read More </h5>
+          <li data-aos="fade-up"  data-aos-anchor="#docs">
+            <h3>Presets and Collages</h3>
+            <p>Create graphics rapidly with presets, and combine imagery to form collages.</p>
+            <h5><a href="https://github.com/silvia-odwyer/gdl/docs">Read More</a></h5>
           </li>
   
-          <li> 
-            <h3>Elements, Presets, and Collages</h3>
-            <p>Make use of elements in your designs, create collages, and create graphics rapidly with presets.</p>
-            <h5>Read More </h5>
+          <li data-aos="fade-up" > 
+            <h3>Elements and Text Effects</h3>
+            <p>Make use of elements in your designs, and add creative text effects.</p>
+            <h5><a href="https://github.com/silvia-odwyer/gdl/docs">Read More</a></h5>
           </li>
 
-          <li>
+          <li data-aos="fade-up">
             <h3>Web-Assembly Friendly</h3>
             <p>[Coming Soon] For web-based graphic design, the web version of this lib will make use of the canvas and WASM. </p>
-            <h5>Read More </h5>
+            <h5><a href="https://github.com/silvia-odwyer/gdl/docs">Read More</a></h5>
           </li>
         </ul>
       </article>
@@ -132,19 +133,56 @@
           <section class="guide_pane">
             <section>
               <h2> Create 2D Graphics </h2>
-              <p> gdl allows you to create social media graphics, , and over 10 other types of graphic.</p>
+              <p> gdl allows you to create social media graphics, banners, collages, and many other types of graphic.</p>
+
+              <p>You can also resize these graphics for various social media platforms, including Facebook, LinkedIn, Pinterest, and Twitter.</p>
+
+              <h4>Details</h4>
               <ul>
-                <li>Pair gdl with its sibling library, Photon, and apply image effects or filters to your final designs or images.</li>
-                <li>Low-level control: gdl gives you fine-tuned control over your designs.</li>
-                View all [functions here](https://silvia-odwyer.github.io/gdl/docs/gdl/all.html).
+                <li><b>Low-level control:</b> gdl gives you fine-tuned control over your designs.</li>
+                <li><b>Text Effects:</b>Add creative text effects to your designs.</li>
+                <li><b>Elements</b>: Add elements such as gradients, shapes, and borders to your designs.</li>
+                <li>Pair gdl with its sibling library, <b>Photon</b>, and apply image effects or filters to your final designs or images.</li>
+                <li>View <b>all <a href="https://silvia-odwyer.github.io/gdl/docs/gdl/all.html">functionshere</a></b>.
+                </li>
               </ul>
             </section>
-            <div class="container">
+            <div>
+              <div>
+                  <div class="tiler">
+                      <img src="https://i.imgur.com/2An7BAu.png" />
+                    </div>
+                    
+                    
+                    <div class="tiler">
+                      <img src="https://i.imgur.com/xU7n5md.png" />
+                    </div>
+                    
+                    
+                    <div class="tiler">
+                      <img src="https://i.imgur.com/InHwyoC.png" />
+                    </div>
+                    
+                    
+                    <div class="tiler">
+                      <img src="https://i.imgur.com/oZxfiEI.png" />
+                    </div>
+                    
+                    
+                    <div class="tiler">
+                      <img src="https://i.imgur.com/kXjCcK9.png" />
+                    </div>
+                    
+                    
+                    <div class="tiler">
+                      <img src="https://i.imgur.com/eePyZ42.png" />
+                    </div>
+              </div>
             </div>
           </section>
 
             
-          <section class="feature_pane">
+          <!-- <section class="feature_pane">
               <div class="feature_lhs">
                   <div class="tiler">
                       <img src="../../designs/barchart.png" />
@@ -164,50 +202,22 @@
                 gdl gives you the tools to create barcharts, histograms, and other data visualisation charts, 
                 allowing you to visualise data and create graphics or even infographics based on your data.     
                 </p>
-                <button class="btn btn_fill">Animate</button>
-              </section>
-            </section>
 
-          <section class="guide_pane">
-              <section>
-                <h2>15+ Built-in Templates </h2>
-                <p>Kickstart your designs with over 15 built-in templates. Just add text, and GDL will handle the rest.
-                  You can also create collages and combine images together to create interactive graphics.
-                  More coming soon! 
+                <p>You can create:</p>
+
+                <ul>
+                  <li>Bar charts</li>
+                  <li>Gradient bar charts</li>
+                  <li>Image-based barcharts</li>
+                  <li>Histograms</li>
+                  <li>Basic Line Charts</li>
+                </ul>
+
+                <p>This may become its own individual crate in the future, depending on the number of functions which will soon 
+                  be added to gdl's current datavis module.
                 </p>
-
               </section>
-              <div>
-                  <div class="tiler">
-                      <img src="../../designs/bucharest_metro.png" />
-                    </div>
-                    
-                    
-                    <div class="tiler">
-                      <img src="../../designs/cafe.png" />
-                    </div>
-                    
-                    
-                    <div class="tiler">
-                      <img src="../../designs/lemonade.png" />
-                    </div>
-                    
-                    
-                    <div class="tiler">
-                      <img src="../../designs/stockholm.png" />
-                    </div>
-                    
-                    
-                    <div class="tiler">
-                      <img src="../../designs/summer_collection.png" />
-                    </div>
-                    
-                    
-                    <div class="tiler">
-                      <img src="../../designs/travel.png" />
-                    </div>
-              </div>
-            </section>
+            </section> -->
   
           <section>
 
@@ -312,54 +322,37 @@
             <li>Home</li>
             <li><a href="demo.html">Demo</a></li>
             <li><a href="https://github.com/silvia-odwyer/gdl">GitHub</a></li>
-            <li><a href="https://github.com/silvia-odwyer/gdl/docs">Docs</a></li>
+            <li><a href="https://silvia-odwyer.github.com/gdl/docs">Docs</a></li>
           </ul>
         </div>
       </footer>
       </div>
      </div>
-
-     <script>
-        // Constructor receives a selector that indicates
-      // where to inject the demonstration in your page.
-      const demo = new GDemo('#code');
-      
-      const code = `
-      `
-      
-      demo
-
-        .openApp('terminal', {minHeight: '350px', promptString: '$'})
-        .command('git clone https://github.com/silvia-odwyer/gdl', {onCompleteDelay: 500})
-        // .respond('')
-        .command('cd gdl')
-        .command('npm start')
-        .respond('This will start a webpack build pipeline, and contains a quick demo to help you get started.')
-        .command('cd crate')
-        .command('cargo run --release')
-        .respond('This will natively run the Rust binary code.')
-        .openApp('editor', {minHeight: '350px', windowTitle: 'demo.js'})
-        .write(code, {onCompleteDelay: 1500})
-        .end();
-      
-      </script>
-  <script src="https://unpkg.com/splitting@1.0.5/dist/splitting.js"></script>
-
-      <script>
-            
-        
-      Splitting({
-        target: '.tiler',
-        by: 'cells',
-        rows: 3,
-        columns: 3,
-        image: true
-      }); //Image('.tiler-overlay', { rows: 3, cols: 3 });
-
-
-</script>
-
   </main>
+      
+  <script>
+      AOS.init({
+        // Global settings:
+        disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
+        startEvent: 'DOMContentLoaded', // name of the event dispatched on the document, that AOS should initialize on
+        initClassName: 'aos-init', // class applied after initialization
+        animatedClassName: 'aos-animate', // class applied on animation
+        useClassNames: false, // if true, will add content of `data-aos` as classes on scroll
+        disableMutationObserver: false, // disables automatic mutations' detections (advanced)
+        debounceDelay: 50, // the delay on debounce used while resizing window (advanced)
+        throttleDelay: 99, // the delay on throttle used while scrolling the page (advanced)
+        
 
+        // Settings that can be overridden on per-element basis, by `data-aos-*` attributes:
+        offset: 380, // offset (in px) from the original trigger point
+        delay: 0, // values from 0 to 3000, with step 50ms
+        duration: 400, // values from 0 to 3000, with step 50ms
+        easing: 'ease', // default easing for AOS animations
+        once: false, // whether animation should happen only once - while scrolling down
+        mirror: false, // whether elements should animate out while scrolling past them
+        anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+
+      });
+    </script>   
 </body>
 </html>

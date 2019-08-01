@@ -12,34 +12,6 @@ use imageproc::distance_transform::Norm;
 use rusttype::{FontCollection, Scale};
 use crate::{Rgb};
 
-/// Draw text onto an image.
-///
-/// ### Arguments
-/// * `img` - Mutable reference to a DynamicImage.
-/// * `text` - Text string to be drawn.
-/// * `x` - X-coordinate of top corner of text.
-/// * `y` - Y coordinae of top corner of text.
-/// * `font` - Font name. Fonts available include Roboto-Regular, BebasKai, Roboto-Light, among many others. 
-/// Full list of fonts available coming soon. 
-/// * `font_size`: f32 that represents the font's size.
-/// * `rgb`: Rgb text color.
-#[wasm_bindgen]
-pub fn draw_text(image: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
-        
-    let image2 : DynamicImage = DynamicImage::new_luma8(
-            image.width(), image.height());
-
-    // include_bytes! only takes a string literal
-    let font_vec = open_font(font);
-
-    let font = FontCollection::from_bytes(font_vec).unwrap().into_font().unwrap();
-    let height = font_size;
-    let scale = Scale { x: height * 1.0, y: height };
-    let white = Rgb{r: 255, g: 255, b: 255};
-
-    draw_text_mut(image, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x + 10, y - 10, scale, &font, text);
-}
-
 /// Draw text onto an image with a border around the text.
 ///
 /// ### Arguments
@@ -73,6 +45,30 @@ pub fn draw_text_with_border(image: &mut DynamicImage, font: &str, text: &str, x
         }
     }
     draw_text_mut(image, Rgba([193u8, 255u8, 255u8, 255u8]), x + 10, y - 10, scale, &font, text);
+}
+
+/// Draw text onto an image.
+///
+/// ### Arguments
+/// * `img` - Mutable reference to a DynamicImage.
+/// * `text` - Text string to be drawn.
+/// * `x` - X-coordinate of top corner of text.
+/// * `y` - Y coordinae of top corner of text.
+/// * `font` - Font name. Fonts available include Roboto-Regular, BebasKai, Roboto-Light, among many others. 
+/// Full list of fonts available coming soon. 
+/// * `font_size`: f32 that represents the font's size.
+/// * `rgb`: Rgb text color.
+#[wasm_bindgen]
+pub fn draw_text(image: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
+
+    // include_bytes! only takes a string literal
+    let font_vec = open_font(font);
+
+    let font = FontCollection::from_bytes(font_vec).unwrap().into_font().unwrap();
+    let height = font_size;
+    let scale = Scale { x: height * 1.0, y: height };
+
+    draw_text_mut(image, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x + 10, y - 10, scale, &font, text);
 }
 
 /// Draw vertical text onto an image.
@@ -138,8 +134,6 @@ fn draw_rotated_text(image: &mut DynamicImage, text: &str, x: u32, y:u32, font: 
             
     // Since the image will be rotated, the height of the container image will be the width of the 
     // text image.
-    let height = image.width();
-    let width = image.height();
 
     let font_img_height = text.len() as f32 * (font_size * 0.48);
     let font_img_width = font_size * 1.3;
@@ -149,8 +143,6 @@ fn draw_rotated_text(image: &mut DynamicImage, text: &str, x: u32, y:u32, font: 
 
     let font = FontCollection::from_bytes(font_vec).unwrap().into_font().unwrap();
     let scale = Scale { x: font_size * 1.0, y: font_size };
-    let white = Rgb{r: 255, g: 255, b: 255};
-    let black = Rgb{r: 0, g: 0, b:0};
     draw_text_mut(&mut image2, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), 10, 10, scale, &font, &text);
 
 

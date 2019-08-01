@@ -1,27 +1,12 @@
 /// Create diagrams, flowcharts, graphs, etc.,
 
 use wasm_bindgen::prelude::*;
-use wasm_bindgen::Clamped;
 use crate::text::draw_text;
 use crate::elements::draw_solid_rect;
 use crate::Rgb;
 use image::{DynamicImage, Rgba};
 use imageproc::drawing::*;
-use crate::helpers;
-use std::cmp::max;
 use crate::elements::draw_preset_rect_gradient;
-
-/// Draw a flowchart.
-#[wasm_bindgen]
-pub fn draw_flowchart(img: &mut DynamicImage, item1: &str) {
-    let rgb = Rgb{ r: 255, g: 255, b: 255 };
-    let start_x: i32 = 20;
-    let start_y: i32 = 20;
-    let width: i32 = 130;
-    let height: i32 = 100;
-    draw_solid_rect(img, &rgb, height as u32, width as u32, start_x, start_y);      
-    draw_solid_rect(img, &rgb, height as u32, width as u32, start_x + width + 50, start_y);        
-}
 
 /// Draw a horizontal barchart, with a specified title and data.
 /// 
@@ -73,7 +58,7 @@ pub fn draw_vertical_histogram(img: &mut DynamicImage, histogram: &Chart) {
 pub fn draw_vertical_gradient_barchart(img: &mut DynamicImage, barchart: &Chart, preset: &str) {
 
     let mut start_x: u32 = 20;
-    let start_y: u32 = (barchart.height - 40);
+    let start_y: u32 = barchart.height - 40;
 
     let max_item = barchart.data.iter().max().unwrap();
     let max_bar_height: u32 = barchart.height - 2 * (barchart.height / 10);
@@ -104,7 +89,7 @@ fn draw_vertical_bars(img: &mut DynamicImage, barchart: &Chart, chart_type: &str
     };
 
     let mut start_x: u32 = 20;
-    let start_y: u32 = (barchart.height - 40);
+    let start_y: u32 = barchart.height - 40;
 
     let max_item = barchart.data.iter().max().unwrap();
     let max_bar_height: u32 = barchart.height - 2 * (barchart.height / 10);

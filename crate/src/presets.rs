@@ -3,7 +3,7 @@
 extern crate image;
 extern crate imageproc;
 extern crate rusttype;
-use wasm_bindgen::Clamped;
+// use wasm_bindgen::Clamped;
 use wasm_bindgen::prelude::*;
 use crate::{Rgb};
 use crate::text::*;
@@ -146,7 +146,7 @@ pub fn rhs_text(background_img: &mut DynamicImage, main_text: &str) {
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 #[wasm_bindgen]
-pub fn lhs_text(background_img: &mut DynamicImage, main_text: &str, small_text: &str) {
+pub fn lhs_text(background_img: &mut DynamicImage, main_text: &str, _small_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
 
@@ -163,11 +163,9 @@ pub fn lhs_text(background_img: &mut DynamicImage, main_text: &str, small_text: 
 /// * `main_text` - Main heading for the graphic.
 /// * `small_text` - Sub-heading/smaller text. 
 #[wasm_bindgen]
-pub fn vertical_text_rhs(mut background_img: &mut DynamicImage, main_text: &str, small_text: &str) {
+pub fn vertical_text_rhs(mut background_img: &mut DynamicImage, main_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
-
-    let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
     let red_rgb = Rgb { r: 200, g: 20, b: 50 };
     let white_rgb = Rgb { r: 255, g: 255, b: 255};
