@@ -173,7 +173,6 @@ fn open_font(font: &str) -> std::vec::Vec<u8> {
         "MrDafoe-Regular" => Vec::from(include_bytes!("../fonts/MrDafoe-Regular.ttf") as &[u8]),
         "Norwester" => Vec::from(include_bytes!("../fonts/Norwester.ttf") as &[u8]),
         "Montserrat-Regular" => Vec::from(include_bytes!("../fonts/Montserrat-Regular.ttf") as &[u8]),
-        "CaviarDreams" => Vec::from(include_bytes!("../fonts/CaviarDreams.ttf") as &[u8]),
         "Roboto-Light" => Vec::from(include_bytes!("../fonts/Roboto-Light.ttf") as &[u8]),
         "Roboto-Bold" => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8]),
         "Roboto-Black" => Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]),
