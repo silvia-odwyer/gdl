@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["draw_text","Draw text onto an image."],["draw_text_with_border","Draw text onto an image with a border around the text."],["draw_upsidedown_text","Draw upside-down text."],["draw_vertical_text","Draw vertical text onto an image."],["draw_vertical_text_single","Draw single letters in a vertical column to create a vertical-text effect."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["create_image","Add text to an image."],["draw_border","Draw a border around a PhotonImage."],["draw_photonimage","Draw a PhotonImage onto a container image."]]});
