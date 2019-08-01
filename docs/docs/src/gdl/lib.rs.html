@@ -312,23 +312,6 @@
 <span id="312">312</span>
 <span id="313">313</span>
 <span id="314">314</span>
-<span id="315">315</span>
-<span id="316">316</span>
-<span id="317">317</span>
-<span id="318">318</span>
-<span id="319">319</span>
-<span id="320">320</span>
-<span id="321">321</span>
-<span id="322">322</span>
-<span id="323">323</span>
-<span id="324">324</span>
-<span id="325">325</span>
-<span id="326">326</span>
-<span id="327">327</span>
-<span id="328">328</span>
-<span id="329">329</span>
-<span id="330">330</span>
-<span id="331">331</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! GDL is a graphic design crate that allows developers to rapidly design and create 2D graphics natively and for the web.</span>
 <span class="doccomment">//! </span>
@@ -338,14 +321,11 @@
 <span class="doccomment">//! </span>
 <span class="doccomment">//! To view a full demo of templates available, visit the [official website](https://silvia-odwyer.github.io/gdl).</span>
 <span class="doccomment">//! </span>
-<span class="doccomment">//! ### WebAssembly Use</span>
-<span class="doccomment">//! To allow for universal communication between the core Rust library and WebAssembly, the functions have been generalised to allow for both native and in-browser use. </span>
 
 <span class="kw">use</span> <span class="ident">wasm_bindgen</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">web_sys</span>::{<span class="ident">CanvasRenderingContext2d</span>, <span class="ident">ImageData</span>, <span class="ident">HtmlCanvasElement</span>};
 <span class="kw">use</span> <span class="ident">wasm_bindgen</span>::<span class="ident">Clamped</span>;
 <span class="kw">use</span> <span class="ident">image</span>::{<span class="ident">GenericImageView</span>, <span class="ident">GenericImage</span>, <span class="ident">ImageBuffer</span>, <span class="ident">DynamicImage</span>, <span class="ident">RgbaImage</span>, <span class="ident">Rgba</span>};
-<span class="kw">use</span> <span class="ident">imageproc</span>::<span class="ident">drawing</span>::<span class="ident">draw_filled_rect_mut</span>;
 <span class="kw">use</span> <span class="ident">palette</span>::{<span class="ident">Lch</span>, <span class="ident">Srgb</span>, <span class="ident">Srgba</span>, <span class="ident">Hue</span>, <span class="ident">Gradient</span>};
 <span class="kw">use</span> <span class="ident">palette</span>::<span class="ident">rgb</span>::<span class="ident">LinSrgba</span>;
 <span class="kw">use</span> <span class="ident">palette</span>::<span class="ident">encoding</span>::<span class="ident">pixel</span>::<span class="ident">Pixel</span>;
@@ -381,7 +361,7 @@
     }
     
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_from_imgdata</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">img_data</span>: <span class="ident">ImageData</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">PhotonImage</span> {
-        <span class="kw">let</span> <span class="ident">raw_pixels</span> <span class="op">=</span> <span class="ident">to_raw_pixels</span>(<span class="ident">img_data</span>);
+        <span class="kw">let</span> <span class="ident">_raw_pixels</span> <span class="op">=</span> <span class="ident">to_raw_pixels</span>(<span class="ident">img_data</span>);
         <span class="kw">let</span> <span class="ident">new_vec</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         <span class="kw">return</span> <span class="ident">PhotonImage</span> {<span class="ident">raw_pixels</span>: <span class="ident">new_vec</span>, <span class="ident">width</span>: <span class="ident">width</span>, <span class="ident">height</span>: <span class="ident">height</span>}
     }
@@ -396,16 +376,16 @@
         <span class="kw">return</span> <span class="ident">PhotonImage</span> { <span class="ident">raw_pixels</span>: <span class="ident">raw_pixels</span>, <span class="ident">width</span>: <span class="ident">width</span>, <span class="ident">height</span>: <span class="ident">height</span>};
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_pattern</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="ident">Rgb</span>) {
-        <span class="comment">// create a pixel </span>
-        <span class="comment">// let pixel =  image::Rgba([background_color.r, background_color.g, background_color.b, 255]);</span>
-        <span class="comment">// let image_buffer = ImageBuffer::from_pixel(width, height, pixel);</span>
-        <span class="comment">// let rgba_img = image::ImageRgba8(image_buffer);</span>
+    <span class="comment">// pub fn new_with_pattern(width: u32, height: u32, background_color: Rgb) {</span>
+    <span class="comment">//     // create a pixel </span>
+    <span class="comment">//     // let pixel =  image::Rgba([background_color.r, background_color.g, background_color.b, 255]);</span>
+    <span class="comment">//     // let image_buffer = ImageBuffer::from_pixel(width, height, pixel);</span>
+    <span class="comment">//     // let rgba_img = image::ImageRgba8(image_buffer);</span>
 
 
-        <span class="comment">// let raw_pixels = rgba_img.raw_pixels();</span>
-        <span class="comment">// return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};</span>
-    }
+    <span class="comment">//     // let raw_pixels = rgba_img.raw_pixels();</span>
+    <span class="comment">//     // return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};</span>
+    <span class="comment">// }</span>
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_gradient</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">PhotonImage</span> {
         <span class="comment">// create a pixel </span>
@@ -418,7 +398,7 @@
 
         <span class="comment">//The same colors and offsets as in grad1, but in a color space where the hue</span>
         <span class="comment">// is a component</span>
-        <span class="kw">let</span> <span class="ident">grad3</span> <span class="op">=</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">_grad3</span> <span class="op">=</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
             <span class="ident">Lch</span>::<span class="ident">from</span>(<span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">1.0</span>, <span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">1.0</span>)),
             <span class="ident">Lch</span>::<span class="ident">from</span>(<span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">1.0</span>, <span class="number">1.0</span>)),
             <span class="ident">Lch</span>::<span class="ident">from</span>(<span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.1</span>, <span class="number">1.0</span>, <span class="number">0.1</span>, <span class="number">1.0</span>)),
@@ -467,8 +447,7 @@
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">raw_pix</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">raw_pixels</span>
-    }
-        
+    } 
 }
 
 
@@ -548,7 +527,7 @@
 }
 
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">drawRectWeb</span>(<span class="ident">ctx</span>: <span class="ident">CanvasRenderingContext2d</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_rect_web</span>(<span class="ident">ctx</span>: <span class="ident">CanvasRenderingContext2d</span>) {
     <span class="ident">ctx</span>.<span class="ident">rect</span>(<span class="number">10.0</span>, <span class="number">20.0</span>, <span class="number">50.0</span>, <span class="number">50.0</span>);
     <span class="ident">ctx</span>.<span class="ident">stroke</span>();
 }
@@ -570,22 +549,9 @@
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="doccomment">/// Get the ImageData from a 2D canvas context</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">getImageData</span>(<span class="ident">canvas</span>: <span class="kw-2">&amp;</span><span class="ident">HtmlCanvasElement</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="ident">CanvasRenderingContext2d</span>) <span class="op">-&gt;</span> <span class="ident">ImageData</span> {
-    <span class="ident">set_panic_hook</span>();
-    <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">canvas</span>.<span class="ident">width</span>();
-    <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">canvas</span>.<span class="ident">height</span>();
-
-    <span class="comment">// let data: ImageData = ctx.get_image_data(0.0, 0.0, 100.0, 100.0).unwrap();</span>
-    <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">ctx</span>.<span class="ident">get_image_data</span>(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">height</span> <span class="kw">as</span> <span class="ident">f64</span>).<span class="ident">unwrap</span>();
-    <span class="kw">let</span> <span class="ident">vec_data</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">data</span>().<span class="ident">to_vec</span>();
-    <span class="kw">return</span> <span class="ident">data</span>;
-}
-
 <span class="doccomment">/// Place the ImageData onto the 2D context.</span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">putImageData</span>(<span class="ident">canvas</span>: <span class="ident">HtmlCanvasElement</span>, <span class="ident">ctx</span>: <span class="ident">CanvasRenderingContext2d</span>, <span class="kw-2">mut</span> <span class="ident">new_image</span>: <span class="ident">PhotonImage</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">put_image_data</span>(<span class="ident">canvas</span>: <span class="ident">HtmlCanvasElement</span>, <span class="ident">ctx</span>: <span class="ident">CanvasRenderingContext2d</span>, <span class="kw-2">mut</span> <span class="ident">new_image</span>: <span class="ident">PhotonImage</span>) {
     <span class="comment">// Convert the raw pixels back to an ImageData object.</span>
     <span class="kw">let</span> <span class="ident">new_imgdata</span> <span class="op">=</span> <span class="ident">ImageData</span>::<span class="ident">new_with_u8_clamped_array_and_sh</span>(<span class="ident">Clamped</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">new_image</span>.<span class="ident">raw_pixels</span>), <span class="ident">canvas</span>.<span class="ident">width</span>(), <span class="ident">canvas</span>.<span class="ident">height</span>());
 
@@ -605,7 +571,7 @@
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open_image</span>(<span class="ident">canvas</span>: <span class="ident">HtmlCanvasElement</span>, <span class="ident">ctx</span>: <span class="ident">CanvasRenderingContext2d</span>) <span class="op">-&gt;</span> <span class="ident">PhotonImage</span> {
-    <span class="kw">let</span> <span class="ident">imgdata</span> <span class="op">=</span> <span class="ident">getImageData</span>(<span class="kw-2">&amp;</span><span class="ident">canvas</span>, <span class="kw-2">&amp;</span><span class="ident">ctx</span>);
+    <span class="kw">let</span> <span class="ident">imgdata</span> <span class="op">=</span> <span class="ident">get_image_data</span>(<span class="kw-2">&amp;</span><span class="ident">canvas</span>, <span class="kw-2">&amp;</span><span class="ident">ctx</span>);
     <span class="kw">let</span> <span class="ident">raw_pixels</span> <span class="op">=</span> <span class="ident">to_raw_pixels</span>(<span class="ident">imgdata</span>);
     <span class="kw">return</span> <span class="ident">PhotonImage</span> {<span class="ident">raw_pixels</span>: <span class="ident">raw_pixels</span>, <span class="ident">width</span>: <span class="ident">canvas</span>.<span class="ident">width</span>(), <span class="ident">height</span>: <span class="ident">canvas</span>.<span class="ident">height</span>() }
 }

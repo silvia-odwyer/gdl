@@ -261,15 +261,13 @@
 <span id="261">261</span>
 <span id="262">262</span>
 <span id="263">263</span>
-<span id="264">264</span>
-<span id="265">265</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">/// Templates for rapid graphic creation.</span>
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">image</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">imageproc</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rusttype</span>;
-<span class="kw">use</span> <span class="ident">wasm_bindgen</span>::<span class="ident">Clamped</span>;
+<span class="comment">// use wasm_bindgen::Clamped;</span>
 <span class="kw">use</span> <span class="ident">wasm_bindgen</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Rgb</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">text</span>::<span class="kw-2">*</span>;
@@ -412,7 +410,7 @@
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - u32 - Desired height of final graphic</span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lhs_text</span>(<span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">small_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lhs_text</span>(<span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_small_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">width</span>();
     <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">height</span>();
 
@@ -429,11 +427,9 @@
 <span class="doccomment">/// * `main_text` - Main heading for the graphic.</span>
 <span class="doccomment">/// * `small_text` - Sub-heading/smaller text. </span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">vertical_text_rhs</span>(<span class="kw-2">mut</span> <span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">small_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">vertical_text_rhs</span>(<span class="kw-2">mut</span> <span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">width</span>();
     <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">height</span>();
-
-    <span class="kw">let</span> <span class="ident">black_rgb</span> <span class="op">=</span> <span class="ident">Rgb</span> { <span class="ident">r</span>: <span class="number">0</span>, <span class="ident">g</span>: <span class="number">0</span>, <span class="ident">b</span>: <span class="number">0</span>};
     
     <span class="kw">let</span> <span class="ident">red_rgb</span> <span class="op">=</span> <span class="ident">Rgb</span> { <span class="ident">r</span>: <span class="number">200</span>, <span class="ident">g</span>: <span class="number">20</span>, <span class="ident">b</span>: <span class="number">50</span> };
     <span class="kw">let</span> <span class="ident">white_rgb</span> <span class="op">=</span> <span class="ident">Rgb</span> { <span class="ident">r</span>: <span class="number">255</span>, <span class="ident">g</span>: <span class="number">255</span>, <span class="ident">b</span>: <span class="number">255</span>};
