@@ -2,7 +2,8 @@
 
 #### Graphic Design Library
 
-GDL (Graphic Design Library) is a high-performance Rust 2D graphic design library, which compiles to WebAssembly, allowing developers to create 2D graphics at near-native speed in the browser, and natively on their machines. 
+GDL (Graphic Design Library) is a high-performance Rust 2D graphic design library, allowing developers to create 2D graphics and resize them 
+for various social media platforms. 
 
 GDL allows you to create:
 - Image collages
@@ -12,20 +13,12 @@ GDL allows you to create:
 
 The following designs were created with GDL:
 
-(All background/foreground images used in the designs are Public Domain, and available from Unsplash.)
+[Designs created with GDL](https://i.imgur.com/coOmEVQ.png)
 
-<!-- 
-##### Features:
-- **Pure Rust** - Unlike other libraries, this library is built with 100% pure Rust, so security and safety is guaranteed. 
-- **WebAssembly friendly** - For web-based graphic design, GDL is 4-10x faster than JS, leading to faster results, and less lag. 
-- **Call WASM with JS** - This library's has exposed JS functions, allowing for zero-cost abstraction and faster development.
-- **Over 90 functions** - GDL provides functions for every domain of image processing.  -->
-
-### Live Demo
-View the [official demo of WASM in action](https://silvia-odwyer.github.io/GDL).
+All background/foreground images used in the designs are in the Public Domain, and available from Unsplash.
 
 ### Documentation
-Documentation can be found [here](https://silvia-odwyer.github.io/GDL/docs/GDL/index.html).
+Documentation can be found [here](https://silvia-odwyer.github.io/gdl/docs).
 
 ## Run The Examples
 
@@ -47,19 +40,20 @@ cd crate
 cargo run --release 
 ```
 
+See the [examples dir](https://github.com/silvia-odwyer/gdl/tree/master/crate/examples) for more examples.
+
 ### Why GDL?
-A common issue among bloggers is resizing graphics for social media, as well as designing entire batches of graphics for large
-numbers of blog posts. This does not attempt to be a full-fledged graphic design solution, but rather an aid to those who 
-want to create graphics-on-the-fly quickly and in large quantities.
+Designing batches of graphics for large numbers of blog posts can be quite cumbersome for bloggers and freelance writers. Hence why I created GDL. 
 
-GDL can be used in-tandem with the Photon image processing library for combined effects and further image manipulation at a lower level. GDL intends to be a wrapper over Photon, perfect for developers who wish to incorporate high-level graphic design functionality into their web apps and native apps. 
-
+This does not attempt to be a full-fledged graphic design solution, but rather an aid to those who want to create graphics-on-the-fly quickly and in large quantities.
 
 #### Work-In-Progress
 This is a work-in-progress, therefore the API will likely break in future versions until it reaches 1.0.0. 
 
-Text-positioning, centering, scaling to fit the size of the image is heavily being worked on at the moment, 
-so if you notice this to be an issue, it is being looked at.
+#### WebAssembly
+Coming soon:tm:
+
+The WebAssembly version of this library will make use of the browser's canvas, for rapid graphic creation in the browser.
 
 <!-- 
 ### Native Use
