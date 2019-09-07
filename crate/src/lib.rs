@@ -7,6 +7,7 @@
 //! To view a full demo of templates available, visit the [official website](https://silvia-odwyer.github.io/gdl).
 //! 
 
+extern crate image;
 use wasm_bindgen::prelude::*;
 use web_sys::{CanvasRenderingContext2d, ImageData, HtmlCanvasElement};
 use wasm_bindgen::Clamped;

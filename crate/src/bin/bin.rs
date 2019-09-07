@@ -3,7 +3,6 @@ extern crate time;
 use gdl::{Rgb, PhotonImage, ColorScheme, diagrams, background, text};
 use gdl::text::*;
 use gdl::{presets, new_with_background};
-use gdl::diagrams::{Chart};
 use gdl::elements::*;
 use time::PreciseTime;
 

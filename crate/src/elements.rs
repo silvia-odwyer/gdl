@@ -5,7 +5,10 @@ use image::{GenericImage, GenericImageView, DynamicImage, RgbaImage};
 extern crate imageproc;
 extern crate rusttype;
 use imageproc::drawing::*;
-use crate::{Rgb, LinSrgba, Gradient, Lch, Srgba, Rgba};
+use crate::{Rgb};
+use palette::{LinSrgba, Gradient, Lch, Srgba};
+use image::{Rgba};
+
 use palette::encoding::pixel::Pixel;
 use imageproc::rect::Rect;
 use crate::text::draw_text;
