@@ -18,7 +18,7 @@ use image::{DynamicImage, GenericImageView};
 /// * `main_text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
+
 pub fn centre_text(background_img: &mut DynamicImage, main_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
@@ -44,7 +44,7 @@ pub fn centre_text(background_img: &mut DynamicImage, main_text: &str) {
 /// * `main_text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
-#[wasm_bindgen]
+
 pub fn text_shades(background_img: &mut DynamicImage, main_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
@@ -65,7 +65,6 @@ pub fn text_shades(background_img: &mut DynamicImage, main_text: &str) {
 /// * `main_text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn repeat_text(background_img: &mut DynamicImage, main_text: &str) {
     let width = background_img.width();
     let height = background_img.height();

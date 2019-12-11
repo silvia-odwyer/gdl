@@ -17,7 +17,6 @@ use imageproc::rect::Rect;
 /// * `img2` - A mutable ref to a DynamicImage.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn two_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, width: u32, height: u32) -> DynamicImage {
     // Convert all photon images to DynamicImages, for interop with the image crate.
     let imgs = vec![photon_img, photon_img2];
