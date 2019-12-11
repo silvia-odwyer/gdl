@@ -11,6 +11,7 @@ use image::imageops::{rotate90, rotate270, rotate180};
 use imageproc::distance_transform::Norm;
 use rusttype::{FontCollection, Scale};
 use crate::{Rgb};
+use std::fs;
 
 /// Draw text onto an image with a border around the text.
 ///
@@ -163,22 +164,8 @@ fn draw_rotated_text(image: &mut DynamicImage, text: &str, x: u32, y:u32, font: 
 }
 
 fn open_font(font: &str) -> std::vec::Vec<u8> {
-    // include_bytes! only takes a string literal
-    let font_vec = match font {
-        "Roboto-Regular" => Vec::from(include_bytes!("../fonts/Roboto-Regular.ttf") as &[u8]),
-        "Lato-Regular" => Vec::from(include_bytes!("../fonts/Lato-Regular.ttf") as &[u8]),
-        "Lato-Bold" => Vec::from(include_bytes!("../fonts/Lato-Bold.ttf") as &[u8]),
-        "BebasKai" => Vec::from(include_bytes!("../fonts/BebasKai.ttf") as &[u8]),
-        "Oswald-Regular" => Vec::from(include_bytes!("../fonts/Oswald-Regular.ttf") as &[u8]),
-        "MrDafoe-Regular" => Vec::from(include_bytes!("../fonts/MrDafoe-Regular.ttf") as &[u8]),
-        "Norwester" => Vec::from(include_bytes!("../fonts/Norwester.ttf") as &[u8]),
-        "Montserrat-Regular" => Vec::from(include_bytes!("../fonts/Montserrat-Regular.ttf") as &[u8]),
-        "Roboto-Light" => Vec::from(include_bytes!("../fonts/Roboto-Light.ttf") as &[u8]),
-        "Roboto-Bold" => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8]),
-        "Roboto-Black" => Vec::from(include_bytes!("../fonts/Roboto-Black.ttf") as &[u8]),
-        "Roboto-Thin" => Vec::from(include_bytes!("../fonts/Roboto-Thin.ttf") as &[u8]),
-        _ => Vec::from(include_bytes!("../fonts/Roboto-Bold.ttf") as &[u8])
-    };
+    let font_path = format!("fonts/{}.ttf", font);
+    let font_vec1 = fs::read(font_path).expect("Unable to read file");
 
-    return font_vec;
+    return font_vec1;
 }

@@ -11,12 +11,8 @@ GDL allows you to create:
 - Banners
 - Adverts 
 
-The following designs were created with GDL:
-
-![Imgur](http://i.imgur.com/coOmEVQ.png)
-
-
-All background/foreground images used in the designs are in the Public Domain, and available from Unsplash.
+### View Example Graphics
+[See examples of designs created with GDL here.](https://silvia-odwyer.github.io/gdl/)
 
 ### Documentation
 Documentation can be found [here](https://silvia-odwyer.github.io/gdl/docs/gdl/index.html).
@@ -42,6 +38,22 @@ cargo run --release
 ```
 
 See [/examples](https://github.com/silvia-odwyer/gdl/tree/master/crate/examples) for more examples.
+
+## Use Custom Fonts [*.ttf supported only for now]
+If you'd like to use your own custom fonts, which are TrueType fonts (those with a *.ttf file extension), follow these steps:
+
+1. Navigate to the `fonts` directory, which can be found inside the `crates` dir. 
+
+```bash
+cd crate/fonts 
+```
+
+2. Insert the font's TTF file into this directory, ie: `crate/fonts`. 
+
+3. When drawing text and you need to pass a font name into the function, use the name of the font found in the filename. 
+
+For example, if the custom font is called Robotika.ttf then pass the name Robotika into the function. 
+
 
 ### Why GDL?
 This does not attempt to be a full-fledged graphic design solution, but rather an aid to those who want to create graphics-on-the-fly quickly and in large quantities.

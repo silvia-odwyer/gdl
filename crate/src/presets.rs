@@ -94,7 +94,7 @@ pub fn text_banner(background_img: &mut DynamicImage, main_text: &str, small_tex
     let height_mul: f32 = 0.4;
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
-    draw_text(background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &black_rgb);
+    draw_text(background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "RobotoCondensed-LightItalic", 110.0, &black_rgb);
     draw_text(background_img, small_text, (width as f32 * 0.28) as u32, (height as f32 * (height_mul + 0.15)) as u32, "BebasKai", 30.0, &black_rgb);   
 }
 
