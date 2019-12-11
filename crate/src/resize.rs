@@ -79,15 +79,15 @@ pub fn resize(photon_img: &PhotonImage, width: u32, height: u32) -> PhotonImage 
 }
 
 
-#[cfg(not(target_arch = "wasm32"))]
-pub fn webfunc(num: &str) {
-    println!("{}", num);
+// #[cfg(not(target_arch = "wasm32"))]
+// pub fn webfunc(num: &str) {
+//     println!("{}", num);
 
-}
+// }
 
-#[cfg(target_arch = "wasm32")]
-#[wasm_bindgen]
-pub fn webfunc(num: u16) {
-    num * 2
-}
+// #[cfg(target_arch = "wasm32")]
+// #[wasm_bindgen]
+// pub fn webfunc(num: u16) {
+//     num * 2
+// }
 

@@ -261,13 +261,6 @@ pub fn open_image(canvas: HtmlCanvasElement, ctx: CanvasRenderingContext2d) -> P
     return PhotonImage {raw_pixels: raw_pixels, width: canvas.width(), height: canvas.height() }
 }
 
-/// Create a new RGB colour. TODO Will be using struct impl soon. 
-#[wasm_bindgen]
-pub fn new_rgb(r:u8, g:u8, b:u8) -> Rgb {
-    let rgb = Rgb{r, g, b};
-    return rgb;
-}
-
 /// Convert ImageData to raw pixels.
 #[wasm_bindgen]
 pub fn to_raw_pixels(imgdata: ImageData) -> Vec<u8> {
@@ -308,7 +301,6 @@ pub mod background;
 pub mod diagrams;
 pub mod collage;
 pub mod helpers;
-pub mod graphics;
 pub mod elements;
 pub mod presets;
 pub mod resize;

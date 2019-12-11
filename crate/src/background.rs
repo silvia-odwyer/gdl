@@ -1,4 +1,4 @@
-/// Create various backgrounds comprising patterns, gradients, imagery, etc.,
+//! Create various backgrounds comprising patterns, gradients, imagery, etc.,
 
 extern crate image;
 use image::{ GenericImage, DynamicImage};

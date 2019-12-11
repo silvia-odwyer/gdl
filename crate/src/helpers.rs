@@ -1,3 +1,5 @@
+//! Helpers functions for image processing, writing images, etc.,
+
 extern crate image;
 extern crate base64;
 use image::{DynamicImage, ImageBuffer, GenericImageView};

@@ -11,7 +11,7 @@ use crate::elements::*;
 use crate::{new_with_background};
 use image::{DynamicImage, GenericImageView};
 
-/// Preset: Centre text, with background image.
+///  Centre text, with background image.
 /// 
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.
@@ -37,7 +37,7 @@ pub fn centre_text(background_img: &mut DynamicImage, main_text: &str) {
   
 }
 
-/// Preset: Repeat the same text on each line, with each line changing in shade.
+///  Repeat the same text on each line, with each line changing in shade.
 /// 
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.
@@ -58,7 +58,7 @@ pub fn text_shades(background_img: &mut DynamicImage, main_text: &str) {
   
 }
 
-/// Preset: Repeat the same text on each line.
+///  Repeat the same text on each line.
 /// 
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.
@@ -77,7 +77,7 @@ pub fn repeat_text(background_img: &mut DynamicImage, main_text: &str) {
     } 
 }
 
-/// Preset: text banner.
+///  Text banner.
 /// 
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.
@@ -92,11 +92,11 @@ pub fn text_banner(background_img: &mut DynamicImage, main_text: &str, small_tex
     let height_mul: f32 = 0.4;
     let black_rgb = Rgb { r: 0, g: 0, b: 0};
     
-    draw_text(background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "RobotoCondensed-LightItalic", 110.0, &black_rgb);
+    draw_text(background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, &black_rgb);
     draw_text(background_img, small_text, (width as f32 * 0.28) as u32, (height as f32 * (height_mul + 0.15)) as u32, "BebasKai", 30.0, &black_rgb);   
 }
 
-/// Preset: vertical text banner.
+///  Vertical text banner.
 /// 
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.
@@ -117,7 +117,7 @@ pub fn vertical_text(mut background_img: &mut DynamicImage, main_text: &str) {
     draw_vertical_text(background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 110.0, "right", &white_rgb);
 }
 
-/// Preset: Right-hand side text.
+///  Right-hand side text.
 /// 
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.
@@ -133,7 +133,7 @@ pub fn rhs_text(background_img: &mut DynamicImage, main_text: &str) {
     draw_text(background_img, main_text, (width as f32 * 0.65) as u32, (height as f32 * height_mul) as u32, "BebasKai", 130.0, &rgb);
 }
 
-/// Preset: Left-hand side text.
+///  Left-hand side text.
 /// 
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.
@@ -151,7 +151,7 @@ pub fn lhs_text(background_img: &mut DynamicImage, main_text: &str, _small_text:
     draw_text(background_img, main_text, (width as f32 * 0.15) as u32, (height as f32 * height_mul) as u32, "BebasKai", 130.0, &black_rgb);
 }
 
-/// Preset: Right-hand side vertical text.
+///  Right-hand side vertical text.
 /// 
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.
@@ -170,7 +170,7 @@ pub fn vertical_text_rhs(mut background_img: &mut DynamicImage, main_text: &str)
 
 }
 
-/// Preset: Quote-style graphic, featuring prominence on the main text.
+///  Quote-style graphic, featuring prominence on the main text.
 /// 
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.
@@ -196,7 +196,7 @@ pub fn quote(mut background_img: &mut DynamicImage, main_text: &str, _small_text
 
 }
 
-/// Preset: Postcard-style image, featuring main text overlayed onto the image.
+///  Postcard-style image, featuring main text overlayed onto the image.
 /// 
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.

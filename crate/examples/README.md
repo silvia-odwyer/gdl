@@ -2,7 +2,7 @@
 Examples for creating GDL graphics natively.
 
 Note: If you're here to see WebAssembly in action, this is the wrong path, turn back. 
-To see WebAssembly in action, check out the `webpack_demo` dir at this repo's root.
+The WebAssembly version of this library is being worked on.
 
 ### Running These Examples
 Clone this repo:
