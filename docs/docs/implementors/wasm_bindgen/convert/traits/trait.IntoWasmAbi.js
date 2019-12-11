@@ -6,5 +6,4 @@ implementors["gdl"] = [{text:"impl <a class=\"trait\" href=\"https://docs.rs/was
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\diagrams.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>diagrams.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\diagrams.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>diagrams.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -369,11 +369,10 @@
 <span id="369">369</span>
 <span id="370">370</span>
 <span id="371">371</span>
-<span id="372">372</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">/// Create diagrams, flowcharts, graphs, etc.,</span>
+<span class="doccomment">//! Create diagrams, flowcharts, graphs, etc.,</span>
 
-<span class="kw">use</span> <span class="ident">wasm_bindgen</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="comment">// use wasm_bindgen::prelude::*;</span>
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">text</span>::<span class="ident">draw_text</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">elements</span>::<span class="ident">draw_solid_rect</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Rgb</span>;
@@ -405,7 +404,7 @@
 <span class="doccomment">/// /// ### Arguments</span>
 <span class="doccomment">/// * `img` - Image to draw the barchart onto.</span>
 <span class="doccomment">/// * `barchart` - Barchart struct, which contains all data &amp; meta-data about the barchart.</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
+
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_horizontal_histogram</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">barchart</span>: <span class="kw-2">&amp;</span><span class="ident">Chart</span>) {
     <span class="ident">draw_horizontal_bars</span>(<span class="ident">img</span>, <span class="kw-2">&amp;</span><span class="ident">barchart</span>, <span class="string">&quot;histogram&quot;</span>);
 
@@ -445,7 +444,7 @@
         <span class="kw">let</span> <span class="ident">bar_height</span> <span class="op">=</span> <span class="ident">max_bar_height</span> <span class="op">/</span> <span class="ident">div</span> <span class="kw">as</span> <span class="ident">u32</span>;
         <span class="ident">draw_preset_rect_gradient</span>(<span class="ident">img</span>, <span class="ident">bar_width</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">bar_height</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">start_x</span>, <span class="ident">start_y</span> <span class="op">-</span> <span class="ident">bar_height</span>, <span class="ident">preset</span>);
 
-        <span class="ident">start_x</span> <span class="op">+=</span> <span class="ident">bar_width</span> <span class="op">+</span> <span class="number">30</span>;    
+        <span class="ident">start_x</span> <span class="op">+</span><span class="op">=</span> <span class="ident">bar_width</span> <span class="op">+</span> <span class="number">30</span>;    
     }    
 
     <span class="ident">draw_text</span>(<span class="ident">img</span>, <span class="kw-2">&amp;</span><span class="ident">barchart</span>.<span class="ident">title</span>, <span class="number">10</span>, <span class="ident">start_y</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;Lato-Regular&quot;</span>, <span class="number">50.0</span>, <span class="kw-2">&amp;</span><span class="ident">yellow</span>);
@@ -456,9 +455,9 @@
 <span class="kw">fn</span> <span class="ident">draw_vertical_bars</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">barchart</span>: <span class="kw-2">&amp;</span><span class="ident">Chart</span>, <span class="ident">chart_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
 
     <span class="kw">let</span> <span class="ident">bar_gap</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">chart_type</span> {
-        <span class="string">&quot;barchart&quot;</span> <span class="op">=&gt;</span> <span class="number">30</span>,
-        <span class="string">&quot;histogram&quot;</span> <span class="op">=&gt;</span> <span class="number">0</span>,
-        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="number">30</span>
+        <span class="string">&quot;barchart&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30</span>,
+        <span class="string">&quot;histogram&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30</span>
     };
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start_x</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">20</span>;
@@ -480,7 +479,7 @@
         }
 
         <span class="ident">draw_solid_rect</span>(<span class="ident">img</span>, <span class="kw-2">&amp;</span><span class="ident">barchart</span>.<span class="ident">color</span>, <span class="ident">bar_width</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">bar_height</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">start_x</span> <span class="kw">as</span> <span class="ident">i32</span>, (<span class="ident">start_y</span> <span class="op">-</span> <span class="ident">bar_height</span>) <span class="kw">as</span> <span class="ident">i32</span>);
-        <span class="ident">start_x</span> <span class="op">+=</span> <span class="ident">bar_width</span> <span class="op">+</span> <span class="ident">bar_gap</span>;    
+        <span class="ident">start_x</span> <span class="op">+</span><span class="op">=</span> <span class="ident">bar_width</span> <span class="op">+</span> <span class="ident">bar_gap</span>;    
     }
 
     <span class="kw">let</span> <span class="ident">yellow</span> <span class="op">=</span> <span class="ident">Rgb</span>{ <span class="ident">r</span>: <span class="number">255</span>, <span class="ident">g</span>: <span class="number">226</span>, <span class="ident">b</span>: <span class="number">98</span>};
@@ -511,7 +510,7 @@
         <span class="kw">let</span> <span class="ident">div</span> <span class="op">=</span>  <span class="ident">max_item</span> <span class="op">/</span> <span class="ident">item</span>;
         <span class="kw">let</span> <span class="ident">bar_width</span> <span class="op">=</span> <span class="ident">max_bar_width</span> <span class="op">/</span> <span class="ident">div</span> <span class="kw">as</span> <span class="ident">u32</span>;
         <span class="ident">draw_preset_rect_gradient</span>(<span class="ident">img</span>, <span class="ident">bar_width</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">bar_height</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">start_x</span>, <span class="ident">start_y</span> , <span class="ident">preset</span>);
-        <span class="ident">start_y</span> <span class="op">+=</span> <span class="ident">bar_height</span> <span class="op">+</span> <span class="ident">bar_gap</span>;    
+        <span class="ident">start_y</span> <span class="op">+</span><span class="op">=</span> <span class="ident">bar_height</span> <span class="op">+</span> <span class="ident">bar_gap</span>;    
     }    
 
     <span class="ident">draw_text</span>(<span class="ident">img</span>, <span class="kw-2">&amp;</span><span class="ident">barchart</span>.<span class="ident">title</span>, <span class="number">10</span>, <span class="ident">start_y</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;Lato-Regular&quot;</span>, <span class="number">50.0</span>, <span class="kw-2">&amp;</span><span class="ident">yellow</span>);
@@ -521,9 +520,9 @@
 <span class="comment">// with horizontal bars.</span>
 <span class="kw">fn</span> <span class="ident">draw_horizontal_bars</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">barchart</span>: <span class="kw-2">&amp;</span><span class="ident">Chart</span>, <span class="ident">chart_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">let</span> <span class="ident">bar_gap</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">chart_type</span> {
-        <span class="string">&quot;barchart&quot;</span> <span class="op">=&gt;</span> <span class="number">30</span>,
-        <span class="string">&quot;histogram&quot;</span> <span class="op">=&gt;</span> <span class="number">0</span>,
-        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="number">30</span>
+        <span class="string">&quot;barchart&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30</span>,
+        <span class="string">&quot;histogram&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30</span>
     };
 
     <span class="kw">let</span> <span class="ident">start_x</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">20</span>;
@@ -540,9 +539,9 @@
         <span class="kw">let</span> <span class="ident">div</span> <span class="op">=</span>  <span class="ident">max_item</span> <span class="op">/</span> <span class="ident">item</span>;
         <span class="kw">let</span> <span class="ident">bar_width</span> <span class="op">=</span> <span class="ident">max_bar_width</span> <span class="op">/</span> <span class="ident">div</span> <span class="kw">as</span> <span class="ident">u32</span>;
         <span class="ident">draw_solid_rect</span>(<span class="ident">img</span>, <span class="kw-2">&amp;</span><span class="ident">barchart</span>.<span class="ident">color</span>, <span class="ident">bar_width</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">bar_height</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">start_x</span>, <span class="ident">start_y</span>);
-        <span class="ident">start_y</span> <span class="op">+=</span> (<span class="ident">bar_height</span>) <span class="kw">as</span> <span class="ident">i32</span> <span class="op">+</span> <span class="ident">bar_gap</span>;    
+        <span class="ident">start_y</span> <span class="op">+</span><span class="op">=</span> (<span class="ident">bar_height</span>) <span class="kw">as</span> <span class="ident">i32</span> <span class="op">+</span> <span class="ident">bar_gap</span>;    
 
-        <span class="kw">if</span> <span class="ident">chart_type</span> <span class="op">==</span> <span class="string">&quot;histogram&quot;</span> {
+        <span class="kw">if</span> <span class="ident">chart_type</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;histogram&quot;</span> {
             <span class="ident">draw_line_segment_mut</span>(<span class="ident">img</span>, (<span class="ident">start_x</span> <span class="kw">as</span> <span class="ident">f32</span>, <span class="ident">start_y</span> <span class="kw">as</span> <span class="ident">f32</span>), ((<span class="ident">start_x</span> <span class="op">+</span> <span class="ident">bar_width</span> <span class="kw">as</span> <span class="ident">i32</span>) <span class="kw">as</span> <span class="ident">f32</span>, <span class="ident">start_y</span> <span class="kw">as</span> <span class="ident">f32</span>), 
             <span class="ident">Rgba</span>([<span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>, <span class="number">255u8</span>]))
         }
@@ -579,7 +578,7 @@
 
         <span class="ident">image</span>::<span class="ident">imageops</span>::<span class="ident">overlay</span>(<span class="ident">img</span>, <span class="kw-2">&amp;</span><span class="ident">resized_img</span>, <span class="ident">start_x</span>, <span class="ident">start_y</span> <span class="op">-</span> <span class="ident">bar_height</span>);        
 
-        <span class="ident">start_x</span> <span class="op">+=</span> <span class="ident">bar_width</span> <span class="op">+</span> <span class="number">30</span>;    
+        <span class="ident">start_x</span> <span class="op">+</span><span class="op">=</span> <span class="ident">bar_width</span> <span class="op">+</span> <span class="number">30</span>;    
     }    
 
     <span class="ident">draw_text</span>(<span class="ident">img</span>, <span class="kw-2">&amp;</span><span class="ident">barchart</span>.<span class="ident">title</span>, <span class="number">10</span>, <span class="ident">start_y</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;Lato-Regular&quot;</span>, <span class="number">50.0</span>, <span class="kw-2">&amp;</span><span class="ident">yellow</span>);
@@ -609,7 +608,7 @@
 
         <span class="ident">draw_image_as_bar</span>(<span class="ident">img</span>, <span class="ident">bar_img</span>, <span class="ident">bar_width</span>, <span class="ident">bar_height</span>, <span class="ident">start_x</span>, <span class="ident">start_y</span>);
 
-        <span class="ident">start_y</span> <span class="op">+=</span> <span class="ident">bar_height</span> <span class="op">+</span> <span class="number">30</span>;
+        <span class="ident">start_y</span> <span class="op">+</span><span class="op">=</span> <span class="ident">bar_height</span> <span class="op">+</span> <span class="number">30</span>;
     }    
     <span class="ident">draw_text</span>(<span class="ident">img</span>, <span class="kw-2">&amp;</span><span class="ident">barchart</span>.<span class="ident">title</span>, <span class="number">10</span>, <span class="ident">start_y</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;Lato-Regular&quot;</span>, <span class="number">50.0</span>, <span class="kw-2">&amp;</span><span class="ident">yellow</span>);
 }
@@ -637,7 +636,7 @@
 
         <span class="kw">let</span> <span class="ident">y_dist</span> <span class="op">=</span> <span class="ident">y_origin</span> <span class="op">-</span> (<span class="ident">axis_len</span> <span class="op">/</span> <span class="ident">div</span>);
         <span class="ident">draw_line_segment_mut</span>(<span class="ident">img</span>, (<span class="ident">start_x</span> <span class="kw">as</span> <span class="ident">f32</span>, <span class="ident">start_y</span> <span class="kw">as</span> <span class="ident">f32</span>), (<span class="ident">start_x</span> <span class="op">+</span> <span class="ident">x_inc</span>, <span class="ident">y_dist</span>), <span class="ident">line_pixel</span>);
-        <span class="ident">start_x</span> <span class="op">+=</span> <span class="ident">x_inc</span>;
+        <span class="ident">start_x</span> <span class="op">+</span><span class="op">=</span> <span class="ident">x_inc</span>;
         <span class="ident">start_y</span> <span class="op">=</span> <span class="ident">y_dist</span>;
     }
 
@@ -687,7 +686,7 @@
     <span class="kw">for</span> <span class="ident">label</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">chart</span>.<span class="ident">labels</span> {
         <span class="ident">draw_text</span>(<span class="ident">img</span>, <span class="ident">label</span>, <span class="ident">start_x</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">start_y</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;Roboto-Regular&quot;</span>, <span class="number">30.0</span>, <span class="kw-2">&amp;</span><span class="ident">yellow</span>);
 
-        <span class="ident">start_x</span> <span class="op">+=</span> <span class="ident">x_inc</span>;
+        <span class="ident">start_x</span> <span class="op">+</span><span class="op">=</span> <span class="ident">x_inc</span>;
     }    
 }
 
@@ -735,11 +734,10 @@
     <span class="kw">pub</span> <span class="ident">width</span>: <span class="ident">u32</span>
 }
 
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">impl</span> <span class="ident">Chart</span> {
 
     <span class="doccomment">/// Create a new chart.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">title</span>: <span class="ident">String</span>, <span class="ident">color</span>: <span class="ident">Rgb</span>, <span class="ident">data</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>, <span class="ident">labels</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">Chart</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">title</span>: <span class="ident">String</span>, <span class="ident">color</span>: <span class="ident">Rgb</span>, <span class="ident">data</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>, <span class="ident">labels</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Chart</span> {
         <span class="kw">return</span> <span class="ident">Chart</span> { <span class="ident">title</span>: <span class="ident">title</span>, <span class="ident">color</span>: <span class="ident">color</span>, <span class="ident">data</span>: <span class="ident">data</span>, <span class="ident">labels</span>: <span class="ident">labels</span>, <span class="ident">width</span>: <span class="ident">width</span>, <span class="ident">height</span>: <span class="ident">height</span>};
     }
 }</pre></div>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\elements.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>elements.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\elements.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>elements.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -412,24 +412,18 @@
 <span id="412">412</span>
 <span id="413">413</span>
 <span id="414">414</span>
-<span id="415">415</span>
-<span id="416">416</span>
-<span id="417">417</span>
-<span id="418">418</span>
-<span id="419">419</span>
-<span id="420">420</span>
-<span id="421">421</span>
-<span id="422">422</span>
-<span id="423">423</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">/// Add shapes and other elements to images.</span>
+<span class="doccomment">//! Add shapes and other elements to images.</span>
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">image</span>;
 <span class="kw">use</span> <span class="ident">image</span>::{<span class="ident">GenericImage</span>, <span class="ident">GenericImageView</span>, <span class="ident">DynamicImage</span>, <span class="ident">RgbaImage</span>};
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">imageproc</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rusttype</span>;
 <span class="kw">use</span> <span class="ident">imageproc</span>::<span class="ident">drawing</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Rgb</span>, <span class="ident">LinSrgba</span>, <span class="ident">Gradient</span>, <span class="ident">Lch</span>, <span class="ident">Srgba</span>, <span class="ident">Rgba</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Rgb</span>};
+<span class="kw">use</span> <span class="ident">palette</span>::{<span class="ident">LinSrgba</span>, <span class="ident">Gradient</span>, <span class="ident">Lch</span>, <span class="ident">Srgba</span>};
+<span class="kw">use</span> <span class="ident">image</span>::{<span class="ident">Rgba</span>};
+
 <span class="kw">use</span> <span class="ident">palette</span>::<span class="ident">encoding</span>::<span class="ident">pixel</span>::<span class="ident">Pixel</span>;
 <span class="kw">use</span> <span class="ident">imageproc</span>::<span class="ident">rect</span>::<span class="ident">Rect</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">text</span>::<span class="ident">draw_text</span>;
@@ -446,7 +440,6 @@
 <span class="doccomment">/// * `height` - u32 - Desired height of rectangle.</span>
 <span class="doccomment">/// * `x_pos` - X-coordinate of top corner of rectangle on `img`</span>
 <span class="doccomment">/// * `y_pos` - y-coordinate of top corner of rectangle on `img`</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_solid_rect</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">background_color</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">x_pos</span>: <span class="ident">i32</span>, <span class="ident">y_pos</span>: <span class="ident">i32</span>) {    
     <span class="ident">draw_filled_rect_mut</span>(<span class="ident">img</span>, 
                         <span class="ident">Rect</span>::<span class="ident">at</span>(<span class="ident">x_pos</span>, <span class="ident">y_pos</span>).<span class="ident">of_size</span>(<span class="ident">width</span>, <span class="ident">height</span>), 
@@ -464,7 +457,6 @@
 <span class="doccomment">/// * `height` - u32 - Desired height of rectangle.</span>
 <span class="doccomment">/// * `x_pos` - X-coordinate of top corner of rectangle on `img`</span>
 <span class="doccomment">/// * `y_pos` - y-coordinate of top corner of rectangle on `img`</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_opaque_rect</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">background_color</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>, <span class="ident">opacity</span>: <span class="ident">u8</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">x_pos</span>: <span class="ident">i32</span>, <span class="ident">y_pos</span>: <span class="ident">i32</span>) {
     
     <span class="ident">draw_filled_rect_mut</span>(<span class="ident">img</span>, 
@@ -477,7 +469,6 @@
 <span class="doccomment">/// </span>
 <span class="doccomment">/// /// * `img` - A mutable ref to a DynamicImage.</span>
 <span class="doccomment">/// * `triangle` - Triangle struct.</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_triangle</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">triangle</span>: <span class="ident">Triangle</span>) {
     <span class="kw">let</span> <span class="ident">point</span> <span class="op">=</span> <span class="ident">Point</span>::<span class="ident">new</span>(<span class="ident">triangle</span>.<span class="ident">x1</span>, <span class="ident">triangle</span>.<span class="ident">y1</span>);
     <span class="kw">let</span> <span class="ident">point2</span> <span class="op">=</span> <span class="ident">Point</span>::<span class="ident">new</span>(<span class="ident">triangle</span>.<span class="ident">x2</span>, <span class="ident">triangle</span>.<span class="ident">y2</span>);
@@ -499,7 +490,6 @@
 <span class="doccomment">/// * `side_len` - Side of the equilateral triangle, which will constitute all 3 sides.</span>
 <span class="doccomment">/// * `x_pos` - X-coordinate of top point of triangle on `img`</span>
 <span class="doccomment">/// * `y_pos` - y-coordinate of top point of triangle on `img`</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_equilateral_triangle</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">side_len</span>: <span class="ident">u32</span>, <span class="ident">x_pos</span>: <span class="ident">i32</span>, <span class="ident">y_pos</span>: <span class="ident">i32</span>, <span class="ident">background_color</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>) {
 
     <span class="kw">let</span> <span class="ident">point</span> <span class="op">=</span> <span class="ident">Point</span>::<span class="ident">new</span>(<span class="ident">x_pos</span>, <span class="ident">y_pos</span>);
@@ -524,7 +514,6 @@
 <span class="doccomment">/// * `height` - u32 - Desired height of rectangle.</span>
 <span class="doccomment">/// * `x_pos` - X-coordinate of top corner of rectangle on `img`</span>
 <span class="doccomment">/// * `y_pos` - y-coordinate of top corner of rectangle on `img`</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_rect_text</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">background_color</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">x_pos</span>: <span class="ident">i32</span>, <span class="ident">y_pos</span>: <span class="ident">i32</span>) {
     <span class="ident">draw_solid_rect</span>(<span class="ident">img</span>, <span class="kw-2">&amp;</span><span class="ident">background_color</span>, <span class="ident">height</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">x_pos</span>, <span class="ident">y_pos</span>);      
     <span class="kw">let</span> <span class="ident">rgb_white</span> <span class="op">=</span> <span class="ident">Rgb</span> { <span class="ident">r</span>: <span class="number">255</span>, <span class="ident">g</span>: <span class="number">255</span>, <span class="ident">b</span>: <span class="number">255</span>};
@@ -558,7 +547,6 @@
 <span class="doccomment">/// * `height` - u32 - Desired height of gradient rectangle.</span>
 <span class="doccomment">/// * `x_pos` - X-coordinate of top corner of rectangle on `img`</span>
 <span class="doccomment">/// * `y_pos` - y-coordinate of top corner of rectangle on `img`</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_gradient_rect</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">x_pos</span>: <span class="ident">u32</span>, <span class="ident">y_pos</span>: <span class="ident">u32</span>) {
     <span class="kw">let</span> <span class="ident">rect</span> <span class="op">=</span> <span class="ident">create_gradient</span>(<span class="ident">width</span>, <span class="ident">height</span>);
         
@@ -574,7 +562,6 @@
 <span class="doccomment">/// * `x_pos` - X-coordinate of top corner of rectangle on `img`</span>
 <span class="doccomment">/// * `y_pos` - y-coordinate of top corner of rectangle on `img`</span>
 <span class="doccomment">/// * `preset_name` - Name of the preset. Examples include &quot;lemongrass&quot;, &quot;pink_blue&quot;, &quot;pastel_pink&quot;, &quot;pastel_mauve&quot;</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_preset_rect_gradient</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">x_pos</span>: <span class="ident">u32</span>, <span class="ident">y_pos</span>: <span class="ident">u32</span>, <span class="ident">preset_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">let</span> <span class="ident">rect</span> <span class="op">=</span> <span class="ident">create_gradient_preset</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">preset_name</span>);
         
@@ -591,7 +578,6 @@
 <span class="doccomment">/// * `height` - u32 - Desired height of gradient rectangle.</span>
 <span class="doccomment">/// * `x_pos` - X-coordinate of top corner of rectangle on `img`</span>
 <span class="doccomment">/// * `y_pos` - y-coordinate of top corner of rectangle on `img`</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_stacked_rect</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">background_color1</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>, <span class="ident">background_color2</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">x_pos</span>: <span class="ident">i32</span>, <span class="ident">y_pos</span>: <span class="ident">i32</span>) {
     <span class="ident">draw_filled_rect_mut</span>(<span class="ident">img</span>, 
                         <span class="ident">Rect</span>::<span class="ident">at</span>(<span class="ident">x_pos</span>, <span class="ident">y_pos</span>).<span class="ident">of_size</span>(<span class="ident">width</span>, <span class="ident">height</span>), 
@@ -613,7 +599,6 @@
 <span class="doccomment">/// * `height` - u32 - Desired height of rectangle.</span>
 <span class="doccomment">/// * `x_pos` - X-coordinate of top corner of rectangle on `img`</span>
 <span class="doccomment">/// * `y_pos` - y-coordinate of top corner of rectangle on `img`</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_stacked_borders</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">background_color</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="kw-2">mut</span> <span class="ident">x_pos</span>: <span class="ident">i32</span>, <span class="kw-2">mut</span> <span class="ident">y_pos</span>: <span class="ident">i32</span>) {
     
     
@@ -623,8 +608,8 @@
                         <span class="ident">Rgba</span>([<span class="ident">background_color</span>.<span class="ident">r</span>, <span class="ident">background_color</span>.<span class="ident">g</span>, 
                         <span class="ident">background_color</span>.<span class="ident">b</span>, <span class="number">255u8</span>]));
 
-        <span class="ident">x_pos</span> <span class="op">-=</span> <span class="number">40</span>;
-        <span class="ident">y_pos</span> <span class="op">+=</span> <span class="number">40</span>;
+        <span class="ident">x_pos</span> <span class="op">-</span><span class="op">=</span> <span class="number">40</span>;
+        <span class="ident">y_pos</span> <span class="op">+</span><span class="op">=</span> <span class="number">40</span>;
     }
 }
 
@@ -638,7 +623,6 @@
 <span class="doccomment">/// * `height` - u32 - Desired height of gradient rectangle.</span>
 <span class="doccomment">/// * `x_pos` - X-coordinate of top corner of rectangle on `img`</span>
 <span class="doccomment">/// * `y_pos` - y-coordinate of top corner of rectangle on `img`</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_inline_border_rect</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">background_color</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>, <span class="ident">background_color2</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>,  <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">x_pos</span>: <span class="ident">i32</span>, <span class="ident">y_pos</span>: <span class="ident">i32</span>) {
 
     <span class="ident">draw_filled_rect_mut</span>(<span class="ident">img</span>, 
@@ -684,8 +668,7 @@
 <span class="doccomment">/// ### Arguments</span>
 <span class="doccomment">/// * `width` - u32 - Desired width of gradient.</span>
 <span class="doccomment">/// * `height` - u32 - Desired height of gradient.</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_gradient</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_gradient</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">RgbaImage</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
 
     <span class="comment">// Create a gradient.</span>
@@ -728,28 +711,27 @@
 <span class="doccomment">/// * `width` - u32 - Desired width of rectangle.</span>
 <span class="doccomment">/// * `height` - u32 - Desired height of rectangle.</span>
 <span class="doccomment">/// * `name` - The preset to be used. Presets available include: pinkblue, lemongrass</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_gradient_preset</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_gradient_preset</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">RgbaImage</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
 
     <span class="kw">let</span> <span class="ident">gradient</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">name</span> {
-        <span class="string">&quot;pinkblue&quot;</span> <span class="op">=&gt;</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
+        <span class="string">&quot;pinkblue&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
             <span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.2039</span>, <span class="number">0.5803</span>, <span class="number">0.90196</span>, <span class="number">1.0</span>),
             <span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.92549</span>, <span class="number">0.431372549</span>, <span class="number">0.6784313</span> , <span class="number">1.0</span>),
         ]),
-        <span class="string">&quot;lemongrass&quot;</span> <span class="op">=&gt;</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
+        <span class="string">&quot;lemongrass&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
             <span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.2039</span>, <span class="number">0.5803</span>, <span class="number">0.90196</span>, <span class="number">1.0</span>),
             <span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.40392156</span>, <span class="number">0.69803921</span>, <span class="number">0.43529</span> , <span class="number">1.0</span>),
         ]),
-        <span class="string">&quot;pink_pastel&quot;</span> <span class="op">=&gt;</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
+        <span class="string">&quot;pink_pastel&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
             <span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.93725</span>, <span class="number">0.19607</span>, <span class="number">0.85098</span>, <span class="number">1.0</span>),
             <span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.537254</span>, <span class="number">1.0</span>, <span class="number">0.9921568</span>, <span class="number">1.0</span>),
         ]),
-        <span class="string">&quot;mauve_pastel&quot;</span> <span class="op">=&gt;</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
+        <span class="string">&quot;mauve_pastel&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
             <span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.498039</span>, <span class="number">0.498039</span>, <span class="number">0.835294</span>, <span class="number">1.0</span>),
             <span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.537254</span>, <span class="number">0.6588235</span>, <span class="number">0.905882</span>, <span class="number">1.0</span>),
         ]),
-        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
             <span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.2039</span>, <span class="number">0.5803</span>, <span class="number">0.90196</span>, <span class="number">1.0</span>),
             <span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">0.52549</span>, <span class="number">0.69803921</span>, <span class="number">0.43529</span> , <span class="number">1.0</span>),
         ])
@@ -815,32 +797,32 @@
 <span class="kw">impl</span> <span class="ident">Triangle</span> {
 
     <span class="doccomment">/// Create a new Triangle, with specified co-ordinates for its 3 points, and a background color.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">background_color</span>: <span class="ident">Rgb</span>, <span class="ident">x1</span>: <span class="ident">i32</span>, <span class="ident">y1</span>: <span class="ident">i32</span>, <span class="ident">x2</span>: <span class="ident">i32</span>, <span class="ident">y2</span>: <span class="ident">i32</span>, <span class="ident">x3</span>: <span class="ident">i32</span>, <span class="ident">y3</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">Triangle</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">background_color</span>: <span class="ident">Rgb</span>, <span class="ident">x1</span>: <span class="ident">i32</span>, <span class="ident">y1</span>: <span class="ident">i32</span>, <span class="ident">x2</span>: <span class="ident">i32</span>, <span class="ident">y2</span>: <span class="ident">i32</span>, <span class="ident">x3</span>: <span class="ident">i32</span>, <span class="ident">y3</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Triangle</span> {
         <span class="kw">return</span> <span class="ident">Triangle</span> {<span class="ident">background_color</span>: <span class="ident">background_color</span>, <span class="ident">x1</span>: <span class="ident">x1</span>, <span class="ident">y1</span>: <span class="ident">y1</span>, <span class="ident">x2</span>: <span class="ident">x2</span>, <span class="ident">y2</span>: <span class="ident">y2</span>, <span class="ident">x3</span>: <span class="ident">x3</span>, <span class="ident">y3</span>: <span class="ident">y3</span>};
     }
 
     <span class="doccomment">/// Get the background colour of the Triangle.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">background_color</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Rgb</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">background_color</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Rgb</span> {
         <span class="kw">return</span> <span class="self">self</span>.<span class="ident">background_color</span>
     }
 
     <span class="doccomment">/// Get the x1 co-ordinate of the Triangle.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">x1</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">x1</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
         <span class="kw">return</span> <span class="self">self</span>.<span class="ident">x1</span>
     }
 
     <span class="doccomment">/// Get the x1 value of the Triangle.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">x2</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">x2</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
         <span class="kw">return</span> <span class="self">self</span>.<span class="ident">x2</span>
     }
 
     <span class="doccomment">/// Get the y1 value of the Triangle.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">y1</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">y1</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
         <span class="kw">return</span> <span class="self">self</span>.<span class="ident">y1</span>
     }
 
     <span class="doccomment">/// Get the y2 value of the Triangle.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">y2</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">y2</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
         <span class="kw">return</span> <span class="self">self</span>.<span class="ident">y2</span>
     }
 

@@ -1,4 +1,4 @@
-/// Add shapes and other elements to images.
+//! Add shapes and other elements to images.
 
 extern crate image;
 use image::{GenericImage, GenericImageView, DynamicImage, RgbaImage};
@@ -25,7 +25,6 @@ use wasm_bindgen::prelude::*;
 /// * `height` - u32 - Desired height of rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-#[wasm_bindgen]
 pub fn draw_solid_rect(img: &mut DynamicImage, background_color: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {    
     draw_filled_rect_mut(img, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 
@@ -43,7 +42,6 @@ pub fn draw_solid_rect(img: &mut DynamicImage, background_color: &Rgb, width: u3
 /// * `height` - u32 - Desired height of rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-#[wasm_bindgen]
 pub fn draw_opaque_rect(img: &mut DynamicImage, background_color: &Rgb, opacity: u8, width: u32, height: u32, x_pos: i32, y_pos: i32) {
     
     draw_filled_rect_mut(img, 
@@ -56,7 +54,6 @@ pub fn draw_opaque_rect(img: &mut DynamicImage, background_color: &Rgb, opacity:
 /// 
 /// /// * `img` - A mutable ref to a DynamicImage.
 /// * `triangle` - Triangle struct.
-#[wasm_bindgen]
 pub fn draw_triangle(img: &mut DynamicImage, triangle: Triangle) {
     let point = Point::new(triangle.x1, triangle.y1);
     let point2 = Point::new(triangle.x2, triangle.y2);
@@ -78,7 +75,6 @@ pub fn draw_triangle(img: &mut DynamicImage, triangle: Triangle) {
 /// * `side_len` - Side of the equilateral triangle, which will constitute all 3 sides.
 /// * `x_pos` - X-coordinate of top point of triangle on `img`
 /// * `y_pos` - y-coordinate of top point of triangle on `img`
-#[wasm_bindgen]
 pub fn draw_equilateral_triangle(img: &mut DynamicImage, side_len: u32, x_pos: i32, y_pos: i32, background_color: &Rgb) {
 
     let point = Point::new(x_pos, y_pos);
@@ -103,7 +99,6 @@ pub fn draw_equilateral_triangle(img: &mut DynamicImage, side_len: u32, x_pos: i
 /// * `height` - u32 - Desired height of rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-#[wasm_bindgen]
 pub fn draw_rect_text(img: &mut DynamicImage, text: &str, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
     draw_solid_rect(img, &background_color, height as u32, width as u32, x_pos, y_pos);      
     let rgb_white = Rgb { r: 255, g: 255, b: 255};
@@ -137,7 +132,6 @@ pub fn draw_rect_text(img: &mut DynamicImage, text: &str, background_color: &Rgb
 /// * `height` - u32 - Desired height of gradient rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-#[wasm_bindgen]
 pub fn draw_gradient_rect(img: &mut DynamicImage, height: u32, width: u32, x_pos: u32, y_pos: u32) {
     let rect = create_gradient(width, height);
         
@@ -153,7 +147,6 @@ pub fn draw_gradient_rect(img: &mut DynamicImage, height: u32, width: u32, x_pos
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 /// * `preset_name` - Name of the preset. Examples include "lemongrass", "pink_blue", "pastel_pink", "pastel_mauve"
-#[wasm_bindgen]
 pub fn draw_preset_rect_gradient(img: &mut DynamicImage, width: u32, height: u32, x_pos: u32, y_pos: u32, preset_name: &str) {
     let rect = create_gradient_preset(width, height, preset_name);
         
@@ -170,7 +163,6 @@ pub fn draw_preset_rect_gradient(img: &mut DynamicImage, width: u32, height: u32
 /// * `height` - u32 - Desired height of gradient rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-#[wasm_bindgen]
 pub fn draw_stacked_rect(img: &mut DynamicImage, background_color1: &Rgb, background_color2: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
     draw_filled_rect_mut(img, 
                         Rect::at(x_pos, y_pos).of_size(width, height), 
@@ -192,7 +184,6 @@ pub fn draw_stacked_rect(img: &mut DynamicImage, background_color1: &Rgb, backgr
 /// * `height` - u32 - Desired height of rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-#[wasm_bindgen]
 pub fn draw_stacked_borders(img: &mut DynamicImage, background_color: &Rgb, width: u32, height: u32, mut x_pos: i32, mut y_pos: i32) {
     
     
@@ -217,7 +208,6 @@ pub fn draw_stacked_borders(img: &mut DynamicImage, background_color: &Rgb, widt
 /// * `height` - u32 - Desired height of gradient rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-#[wasm_bindgen]
 pub fn draw_inline_border_rect(img: &mut DynamicImage, background_color: &Rgb, background_color2: &Rgb,  width: u32, height: u32, x_pos: i32, y_pos: i32) {
 
     draw_filled_rect_mut(img, 
@@ -263,7 +253,6 @@ pub fn draw_inline_border_rect(img: &mut DynamicImage, background_color: &Rgb, b
 /// ### Arguments
 /// * `width` - u32 - Desired width of gradient.
 /// * `height` - u32 - Desired height of gradient.
-#[wasm_bindgen]
 pub fn create_gradient(width: u32, height: u32) -> DynamicImage {
     let mut image = RgbaImage::new(width, height);
 
@@ -307,7 +296,6 @@ pub fn create_gradient(width: u32, height: u32) -> DynamicImage {
 /// * `width` - u32 - Desired width of rectangle.
 /// * `height` - u32 - Desired height of rectangle.
 /// * `name` - The preset to be used. Presets available include: pinkblue, lemongrass
-#[wasm_bindgen]
 pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> DynamicImage {
     let mut image = RgbaImage::new(width, height);
 

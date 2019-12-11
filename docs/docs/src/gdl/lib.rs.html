@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -322,6 +322,7 @@
 <span class="doccomment">//! To view a full demo of templates available, visit the [official website](https://silvia-odwyer.github.io/gdl).</span>
 <span class="doccomment">//! </span>
 
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">image</span>;
 <span class="kw">use</span> <span class="ident">wasm_bindgen</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">web_sys</span>::{<span class="ident">CanvasRenderingContext2d</span>, <span class="ident">ImageData</span>, <span class="ident">HtmlCanvasElement</span>};
 <span class="kw">use</span> <span class="ident">wasm_bindgen</span>::<span class="ident">Clamped</span>;
@@ -348,25 +349,25 @@
 
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">impl</span> <span class="ident">PhotonImage</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">height</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">height</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">height</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">width</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">width</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">width</span>
     }
     
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_from_rawpixels</span>(<span class="ident">raw_pixels</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">PhotonImage</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_from_rawpixels</span>(<span class="ident">raw_pixels</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PhotonImage</span> {
         <span class="kw">return</span> <span class="ident">PhotonImage</span> {<span class="ident">raw_pixels</span>: <span class="ident">raw_pixels</span>, <span class="ident">width</span>: <span class="ident">width</span>, <span class="ident">height</span>: <span class="ident">height</span>}
     }
     
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_from_imgdata</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">img_data</span>: <span class="ident">ImageData</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">PhotonImage</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_from_imgdata</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">img_data</span>: <span class="ident">ImageData</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PhotonImage</span> {
         <span class="kw">let</span> <span class="ident">_raw_pixels</span> <span class="op">=</span> <span class="ident">to_raw_pixels</span>(<span class="ident">img_data</span>);
         <span class="kw">let</span> <span class="ident">new_vec</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         <span class="kw">return</span> <span class="ident">PhotonImage</span> {<span class="ident">raw_pixels</span>: <span class="ident">new_vec</span>, <span class="ident">width</span>: <span class="ident">width</span>, <span class="ident">height</span>: <span class="ident">height</span>}
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>) <span class="op">-&gt;</span> <span class="ident">PhotonImage</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PhotonImage</span> {
         <span class="comment">// create a pixel </span>
         <span class="kw">let</span> <span class="ident">pixel</span> <span class="op">=</span>  <span class="ident">image</span>::<span class="ident">Rgba</span>([<span class="ident">background_color</span>.<span class="ident">r</span>, <span class="ident">background_color</span>.<span class="ident">g</span>, <span class="ident">background_color</span>.<span class="ident">b</span>, <span class="number">255</span>]);
         <span class="kw">let</span> <span class="ident">image_buffer</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_pixel</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">pixel</span>);
@@ -387,7 +388,7 @@
     <span class="comment">//     // return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};</span>
     <span class="comment">// }</span>
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_gradient</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">PhotonImage</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_gradient</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PhotonImage</span> {
         <span class="comment">// create a pixel </span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">RgbaImage</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
         <span class="kw">let</span> <span class="ident">grad1</span> <span class="op">=</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
@@ -430,29 +431,28 @@
     <span class="doccomment">/// Create a new social media graphic. </span>
     <span class="doccomment">/// Available types include: linkedin_banner, pinterest, fb_ad, fb_post, instagram_post, </span>
     <span class="doccomment">/// twitter_header, twitter_post.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_socialmedia_graphic</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">PhotonImage</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_socialmedia_graphic</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PhotonImage</span> {
         <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">name</span> {
-            <span class="string">&quot;linkedin_banner&quot;</span> <span class="op">=&gt;</span> (<span class="number">1400</span>, <span class="number">425</span>),
-            <span class="string">&quot;pinterest&quot;</span> <span class="op">=&gt;</span> (<span class="number">735</span>, <span class="number">1102</span>),
-            <span class="string">&quot;fb_ad&quot;</span> <span class="op">=&gt;</span> (<span class="number">1200</span>, <span class="number">628</span>), 
-            <span class="string">&quot;fb_post&quot;</span> <span class="op">=&gt;</span> (<span class="number">940</span>, <span class="number">788</span>),
-            <span class="string">&quot;instagram_post&quot;</span> <span class="op">=&gt;</span> (<span class="number">1080</span>, <span class="number">1080</span>),
-            <span class="string">&quot;twitter_post&quot;</span> <span class="op">=&gt;</span> (<span class="number">1024</span>, <span class="number">512</span>),
-            <span class="string">&quot;twitter_header&quot;</span> <span class="op">=&gt;</span> (<span class="number">1500</span>, <span class="number">500</span>),
-            <span class="kw">_</span> <span class="op">=&gt;</span> (<span class="number">192</span>, <span class="number">120</span>)
+            <span class="string">&quot;linkedin_banner&quot;</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="number">1400</span>, <span class="number">425</span>),
+            <span class="string">&quot;pinterest&quot;</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="number">735</span>, <span class="number">1102</span>),
+            <span class="string">&quot;fb_ad&quot;</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="number">1200</span>, <span class="number">628</span>), 
+            <span class="string">&quot;fb_post&quot;</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="number">940</span>, <span class="number">788</span>),
+            <span class="string">&quot;instagram_post&quot;</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="number">1080</span>, <span class="number">1080</span>),
+            <span class="string">&quot;twitter_post&quot;</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="number">1024</span>, <span class="number">512</span>),
+            <span class="string">&quot;twitter_header&quot;</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="number">1500</span>, <span class="number">500</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="number">192</span>, <span class="number">120</span>)
         };
         <span class="kw">let</span> <span class="ident">new_vec</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         <span class="kw">return</span> <span class="ident">PhotonImage</span> {<span class="ident">raw_pixels</span>: <span class="ident">new_vec</span>, <span class="ident">width</span>: <span class="ident">width</span>, <span class="ident">height</span>: <span class="ident">height</span>}
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">raw_pix</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">raw_pix</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">raw_pixels</span>
     } 
 }
 
 
-<span class="doccomment">/// Provides the image&#39;s height, width, and contains the image&#39;s raw pixels.</span>
-<span class="doccomment">/// For use when communicating between JS and WASM, and also natively. </span>
+<span class="doccomment">/// Generate color schemes from a single input color. </span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ColorScheme</span> {
@@ -462,7 +462,7 @@
 
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">impl</span> <span class="ident">ColorScheme</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">main_color</span>: <span class="ident">Rgb</span>) <span class="op">-&gt;</span> <span class="ident">ColorScheme</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">main_color</span>: <span class="ident">Rgb</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ColorScheme</span> {
         <span class="kw">let</span> <span class="ident">distance</span> <span class="op">=</span> <span class="number">120.0</span>;
 
         <span class="kw">let</span> <span class="ident">primary</span>: <span class="ident">Lch</span> <span class="op">=</span> <span class="ident">Srgb</span>::<span class="ident">new</span>(<span class="ident">main_color</span>.<span class="ident">r</span>, <span class="ident">main_color</span>.<span class="ident">g</span>, <span class="ident">main_color</span>.<span class="ident">b</span>)
@@ -504,7 +504,7 @@
 
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">impl</span> <span class="ident">Font</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">size</span>: <span class="ident">u8</span>, <span class="ident">color</span>: <span class="ident">Rgb</span>) <span class="op">-&gt;</span> <span class="ident">Font</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">size</span>: <span class="ident">u8</span>, <span class="ident">color</span>: <span class="ident">Rgb</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Font</span> {
         <span class="kw">return</span> <span class="ident">Font</span> {<span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">to_string</span>(), <span class="ident">size</span>: <span class="ident">size</span>, <span class="ident">color</span>: <span class="ident">color</span>};
     }
 }
@@ -521,7 +521,7 @@
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">impl</span> <span class="ident">Rgb</span> {
     <span class="doccomment">/// Create a new Rgb color.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">r</span>: <span class="ident">u8</span>, <span class="ident">g</span>: <span class="ident">u8</span>, <span class="ident">b</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">Rgb</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">r</span>: <span class="ident">u8</span>, <span class="ident">g</span>: <span class="ident">u8</span>, <span class="ident">b</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Rgb</span> {
         <span class="kw">return</span> <span class="ident">Rgb</span> {<span class="ident">r</span>: <span class="ident">r</span>, <span class="ident">g</span>: <span class="ident">g</span>, <span class="ident">b</span>: <span class="ident">b</span>}
     }
 }
@@ -534,7 +534,7 @@
 
 <span class="comment">// Called by the JS entry point to ensure that everything is working as expected</span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">JsValue</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">JsValue</span><span class="op">&gt;</span> {
     <span class="ident">set_panic_hook</span>();
 
     <span class="kw">let</span> <span class="ident">window</span> <span class="op">=</span> <span class="ident">web_sys</span>::<span class="ident">window</span>().<span class="ident">expect</span>(<span class="string">&quot;No Window found, should have a Window&quot;</span>);
@@ -559,7 +559,7 @@
     <span class="ident">ctx</span>.<span class="ident">put_image_data</span>(<span class="kw-2">&amp;</span><span class="ident">new_imgdata</span>.<span class="ident">unwrap</span>(), <span class="number">0.0</span>, <span class="number">0.0</span>);
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="ident">pixel</span> <span class="op">=</span>  <span class="ident">image</span>::<span class="ident">Rgba</span>([<span class="ident">background_color</span>.<span class="ident">r</span>, <span class="ident">background_color</span>.<span class="ident">g</span>, <span class="ident">background_color</span>.<span class="ident">b</span>, <span class="number">255</span>]);
     <span class="kw">let</span> <span class="ident">image_buffer</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_pixel</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">pixel</span>);
     <span class="kw">let</span> <span class="ident">rgba_img</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">ImageRgba8</span>(<span class="ident">image_buffer</span>);
@@ -570,7 +570,7 @@
 <span class="doccomment">/// which can be used to filter or apply effects to the image</span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open_image</span>(<span class="ident">canvas</span>: <span class="ident">HtmlCanvasElement</span>, <span class="ident">ctx</span>: <span class="ident">CanvasRenderingContext2d</span>) <span class="op">-&gt;</span> <span class="ident">PhotonImage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open_image</span>(<span class="ident">canvas</span>: <span class="ident">HtmlCanvasElement</span>, <span class="ident">ctx</span>: <span class="ident">CanvasRenderingContext2d</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PhotonImage</span> {
     <span class="kw">let</span> <span class="ident">imgdata</span> <span class="op">=</span> <span class="ident">get_image_data</span>(<span class="kw-2">&amp;</span><span class="ident">canvas</span>, <span class="kw-2">&amp;</span><span class="ident">ctx</span>);
     <span class="kw">let</span> <span class="ident">raw_pixels</span> <span class="op">=</span> <span class="ident">to_raw_pixels</span>(<span class="ident">imgdata</span>);
     <span class="kw">return</span> <span class="ident">PhotonImage</span> {<span class="ident">raw_pixels</span>: <span class="ident">raw_pixels</span>, <span class="ident">width</span>: <span class="ident">canvas</span>.<span class="ident">width</span>(), <span class="ident">height</span>: <span class="ident">canvas</span>.<span class="ident">height</span>() }
@@ -578,21 +578,21 @@
 
 <span class="doccomment">/// Create a new RGB colour. TODO Will be using struct impl soon. </span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_rgb</span>(<span class="ident">r</span>:<span class="ident">u8</span>, <span class="ident">g</span>:<span class="ident">u8</span>, <span class="ident">b</span>:<span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">Rgb</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_rgb</span>(<span class="ident">r</span>:<span class="ident">u8</span>, <span class="ident">g</span>:<span class="ident">u8</span>, <span class="ident">b</span>:<span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Rgb</span> {
     <span class="kw">let</span> <span class="ident">rgb</span> <span class="op">=</span> <span class="ident">Rgb</span>{<span class="ident">r</span>, <span class="ident">g</span>, <span class="ident">b</span>};
     <span class="kw">return</span> <span class="ident">rgb</span>;
 }
 
 <span class="doccomment">/// Convert ImageData to raw pixels.</span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_raw_pixels</span>(<span class="ident">imgdata</span>: <span class="ident">ImageData</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_raw_pixels</span>(<span class="ident">imgdata</span>: <span class="ident">ImageData</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">img_vec</span> <span class="op">=</span> <span class="ident">imgdata</span>.<span class="ident">data</span>().<span class="ident">to_vec</span>();
     <span class="kw">return</span> <span class="ident">img_vec</span>;
 }
 
 <span class="doccomment">/// Convert a PhotonImage to JS-compatible ImageData</span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_image_data</span>(<span class="ident">photon_image</span>: <span class="ident">PhotonImage</span>) <span class="op">-&gt;</span> <span class="ident">ImageData</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_image_data</span>(<span class="ident">photon_image</span>: <span class="ident">PhotonImage</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageData</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">raw_pixels</span> <span class="op">=</span> <span class="ident">photon_image</span>.<span class="ident">raw_pixels</span>;
     <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">photon_image</span>.<span class="ident">width</span>;
     <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">photon_image</span>.<span class="ident">height</span>;
@@ -603,7 +603,7 @@
 
 <span class="doccomment">/// Get the ImageData from a 2D canvas context</span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_image_data</span>(<span class="ident">canvas</span>: <span class="kw-2">&amp;</span><span class="ident">HtmlCanvasElement</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="ident">CanvasRenderingContext2d</span>) <span class="op">-&gt;</span> <span class="ident">ImageData</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_image_data</span>(<span class="ident">canvas</span>: <span class="kw-2">&amp;</span><span class="ident">HtmlCanvasElement</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="ident">CanvasRenderingContext2d</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageData</span> {
     <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">canvas</span>.<span class="ident">width</span>();
     <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">canvas</span>.<span class="ident">height</span>();
 

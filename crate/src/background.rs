@@ -4,7 +4,7 @@ extern crate image;
 use image::{ GenericImage, DynamicImage};
 extern crate imageproc;
 extern crate rusttype;
-use wasm_bindgen::prelude::*;
+// use wasm_bindgen::prelude::*;
 use imageproc::drawing::{draw_filled_circle_mut};
 use crate::{Rgb};
 use image::GenericImageView;
@@ -21,7 +21,6 @@ use imageproc::drawing::draw_line_segment_mut;
 /// # Arguments
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn circle_background(width: u32, height: u32) -> DynamicImage {
     let background_color = Rgb { r: 190, g: 120, b: 200};
     let mut rgba_img = create_image_from_pixel(background_color, width, height);
@@ -46,7 +45,6 @@ pub fn circle_background(width: u32, height: u32) -> DynamicImage {
 /// # Arguments
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn spaced_circle_background(width: u32, height: u32) -> DynamicImage {
     let background_color = Rgb { r: 190, g: 120, b: 200};
 
@@ -72,7 +70,6 @@ pub fn spaced_circle_background(width: u32, height: u32) -> DynamicImage {
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 /// * `background_color` - Rgb color the background should comprise of
-#[wasm_bindgen]
 pub fn solid_background(width: u32, height: u32, background_color: Rgb) -> DynamicImage {
     let rgba_img = create_image_from_pixel(background_color, width, height);
     return rgba_img;
@@ -85,7 +82,6 @@ pub fn solid_background(width: u32, height: u32, background_color: Rgb) -> Dynam
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 /// * `background_color` - Rgb color the background should comprise of
-#[wasm_bindgen]
 pub fn lined_background(width: u32, height: u32, background_color: Rgb) -> DynamicImage {
     let mut rgba_img = create_image_from_pixel(background_color, width, height);
     let line_pixel = image::Rgba([255, 167, 90, 255]);
@@ -103,7 +99,6 @@ pub fn lined_background(width: u32, height: u32, background_color: Rgb) -> Dynam
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
 /// * `background_color` - Rgb color the background should comprise of.
-#[wasm_bindgen]
 pub fn grid_background(width: u32, height: u32, background_color: Rgb) -> DynamicImage {
     let mut rgba_img = create_image_from_pixel(background_color, width, height);
 
@@ -128,7 +123,6 @@ pub fn grid_background(width: u32, height: u32, background_color: Rgb) -> Dynami
 /// * `height` - u32 - Desired height of final graphic
 /// * `background_color` - Rgb color the background should comprise of.
 /// * `img` - A DynamicImage to be painted onto the background in a pattern.
-#[wasm_bindgen]
 pub fn pattern_from_img(width: u32, height: u32, background_color: Rgb, img: DynamicImage) -> DynamicImage {
     let mut rgba_img = create_image_from_pixel(background_color, width, height);
 
@@ -146,7 +140,7 @@ pub fn pattern_from_img(width: u32, height: u32, background_color: Rgb, img: Dyn
 /// # Arguments
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
+
 pub fn gradient_background(width: u32, height: u32) -> DynamicImage {
     let mut image = RgbaImage::new(width, height);
     let grad1 = Gradient::new(vec![

@@ -1,4 +1,4 @@
-/// Resize images to specific sizes/for various social media platforms.
+//! Resize images to specific sizes/for various social media platforms.
 
 extern crate image;
 extern crate imageproc;
@@ -58,6 +58,7 @@ pub fn resize_socialmedia_all(img: &PhotonImage) -> Vec<PhotonImage> {
     return resized_imgs;
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 pub fn resize(photon_img: &PhotonImage, width: u32, height: u32) -> PhotonImage {
     let sampling_filter = image::FilterType::Nearest;
 
@@ -66,3 +67,27 @@ pub fn resize(photon_img: &PhotonImage, width: u32, height: u32) -> PhotonImage 
 
     return PhotonImage{ raw_pixels: resized_img.raw_pixels(), width: resized_img.width(), height: resized_img.height()}
 }
+
+#[cfg(target_arch = "wasm32")]
+pub fn resize(photon_img: &PhotonImage, width: u32, height: u32) -> PhotonImage {
+    let sampling_filter = image::FilterType::Nearest;
+
+    let dyn_img = helpers::dyn_image_from_raw(&photon_img);
+    let resized_img = image::ImageRgba8(image::imageops::resize(&dyn_img, width, height, sampling_filter));
+
+    return PhotonImage{ raw_pixels: resized_img.raw_pixels(), width: resized_img.width(), height: resized_img.height()}
+}
+
+
+#[cfg(not(target_arch = "wasm32"))]
+pub fn webfunc(num: &str) {
+    println!("{}", num);
+
+}
+
+#[cfg(target_arch = "wasm32")]
+#[wasm_bindgen]
+pub fn webfunc(num: u16) {
+    num * 2
+}
+

@@ -1,6 +1,6 @@
-/// Create diagrams, flowcharts, graphs, etc.,
+//! Create diagrams, flowcharts, graphs, etc.,
 
-use wasm_bindgen::prelude::*;
+// use wasm_bindgen::prelude::*;
 use crate::text::draw_text;
 use crate::elements::draw_solid_rect;
 use crate::Rgb;
@@ -32,7 +32,7 @@ pub fn draw_vertical_barchart(img: &mut DynamicImage, barchart: &Chart) {
 /// /// ### Arguments
 /// * `img` - Image to draw the barchart onto.
 /// * `barchart` - Barchart struct, which contains all data & meta-data about the barchart.
-#[wasm_bindgen]
+
 pub fn draw_horizontal_histogram(img: &mut DynamicImage, barchart: &Chart) {
     draw_horizontal_bars(img, &barchart, "histogram");
 
@@ -362,7 +362,6 @@ pub struct Chart {
     pub width: u32
 }
 
-#[wasm_bindgen]
 impl Chart {
 
     /// Create a new chart.

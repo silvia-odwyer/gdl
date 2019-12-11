@@ -55,7 +55,7 @@ cd crate/fonts
 For example, if the custom font is called Robotika.ttf then pass the name Robotika into the function. 
 
 
-### Why GDL?
+## Why GDL?
 This does not attempt to be a full-fledged graphic design solution, but rather an aid to those who want to create graphics-on-the-fly quickly and in large quantities.
 Designing batches of graphics for large numbers of blog posts can be quite cumbersome for bloggers and freelance writers. Hence why I started working on this library.
 
@@ -63,9 +63,10 @@ Designing batches of graphics for large numbers of blog posts can be quite cumbe
 This is a work-in-progress, therefore the API will likely break in future versions until it reaches 1.0.0. 
 
 #### WebAssembly
-Coming soon:tm:
-
 The WebAssembly version of this library will make use of the browser's canvas, for graphic creation in the browser.
+
+UPDATE [Dec, 2019]: Development has commenced on the WebAssembly version of this library, and is expected to be completed 
+by end of January 2020. 
 
 <!-- 
 ### Native Use

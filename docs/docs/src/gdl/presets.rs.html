@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\presets.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>presets.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\presets.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>presets.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -254,15 +254,8 @@
 <span id="254">254</span>
 <span id="255">255</span>
 <span id="256">256</span>
-<span id="257">257</span>
-<span id="258">258</span>
-<span id="259">259</span>
-<span id="260">260</span>
-<span id="261">261</span>
-<span id="262">262</span>
-<span id="263">263</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">/// Templates for rapid graphic creation.</span>
+<span class="doccomment">//! Templates for rapid graphic creation.</span>
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">image</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">imageproc</span>;
@@ -296,7 +289,7 @@
     <span class="kw">for</span> <span class="ident">word_vec</span> <span class="kw">in</span> <span class="ident">group_vec</span> {
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">word_vec</span>.<span class="ident">join</span>(<span class="string">&quot; &quot;</span>);
         <span class="ident">draw_text</span>(<span class="ident">background_img</span>, <span class="kw-2">&amp;</span><span class="ident">text</span>, (<span class="ident">width</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="number">0.3</span>) <span class="kw">as</span> <span class="ident">u32</span>, (<span class="ident">height</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="ident">height_mul</span>) <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;BebasKai&quot;</span>, <span class="ident">font_size</span>, <span class="kw-2">&amp;</span><span class="ident">white_rgb</span>);
-        <span class="ident">height_mul</span> <span class="op">+=</span> <span class="number">0.15</span>;
+        <span class="ident">height_mul</span> <span class="op">+</span><span class="op">=</span> <span class="number">0.15</span>;
     }
   
 }
@@ -317,7 +310,7 @@
     <span class="kw">let</span> <span class="ident">white_rgb</span> <span class="op">=</span> <span class="ident">Rgb</span> { <span class="ident">r</span>: <span class="number">255</span>, <span class="ident">g</span>: <span class="number">255</span>, <span class="ident">b</span>: <span class="number">255</span>};
     <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..(<span class="ident">height</span> <span class="op">/</span> <span class="number">50</span>) <span class="kw">as</span> <span class="ident">usize</span>{
         <span class="ident">draw_text</span>(<span class="ident">background_img</span>, <span class="ident">main_text</span>, (<span class="ident">width</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="number">0.05</span>) <span class="kw">as</span> <span class="ident">u32</span>, (<span class="ident">height</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="ident">height_mul</span>) <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;BebasKai&quot;</span>, <span class="number">110.0</span>, <span class="kw-2">&amp;</span><span class="ident">white_rgb</span>);
-        <span class="ident">height_mul</span> <span class="op">+=</span> <span class="number">0.1</span>;
+        <span class="ident">height_mul</span> <span class="op">+</span><span class="op">=</span> <span class="number">0.1</span>;
     }
   
 }
@@ -338,7 +331,7 @@
     <span class="kw">let</span> <span class="ident">white_rgb</span> <span class="op">=</span> <span class="ident">Rgb</span> { <span class="ident">r</span>: <span class="number">255</span>, <span class="ident">g</span>: <span class="number">255</span>, <span class="ident">b</span>: <span class="number">255</span>};
     <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..(<span class="ident">height</span> <span class="op">/</span> <span class="number">50</span>) <span class="kw">as</span> <span class="ident">usize</span>{
         <span class="ident">draw_text</span>(<span class="ident">background_img</span>, <span class="ident">main_text</span>, (<span class="ident">width</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="number">0.05</span>) <span class="kw">as</span> <span class="ident">u32</span>, (<span class="ident">height</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="ident">height_mul</span>) <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;BebasKai&quot;</span>, <span class="number">110.0</span>, <span class="kw-2">&amp;</span><span class="ident">white_rgb</span>);
-        <span class="ident">height_mul</span> <span class="op">+=</span> <span class="number">0.1</span>;
+        <span class="ident">height_mul</span> <span class="op">+</span><span class="op">=</span> <span class="number">0.1</span>;
     } 
 }
 
@@ -350,7 +343,6 @@
 <span class="doccomment">/// * `small_text` - Sub-heading/smaller text. </span>
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - u32 - Desired height of final graphic</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">text_banner</span>(<span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">small_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">width</span>();
     <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">height</span>();
@@ -358,7 +350,7 @@
     <span class="kw">let</span> <span class="ident">height_mul</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="number">0.4</span>;
     <span class="kw">let</span> <span class="ident">black_rgb</span> <span class="op">=</span> <span class="ident">Rgb</span> { <span class="ident">r</span>: <span class="number">0</span>, <span class="ident">g</span>: <span class="number">0</span>, <span class="ident">b</span>: <span class="number">0</span>};
     
-    <span class="ident">draw_text</span>(<span class="ident">background_img</span>, <span class="ident">main_text</span>, (<span class="ident">width</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="number">0.15</span>) <span class="kw">as</span> <span class="ident">u32</span>, (<span class="ident">height</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="ident">height_mul</span>) <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;BebasKai&quot;</span>, <span class="number">110.0</span>, <span class="kw-2">&amp;</span><span class="ident">black_rgb</span>);
+    <span class="ident">draw_text</span>(<span class="ident">background_img</span>, <span class="ident">main_text</span>, (<span class="ident">width</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="number">0.15</span>) <span class="kw">as</span> <span class="ident">u32</span>, (<span class="ident">height</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="ident">height_mul</span>) <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;RobotoCondensed-LightItalic&quot;</span>, <span class="number">110.0</span>, <span class="kw-2">&amp;</span><span class="ident">black_rgb</span>);
     <span class="ident">draw_text</span>(<span class="ident">background_img</span>, <span class="ident">small_text</span>, (<span class="ident">width</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="number">0.28</span>) <span class="kw">as</span> <span class="ident">u32</span>, (<span class="ident">height</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> (<span class="ident">height_mul</span> <span class="op">+</span> <span class="number">0.15</span>)) <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;BebasKai&quot;</span>, <span class="number">30.0</span>, <span class="kw-2">&amp;</span><span class="ident">black_rgb</span>);   
 }
 
@@ -370,7 +362,6 @@
 <span class="doccomment">/// * `small_text` - Sub-heading/smaller text. </span>
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - ù32 - Desired height of final graphic</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">vertical_text</span>(<span class="kw-2">mut</span> <span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">width</span>();
     <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">height</span>();
@@ -390,7 +381,6 @@
 <span class="doccomment">/// * `img` - A mutable ref to a DynamicImage.</span>
 <span class="doccomment">/// * `main_text` - Main heading for the graphic.</span>
 <span class="doccomment">/// * `small_text` - Sub-heading/smaller text. </span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rhs_text</span>(<span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">width</span>();
     <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">height</span>();
@@ -409,7 +399,6 @@
 <span class="doccomment">/// * `small_text` - Sub-heading/smaller text. </span>
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - u32 - Desired height of final graphic</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lhs_text</span>(<span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_small_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">width</span>();
     <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">height</span>();
@@ -426,7 +415,6 @@
 <span class="doccomment">/// * `img` - A mutable ref to a DynamicImage.</span>
 <span class="doccomment">/// * `main_text` - Main heading for the graphic.</span>
 <span class="doccomment">/// * `small_text` - Sub-heading/smaller text. </span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">vertical_text_rhs</span>(<span class="kw-2">mut</span> <span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">width</span>();
     <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">height</span>();
@@ -448,7 +436,6 @@
 <span class="doccomment">/// * `small_text` - Sub-heading/smaller text. </span>
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - ù32 - Desired height of final graphic</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">quote</span>(<span class="kw-2">mut</span> <span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_small_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">let</span> <span class="ident">_width</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">width</span>();
     <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">background_img</span>.<span class="ident">height</span>();
@@ -462,7 +449,7 @@
     <span class="kw">for</span> <span class="ident">word_vec</span> <span class="kw">in</span> <span class="ident">group_vec</span> {
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">word_vec</span>.<span class="ident">join</span>(<span class="string">&quot; &quot;</span>);
         <span class="ident">draw_text</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">background_img</span>, <span class="kw-2">&amp;</span><span class="ident">text</span>, <span class="number">0</span>, (<span class="ident">height</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="ident">height_mul</span>) <span class="kw">as</span> <span class="ident">u32</span>, <span class="string">&quot;Oswald&quot;</span>, <span class="ident">font_size</span>, <span class="kw-2">&amp;</span><span class="ident">black_rgb</span>);
-        <span class="ident">height_mul</span> <span class="op">+=</span> <span class="number">0.1</span>;
+        <span class="ident">height_mul</span> <span class="op">+</span><span class="op">=</span> <span class="number">0.1</span>;
     }
 
 }
@@ -475,8 +462,7 @@
 <span class="doccomment">/// * `small_text` - Sub-heading/smaller text. </span>
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - ù32 - Desired height of final graphic</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">postcard</span>(<span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_small_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">postcard</span>(<span class="ident">background_img</span>: <span class="kw-2">&amp;</span><span class="ident">DynamicImage</span>, <span class="ident">main_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_small_text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="ident">white</span> <span class="op">=</span> <span class="ident">Rgb</span> { <span class="ident">r</span>: <span class="number">255</span>, <span class="ident">g</span>: <span class="number">255</span>, <span class="ident">b</span>: <span class="number">255</span>};
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container_img</span> <span class="op">=</span> <span class="ident">new_with_background</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="kw-2">&amp;</span><span class="ident">white</span>);
@@ -499,7 +485,7 @@
 
 <span class="comment">// Convert a string of text to a vector containing vecs of words, </span>
 <span class="comment">// which will fit on an individual line or within a constraint.</span>
-<span class="kw">fn</span> <span class="ident">text_to_vec</span>(<span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">font_size</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;&gt;</span> {
+<span class="kw">fn</span> <span class="ident">text_to_vec</span>(<span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">font_size</span>: <span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> {
       
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">word_vec</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
     <span class="kw">let</span> <span class="ident">font_size</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="ident">font_size</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="number">0.8</span>;
@@ -508,7 +494,7 @@
     <span class="kw">for</span> <span class="ident">word</span> <span class="kw">in</span> <span class="ident">text</span>.<span class="ident">split_whitespace</span>() {
         <span class="comment">// get len of word, num of chars, and multiply by font size.</span>
         <span class="kw">let</span> <span class="ident">width_word</span> <span class="op">=</span> <span class="ident">font_size</span> <span class="op">*</span> <span class="ident">word</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">f32</span>;
-        <span class="ident">total_width</span> <span class="op">+=</span> <span class="ident">width_word</span> <span class="kw">as</span> <span class="ident">u32</span>;
+        <span class="ident">total_width</span> <span class="op">+</span><span class="op">=</span> <span class="ident">width_word</span> <span class="kw">as</span> <span class="ident">u32</span>;
 
         <span class="kw">if</span> <span class="ident">total_width</span> <span class="op">&gt;</span> <span class="ident">width</span> {
             <span class="ident">group_vec</span>.<span class="ident">push</span>(<span class="ident">word_vec</span>);

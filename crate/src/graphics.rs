@@ -6,7 +6,6 @@ use wasm_bindgen::prelude::*;
 use crate::{PhotonImage, helpers, Rgb};
 
 /// Add text to an image.
-#[wasm_bindgen]
 pub fn create_image(width: u32, height: u32, background_color: Rgb) -> PhotonImage {
     // create a pixel 
     let pixel =  image::Rgba([background_color.r, background_color.g, background_color.b, 100]);
@@ -24,7 +23,6 @@ pub fn create_image(width: u32, height: u32, background_color: Rgb) -> PhotonIma
 /// * `photon_img` - The image to be drawn onto the container image.
 /// * `x_pos` - u32 - Desired width of final graphic 
 /// * `y_pos` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn draw_photonimage(mut container_img: &mut PhotonImage, photon_img: &PhotonImage, x_pos: u32, y_pos: u32) {
     let mut dyn_container_img = helpers::dyn_image_from_raw(&container_img);
     let dyn_photonimg = helpers::dyn_image_from_raw(&photon_img);
@@ -41,7 +39,6 @@ pub fn draw_photonimage(mut container_img: &mut PhotonImage, photon_img: &Photon
 /// * `photon_img` - The image to be drawn onto the container image.
 /// * `width` - Desired width of the border. 
 /// * `background_color` - Rgb color of the border.
-#[wasm_bindgen]
 pub fn draw_border(mut photon_img: &mut PhotonImage, width: u32, background_color: &Rgb) {
     let mut container_img = PhotonImage::new_with_background(photon_img.width + (width * 2), photon_img.height + (width * 2), background_color);
 

@@ -1,4 +1,4 @@
-/// Templates for rapid graphic creation.
+//! Templates for rapid graphic creation.
 
 extern crate image;
 extern crate imageproc;
@@ -86,7 +86,6 @@ pub fn repeat_text(background_img: &mut DynamicImage, main_text: &str) {
 /// * `small_text` - Sub-heading/smaller text. 
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn text_banner(background_img: &mut DynamicImage, main_text: &str, small_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
@@ -106,7 +105,6 @@ pub fn text_banner(background_img: &mut DynamicImage, main_text: &str, small_tex
 /// * `small_text` - Sub-heading/smaller text. 
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn vertical_text(mut background_img: &mut DynamicImage, main_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
@@ -126,7 +124,6 @@ pub fn vertical_text(mut background_img: &mut DynamicImage, main_text: &str) {
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `main_text` - Main heading for the graphic.
 /// * `small_text` - Sub-heading/smaller text. 
-#[wasm_bindgen]
 pub fn rhs_text(background_img: &mut DynamicImage, main_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
@@ -145,7 +142,6 @@ pub fn rhs_text(background_img: &mut DynamicImage, main_text: &str) {
 /// * `small_text` - Sub-heading/smaller text. 
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn lhs_text(background_img: &mut DynamicImage, main_text: &str, _small_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
@@ -162,7 +158,6 @@ pub fn lhs_text(background_img: &mut DynamicImage, main_text: &str, _small_text:
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `main_text` - Main heading for the graphic.
 /// * `small_text` - Sub-heading/smaller text. 
-#[wasm_bindgen]
 pub fn vertical_text_rhs(mut background_img: &mut DynamicImage, main_text: &str) {
     let width = background_img.width();
     let height = background_img.height();
@@ -184,7 +179,6 @@ pub fn vertical_text_rhs(mut background_img: &mut DynamicImage, main_text: &str)
 /// * `small_text` - Sub-heading/smaller text. 
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn quote(mut background_img: &mut DynamicImage, main_text: &str, _small_text: &str) {
     let _width = background_img.width();
     let height = background_img.height();
@@ -211,7 +205,6 @@ pub fn quote(mut background_img: &mut DynamicImage, main_text: &str, _small_text
 /// * `small_text` - Sub-heading/smaller text. 
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - ù32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn postcard(background_img: &DynamicImage, main_text: &str, _small_text: &str, width: u32, height: u32) -> DynamicImage {
     let white = Rgb { r: 255, g: 255, b: 255};
 

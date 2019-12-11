@@ -1,4 +1,4 @@
-/// Create image collages.
+//! Create image collages.
 
 extern crate image;
 use image::{GenericImageView, DynamicImage, Rgba};
@@ -42,7 +42,6 @@ pub fn two_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, width: u3
 /// * `main_text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn two_grid_text(image: DynamicImage, image2: DynamicImage, width: u32, height: u32) -> DynamicImage {
     // distribute the width evenly by allocating the same space to both images
     let img_width = width / 2;
@@ -78,7 +77,6 @@ pub fn two_grid_text(image: DynamicImage, image2: DynamicImage, width: u32, heig
 /// * `main_text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn split_imgs_text(image: DynamicImage, image2: DynamicImage, width: u32, height: u32) -> DynamicImage {
 
     // distribute the width evenly by allocating the same space to both images
@@ -113,7 +111,6 @@ pub fn split_imgs_text(image: DynamicImage, image2: DynamicImage, width: u32, he
 /// * `img4` - A mutable ref to a DynamicImage.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn four_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
                 photon_img4: &DynamicImage, width: u32, height: u32) -> DynamicImage {
     let imgs = vec![photon_img, photon_img2, photon_img3, photon_img4];
@@ -144,7 +141,6 @@ pub fn four_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_i
 /// * `img3` - A mutable ref to a DynamicImage.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn triple_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, width: u32, height: u32) -> DynamicImage {
     let imgs = vec![photon_img, photon_img2, photon_img3];
 
@@ -172,7 +168,6 @@ pub fn triple_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon
 /// * `text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn four_grid_center_square(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
                                 photon_img4: &DynamicImage, text: &str, width: u32, height: u32) -> DynamicImage {
     let imgs = vec![photon_img, photon_img2, photon_img3, photon_img4];
@@ -228,7 +223,6 @@ pub fn four_grid_center_square(photon_img: &DynamicImage, photon_img2: &DynamicI
 /// * `text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn moodboard(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
 photon_img4: &DynamicImage, text: &str, width: u32, height: u32) -> DynamicImage {
     
@@ -275,7 +269,6 @@ photon_img4: &DynamicImage, text: &str, width: u32, height: u32) -> DynamicImage
 /// * `text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn feature_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
                     main_text: &str, width: u32, height: u32) -> DynamicImage {
     let imgs = vec![photon_img, photon_img2, photon_img3];
@@ -313,7 +306,6 @@ pub fn feature_grid(photon_img: &DynamicImage, photon_img2: &DynamicImage, photo
 /// * `text` - Main heading for the graphic.
 /// * `width` - u32 - Desired width of final graphic 
 /// * `height` - u32 - Desired height of final graphic
-#[wasm_bindgen]
 pub fn triple_grid_text(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage, 
                         text: &str, width: u32, height: u32) -> DynamicImage {
     let imgs = vec![photon_img, photon_img2, photon_img3];
@@ -338,7 +330,6 @@ pub fn triple_grid_text(photon_img: &DynamicImage, photon_img2: &DynamicImage, p
     return container_img;
 }
 
-#[wasm_bindgen]
 pub fn six_grid_text(photon_img: &DynamicImage, photon_img2: &DynamicImage, photon_img3: &DynamicImage,
                     photon_img4: &DynamicImage, photon_img5: &DynamicImage, photon_img6: &DynamicImage, 
                     text: &str, width: u32, height: u32) -> DynamicImage {

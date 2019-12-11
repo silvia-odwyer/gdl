@@ -1,10 +1,10 @@
-/// Draw text onto images.
+//! Draw text onto images.
 
 extern crate image;
 use image::{Rgba, DynamicImage, GenericImage, GenericImageView};
 extern crate imageproc;
 extern crate rusttype;
-use wasm_bindgen::prelude::*;
+// use wasm_bindgen::prelude::*;
 use imageproc::drawing::draw_text_mut;
 use imageproc::morphology::dilate_mut;
 use image::imageops::{rotate90, rotate270, rotate180};
@@ -20,7 +20,6 @@ use std::fs;
 /// * `text` - Text string to be drawn.
 /// * `x` - X-coordinate of top corner of text.
 /// * `y` - Y coordinae of top corner of text.
-#[wasm_bindgen]
 pub fn draw_text_with_border(image: &mut DynamicImage, font: &str, text: &str, x: u32, y: u32) {
 
     let mut image2 : DynamicImage = DynamicImage::new_luma8(
@@ -59,7 +58,6 @@ pub fn draw_text_with_border(image: &mut DynamicImage, font: &str, text: &str, x
 /// Full list of fonts available coming soon. 
 /// * `font_size`: f32 that represents the font's size.
 /// * `rgb`: Rgb text color.
-#[wasm_bindgen]
 pub fn draw_text(image: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
 
     // include_bytes! only takes a string literal
@@ -87,7 +85,6 @@ pub fn draw_text(image: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str
 /// * `font_size`: f32 that represents the font's size.
 /// * `direction`: The direction the text should be facing, either "left" or "right".
 /// * `rgb`: Rgb text color.
-#[wasm_bindgen]
 pub fn draw_vertical_text(img: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, direction: &str, rgb: &Rgb) {
    if direction == "left" { 
        draw_rotated_text(img, text, x, y, font, font_size, "270", rgb);
@@ -105,7 +102,6 @@ pub fn draw_vertical_text(img: &mut DynamicImage, text: &str, x: u32, y:u32, fon
 /// * `font` - The font type.
 /// * `font_size` - The size of the font.
 /// * `rgb` - Rgb color.
-#[wasm_bindgen]
 pub fn draw_vertical_text_single(img: &mut DynamicImage, text: &str, x: u32, mut y:u32, font: &str, font_size: f32, rgb: &Rgb) {
     for c in text.split("") {
         draw_text(img, c, x, y, font, font_size, rgb);
@@ -124,7 +120,6 @@ pub fn draw_vertical_text_single(img: &mut DynamicImage, text: &str, x: u32, mut
 /// Full list of fonts available coming soon. 
 /// * `font_size`: f32 that represents the font's size.
 /// * `rgb`: Rgb text color.
-#[wasm_bindgen]
 pub fn draw_upsidedown_text(img: &mut DynamicImage, text: &str, x: u32, y:u32, font: &str, font_size: f32, rgb: &Rgb) {
         
    draw_rotated_text(img, text, x, y, font, font_size, "180", rgb);

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\text.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>text.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\text.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>text.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -164,38 +164,21 @@
 <span id="164">164</span>
 <span id="165">165</span>
 <span id="166">166</span>
-<span id="167">167</span>
-<span id="168">168</span>
-<span id="169">169</span>
-<span id="170">170</span>
-<span id="171">171</span>
-<span id="172">172</span>
-<span id="173">173</span>
-<span id="174">174</span>
-<span id="175">175</span>
-<span id="176">176</span>
-<span id="177">177</span>
-<span id="178">178</span>
-<span id="179">179</span>
-<span id="180">180</span>
-<span id="181">181</span>
-<span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">/// Draw text onto images.</span>
+<span class="doccomment">//! Draw text onto images.</span>
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">image</span>;
 <span class="kw">use</span> <span class="ident">image</span>::{<span class="ident">Rgba</span>, <span class="ident">DynamicImage</span>, <span class="ident">GenericImage</span>, <span class="ident">GenericImageView</span>};
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">imageproc</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rusttype</span>;
-<span class="kw">use</span> <span class="ident">wasm_bindgen</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="comment">// use wasm_bindgen::prelude::*;</span>
 <span class="kw">use</span> <span class="ident">imageproc</span>::<span class="ident">drawing</span>::<span class="ident">draw_text_mut</span>;
 <span class="kw">use</span> <span class="ident">imageproc</span>::<span class="ident">morphology</span>::<span class="ident">dilate_mut</span>;
 <span class="kw">use</span> <span class="ident">image</span>::<span class="ident">imageops</span>::{<span class="ident">rotate90</span>, <span class="ident">rotate270</span>, <span class="ident">rotate180</span>};
 <span class="kw">use</span> <span class="ident">imageproc</span>::<span class="ident">distance_transform</span>::<span class="ident">Norm</span>;
 <span class="kw">use</span> <span class="ident">rusttype</span>::{<span class="ident">FontCollection</span>, <span class="ident">Scale</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Rgb</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>;
 
 <span class="doccomment">/// Draw text onto an image with a border around the text.</span>
 <span class="doccomment">///</span>
@@ -204,7 +187,6 @@
 <span class="doccomment">/// * `text` - Text string to be drawn.</span>
 <span class="doccomment">/// * `x` - X-coordinate of top corner of text.</span>
 <span class="doccomment">/// * `y` - Y coordinae of top corner of text.</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_text_with_border</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">font</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) {
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image2</span> : <span class="ident">DynamicImage</span> <span class="op">=</span> <span class="ident">DynamicImage</span>::<span class="ident">new_luma8</span>(
@@ -223,7 +205,7 @@
     <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">image2</span>.<span class="ident">width</span>() {
         <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">image2</span>.<span class="ident">height</span>() {
             <span class="kw">let</span> <span class="ident">pixval</span> <span class="op">=</span> <span class="number">255</span> <span class="op">-</span> <span class="ident">image2</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">data</span>[<span class="number">0</span>];
-            <span class="kw">if</span> <span class="ident">pixval</span> <span class="op">!=</span> <span class="number">255</span> {
+            <span class="kw">if</span> <span class="ident">pixval</span> <span class="op">!</span><span class="op">=</span> <span class="number">255</span> {
                 <span class="kw">let</span> <span class="ident">new_pix</span> <span class="op">=</span> <span class="ident">Rgba</span>([<span class="number">234</span>, <span class="number">23</span>, <span class="number">123</span>, <span class="number">255</span>]);
                 <span class="ident">image</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">new_pix</span>);
             }
@@ -243,7 +225,6 @@
 <span class="doccomment">/// Full list of fonts available coming soon. </span>
 <span class="doccomment">/// * `font_size`: f32 that represents the font&#39;s size.</span>
 <span class="doccomment">/// * `rgb`: Rgb text color.</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_text</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>:<span class="ident">u32</span>, <span class="ident">font</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">font_size</span>: <span class="ident">f32</span>, <span class="ident">rgb</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>) {
 
     <span class="comment">// include_bytes! only takes a string literal</span>
@@ -271,12 +252,11 @@
 <span class="doccomment">/// * `font_size`: f32 that represents the font&#39;s size.</span>
 <span class="doccomment">/// * `direction`: The direction the text should be facing, either &quot;left&quot; or &quot;right&quot;.</span>
 <span class="doccomment">/// * `rgb`: Rgb text color.</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_vertical_text</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>:<span class="ident">u32</span>, <span class="ident">font</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">font_size</span>: <span class="ident">f32</span>, <span class="ident">direction</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">rgb</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>) {
-   <span class="kw">if</span> <span class="ident">direction</span> <span class="op">==</span> <span class="string">&quot;left&quot;</span> { 
+   <span class="kw">if</span> <span class="ident">direction</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;left&quot;</span> { 
        <span class="ident">draw_rotated_text</span>(<span class="ident">img</span>, <span class="ident">text</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">font</span>, <span class="ident">font_size</span>, <span class="string">&quot;270&quot;</span>, <span class="ident">rgb</span>);
    }
-   <span class="kw">else</span> <span class="kw">if</span> <span class="ident">direction</span> <span class="op">==</span> <span class="string">&quot;right&quot;</span> {
+   <span class="kw">else</span> <span class="kw">if</span> <span class="ident">direction</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;right&quot;</span> {
         <span class="ident">draw_rotated_text</span>(<span class="ident">img</span>, <span class="ident">text</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">font</span>, <span class="ident">font_size</span>, <span class="string">&quot;90&quot;</span>, <span class="ident">rgb</span>);
    }
 }
@@ -289,11 +269,10 @@
 <span class="doccomment">/// * `font` - The font type.</span>
 <span class="doccomment">/// * `font_size` - The size of the font.</span>
 <span class="doccomment">/// * `rgb` - Rgb color.</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_vertical_text_single</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="kw-2">mut</span> <span class="ident">y</span>:<span class="ident">u32</span>, <span class="ident">font</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">font_size</span>: <span class="ident">f32</span>, <span class="ident">rgb</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>) {
     <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="ident">text</span>.<span class="ident">split</span>(<span class="string">&quot;&quot;</span>) {
         <span class="ident">draw_text</span>(<span class="ident">img</span>, <span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">font</span>, <span class="ident">font_size</span>, <span class="ident">rgb</span>);
-        <span class="ident">y</span> <span class="op">+=</span> (<span class="ident">font_size</span> <span class="op">*</span> <span class="number">0.8</span>) <span class="kw">as</span> <span class="ident">u32</span>;
+        <span class="ident">y</span> <span class="op">+</span><span class="op">=</span> (<span class="ident">font_size</span> <span class="op">*</span> <span class="number">0.8</span>) <span class="kw">as</span> <span class="ident">u32</span>;
     }
 }
 
@@ -308,7 +287,6 @@
 <span class="doccomment">/// Full list of fonts available coming soon. </span>
 <span class="doccomment">/// * `font_size`: f32 that represents the font&#39;s size.</span>
 <span class="doccomment">/// * `rgb`: Rgb text color.</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">draw_upsidedown_text</span>(<span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicImage</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>:<span class="ident">u32</span>, <span class="ident">font</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">font_size</span>: <span class="ident">f32</span>, <span class="ident">rgb</span>: <span class="kw-2">&amp;</span><span class="ident">Rgb</span>) {
         
    <span class="ident">draw_rotated_text</span>(<span class="ident">img</span>, <span class="ident">text</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">font</span>, <span class="ident">font_size</span>, <span class="string">&quot;180&quot;</span>, <span class="ident">rgb</span>);
@@ -336,10 +314,10 @@
     <span class="comment">// draw_text_mut(&amp;mut image, Rgba([rgb.r as u8, rgb.g as u8, rgb.b as u8, 255u8]), x + 10, y - 10, scale, &amp;font, text);</span>
     
     <span class="kw">let</span> <span class="ident">rotated_img</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">rotation</span> { 
-        <span class="string">&quot;90&quot;</span> <span class="op">=&gt;</span> <span class="ident">rotate90</span>(<span class="kw-2">&amp;</span><span class="ident">image2</span>),
-        <span class="string">&quot;180&quot;</span> <span class="op">=&gt;</span> <span class="ident">rotate180</span>(<span class="kw-2">&amp;</span><span class="ident">image2</span>),
-        <span class="string">&quot;270&quot;</span> <span class="op">=&gt;</span> <span class="ident">rotate270</span>(<span class="kw-2">&amp;</span><span class="ident">image2</span>),
-        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">rotate90</span>(<span class="kw-2">&amp;</span><span class="ident">image2</span>)
+        <span class="string">&quot;90&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">rotate90</span>(<span class="kw-2">&amp;</span><span class="ident">image2</span>),
+        <span class="string">&quot;180&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">rotate180</span>(<span class="kw-2">&amp;</span><span class="ident">image2</span>),
+        <span class="string">&quot;270&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">rotate270</span>(<span class="kw-2">&amp;</span><span class="ident">image2</span>),
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">rotate90</span>(<span class="kw-2">&amp;</span><span class="ident">image2</span>)
     };
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image2</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">ImageRgba8</span>(<span class="ident">rotated_img</span>);
@@ -347,24 +325,10 @@
     <span class="ident">image</span>::<span class="ident">imageops</span>::<span class="ident">overlay</span>(<span class="ident">image</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">image2</span>, <span class="ident">x</span>, <span class="ident">y</span>);
 }
 
-<span class="kw">fn</span> <span class="ident">open_font</span>(<span class="ident">font</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">std</span>::<span class="ident">vec</span>::<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-    <span class="comment">// include_bytes! only takes a string literal</span>
-    <span class="kw">let</span> <span class="ident">font_vec</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">font</span> {
-        <span class="string">&quot;Roboto-Regular&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/Roboto-Regular.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="string">&quot;Lato-Regular&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/Lato-Regular.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="string">&quot;Lato-Bold&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/Lato-Bold.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="string">&quot;BebasKai&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/BebasKai.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="string">&quot;Oswald-Regular&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/Oswald-Regular.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="string">&quot;MrDafoe-Regular&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/MrDafoe-Regular.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="string">&quot;Norwester&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/Norwester.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="string">&quot;Montserrat-Regular&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/Montserrat-Regular.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="string">&quot;Roboto-Light&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/Roboto-Light.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="string">&quot;Roboto-Bold&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/Roboto-Bold.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="string">&quot;Roboto-Black&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/Roboto-Black.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="string">&quot;Roboto-Thin&quot;</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/Roboto-Thin.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
-        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;../fonts/Roboto-Bold.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>])
-    };
+<span class="kw">fn</span> <span class="ident">open_font</span>(<span class="ident">font</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">vec</span>::<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">font_path</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;fonts/{}.ttf&quot;</span>, <span class="ident">font</span>);
+    <span class="kw">let</span> <span class="ident">font_vec1</span> <span class="op">=</span> <span class="ident">fs</span>::<span class="ident">read</span>(<span class="ident">font_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Unable to read file&quot;</span>);
 
-    <span class="kw">return</span> <span class="ident">font_vec</span>;
+    <span class="kw">return</span> <span class="ident">font_vec1</span>;
 }</pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "gdl";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

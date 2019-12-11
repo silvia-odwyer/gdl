@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\background.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>background.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src\background.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>background.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gdl/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -187,12 +187,6 @@
 <span id="187">187</span>
 <span id="188">188</span>
 <span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">/// Create various backgrounds comprising patterns, gradients, imagery, etc.,</span>
 
@@ -200,7 +194,7 @@
 <span class="kw">use</span> <span class="ident">image</span>::{ <span class="ident">GenericImage</span>, <span class="ident">DynamicImage</span>};
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">imageproc</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rusttype</span>;
-<span class="kw">use</span> <span class="ident">wasm_bindgen</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="comment">// use wasm_bindgen::prelude::*;</span>
 <span class="kw">use</span> <span class="ident">imageproc</span>::<span class="ident">drawing</span>::{<span class="ident">draw_filled_circle_mut</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Rgb</span>};
 <span class="kw">use</span> <span class="ident">image</span>::<span class="ident">GenericImageView</span>;
@@ -217,8 +211,7 @@
 <span class="doccomment">/// # Arguments</span>
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - u32 - Desired height of final graphic</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">circle_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">circle_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="ident">background_color</span> <span class="op">=</span> <span class="ident">Rgb</span> { <span class="ident">r</span>: <span class="number">190</span>, <span class="ident">g</span>: <span class="number">120</span>, <span class="ident">b</span>: <span class="number">200</span>};
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rgba_img</span> <span class="op">=</span> <span class="ident">create_image_from_pixel</span>(<span class="ident">background_color</span>, <span class="ident">width</span>, <span class="ident">height</span>);
 
@@ -242,8 +235,7 @@
 <span class="doccomment">/// # Arguments</span>
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - u32 - Desired height of final graphic</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">spaced_circle_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">spaced_circle_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="ident">background_color</span> <span class="op">=</span> <span class="ident">Rgb</span> { <span class="ident">r</span>: <span class="number">190</span>, <span class="ident">g</span>: <span class="number">120</span>, <span class="ident">b</span>: <span class="number">200</span>};
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rgba_img</span> <span class="op">=</span> <span class="ident">create_image_from_pixel</span>(<span class="ident">background_color</span>, <span class="ident">width</span>, <span class="ident">height</span>);
@@ -268,8 +260,7 @@
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - u32 - Desired height of final graphic</span>
 <span class="doccomment">/// * `background_color` - Rgb color the background should comprise of</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">solid_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="ident">Rgb</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">solid_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="ident">Rgb</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="ident">rgba_img</span> <span class="op">=</span> <span class="ident">create_image_from_pixel</span>(<span class="ident">background_color</span>, <span class="ident">width</span>, <span class="ident">height</span>);
     <span class="kw">return</span> <span class="ident">rgba_img</span>;
 }
@@ -281,8 +272,7 @@
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - u32 - Desired height of final graphic</span>
 <span class="doccomment">/// * `background_color` - Rgb color the background should comprise of</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lined_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="ident">Rgb</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lined_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="ident">Rgb</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rgba_img</span> <span class="op">=</span> <span class="ident">create_image_from_pixel</span>(<span class="ident">background_color</span>, <span class="ident">width</span>, <span class="ident">height</span>);
     <span class="kw">let</span> <span class="ident">line_pixel</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">Rgba</span>([<span class="number">255</span>, <span class="number">167</span>, <span class="number">90</span>, <span class="number">255</span>]);
     
@@ -299,8 +289,7 @@
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - u32 - Desired height of final graphic</span>
 <span class="doccomment">/// * `background_color` - Rgb color the background should comprise of.</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">grid_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="ident">Rgb</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">grid_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="ident">Rgb</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rgba_img</span> <span class="op">=</span> <span class="ident">create_image_from_pixel</span>(<span class="ident">background_color</span>, <span class="ident">width</span>, <span class="ident">height</span>);
 
     <span class="kw">let</span> <span class="ident">line_pixel</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">Rgba</span>([<span class="number">255</span>, <span class="number">167</span>, <span class="number">90</span>, <span class="number">255</span>]);
@@ -324,8 +313,7 @@
 <span class="doccomment">/// * `height` - u32 - Desired height of final graphic</span>
 <span class="doccomment">/// * `background_color` - Rgb color the background should comprise of.</span>
 <span class="doccomment">/// * `img` - A DynamicImage to be painted onto the background in a pattern.</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pattern_from_img</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="ident">Rgb</span>, <span class="ident">img</span>: <span class="ident">DynamicImage</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pattern_from_img</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">background_color</span>: <span class="ident">Rgb</span>, <span class="ident">img</span>: <span class="ident">DynamicImage</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rgba_img</span> <span class="op">=</span> <span class="ident">create_image_from_pixel</span>(<span class="ident">background_color</span>, <span class="ident">width</span>, <span class="ident">height</span>);
 
     <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">8</span> {
@@ -342,8 +330,8 @@
 <span class="doccomment">/// # Arguments</span>
 <span class="doccomment">/// * `width` - u32 - Desired width of final graphic </span>
 <span class="doccomment">/// * `height` - u32 - Desired height of final graphic</span>
-<span class="attribute">#[<span class="ident">wasm_bindgen</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gradient_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gradient_background</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">RgbaImage</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
     <span class="kw">let</span> <span class="ident">grad1</span> <span class="op">=</span> <span class="ident">Gradient</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[
         <span class="ident">LinSrgba</span>::<span class="ident">new</span>(<span class="number">1.0</span>, <span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">1.0</span>),
@@ -383,7 +371,7 @@
 }
 
       
-<span class="kw">fn</span> <span class="ident">create_image_from_pixel</span>(<span class="ident">background_color</span>: <span class="ident">Rgb</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, ) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+<span class="kw">fn</span> <span class="ident">create_image_from_pixel</span>(<span class="ident">background_color</span>: <span class="ident">Rgb</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
     <span class="kw">let</span> <span class="ident">pixel</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">Rgba</span>([<span class="ident">background_color</span>.<span class="ident">r</span>, <span class="ident">background_color</span>.<span class="ident">g</span>, <span class="ident">background_color</span>.<span class="ident">b</span>, <span class="number">255</span>]);
     <span class="kw">let</span> <span class="ident">image_buffer</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_pixel</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">pixel</span>);
     <span class="kw">let</span> <span class="ident">rgba_img</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">ImageRgba8</span>(<span class="ident">image_buffer</span>);

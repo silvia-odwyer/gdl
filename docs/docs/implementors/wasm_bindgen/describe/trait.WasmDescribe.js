@@ -6,5 +6,4 @@ implementors["gdl"] = [{text:"impl WasmDescribe for <a class=\"struct\" href=\"g
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()
