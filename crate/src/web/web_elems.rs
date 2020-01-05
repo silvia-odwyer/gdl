@@ -33,6 +33,24 @@ pub fn draw_stroke_text(ctx: CanvasRenderingContext2d, font: &str, text: &str, x
 #[wasm_bindgen]
 pub fn draw_gradient(ctx: CanvasRenderingContext2d, x_pos: f64, y_pos: f64, width: f64, height: f64, color1: &str, color2: &str) {
     let gradient = ctx.create_linear_gradient(x_pos, y_pos, x_pos + width, y_pos + height);
+    gradient.add_color_stop(0.0, "rgb(34, 56, 90)").unwrap();
+    gradient.add_color_stop(1.0, color2).unwrap();
+
+    ctx.set_fill_style(&gradient);
+    ctx.fill_rect(x_pos, y_pos, width, height); 
+}
+
+#[wasm_bindgen]
+pub fn draw_preset_gradient(ctx: CanvasRenderingContext2d, x_pos: f64, y_pos: f64, width: f64, height: f64, preset: &str) {
+
+    let (color1, color2) = match preset {
+        "lemongrass" => ("blue", "yellow"),
+        "flames" => ("#f12711", "#f5af19"),
+        "pastel" => ("#8360c3", "#2ebf91"),
+        _ => ("magenta", "black")
+    };
+
+    let gradient = ctx.create_linear_gradient(x_pos, y_pos, x_pos + width, y_pos + height);
     gradient.add_color_stop(0.0, color1).unwrap();
     gradient.add_color_stop(1.0, color2).unwrap();
 

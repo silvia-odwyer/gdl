@@ -9,6 +9,9 @@ repository = "https://github.com/silvia-odwyer/gdl"
 version = "0.1.0"
 edition = "2018"
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
 wasm-bindgen = "0.2.25"
 image="0.21.2"
@@ -41,6 +44,7 @@ features = [
   "Window",
   "CanvasRenderingContext2d", 
   "ImageData", 
+  "CanvasGradient",
   "HtmlCanvasElement", 
   "HtmlImageElement",
   "console"
