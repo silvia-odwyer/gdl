@@ -40,6 +40,71 @@ pub fn draw_gradient(ctx: CanvasRenderingContext2d, x_pos: f64, y_pos: f64, widt
     ctx.fill_rect(x_pos, y_pos, width, height); 
 }
 
+// var color1 = “#24A8AC”,color2=”#0087CB”;
+// var numberOfStripes = 30;
+// for (var i=0;i < numberOfStripes;i++){
+// var thickness = 300 / numberOfStripes;
+// drawingContext.beginPath();
+// drawingContext.strokeStyle = i % 2?color1:color2;
+// drawingContext.lineWidth =thickness;
+
+// drawingContext.moveTo(0,i*thickness + thickness/2);
+// drawingContext.lineTo(300,i*thickness + thickness/2);
+// drawingContext.stroke();
+
+#[wasm_bindgen]
+pub fn draw_horizontal_stripes(ctx: CanvasRenderingContext2d, width: f64, height: f64) {
+    draw_stripes(ctx, width, height, "horizontal");
+}
+
+#[wasm_bindgen]
+pub fn draw_vertical_stripes(ctx: CanvasRenderingContext2d, width: f64, height: f64) {
+    draw_stripes(ctx, width, height, "vertical");
+}
+
+#[wasm_bindgen]
+pub fn draw_diagonal_stripes(ctx: CanvasRenderingContext2d, width: f64, height: f64) {
+    draw_stripes(ctx, width, height, "diagonal");
+}
+
+#[wasm_bindgen]
+pub fn draw_stripes(ctx: CanvasRenderingContext2d, width: f64, height: f64, orientation: &str) {
+    let color1 = JsValue::from_str("#D0C91F");
+    let color2 = JsValue::from_str("#FF4C65");
+
+    let num_stripes = 30;
+    let thickness: f64 = width / num_stripes as f64;
+
+    for i in 0..num_stripes * 2 {
+        let i: f64 = i as f64;
+        ctx.begin_path();
+        let color = match i as u32 % 2 {
+            0 => &color1,
+            1 => &color2,
+            _ => &color2,
+        };
+
+        ctx.set_stroke_style(color);
+        ctx.set_line_width(thickness);
+        if orientation == "vertical" {
+            ctx.move_to(i * thickness + thickness /2.0 , 0.0);
+            ctx.line_to(i* thickness + thickness / 2.0, height);
+        }
+        // horizontal stripes instead
+        else if orientation == "horizontal"{
+            ctx.move_to(0.0, i * thickness + thickness / 2.0);
+            ctx.line_to(width, i * thickness + thickness / 2.0);
+        }
+        else if orientation == "diagonal" {
+            ctx.set_line_cap("round");
+            ctx.move_to(i * thickness + thickness / 2.0 - height, 0.0);
+            ctx.line_to(i * thickness + thickness / 2.0, height);
+        }
+
+        ctx.stroke();
+    }
+}
+
 #[wasm_bindgen]
 pub fn draw_preset_gradient(ctx: CanvasRenderingContext2d, x_pos: f64, y_pos: f64, width: f64, height: f64, preset: &str) {
 
@@ -47,6 +112,13 @@ pub fn draw_preset_gradient(ctx: CanvasRenderingContext2d, x_pos: f64, y_pos: f6
         "lemongrass" => ("blue", "yellow"),
         "flames" => ("#f12711", "#f5af19"),
         "pastel" => ("#8360c3", "#2ebf91"),
+        "pink" => ("#DD5E89", "#F7BB97"),
+        "ocean" => ("#4CB8C4", "#3CD3AD"),
+        "aquamarine" => ("#1A2980", "#26D0CE"),
+        "rosewater" => ("#E55D87", "#5FC3E4"),
+        "zigzag" => ("#3CA55C", "#B5AC49"), 
+        "seaweed" => ("#348F50", "#56B4D3"),
+        "tropics" => ("#16A085", "#F4D03F"),
         _ => ("magenta", "black")
     };
 
