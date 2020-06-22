@@ -19,7 +19,7 @@ palette="*"
 rand="*"
 num="*"
 imageproc="0.18.0"
-rusttype="*"
+rusttype="0.7"
 base64="*"
 time="*"
 

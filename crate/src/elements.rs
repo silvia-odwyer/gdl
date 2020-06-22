@@ -33,6 +33,7 @@ pub fn draw_solid_rect(img: &mut DynamicImage, background_color: &Rgb, width: u3
 
 }
 
+
 /// Draw an opaque rectangle, where the opacity is set to a certain u8 value. 
 /// 
 /// * `img` - A mutable ref to a DynamicImage.

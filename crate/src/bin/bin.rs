@@ -39,6 +39,7 @@ fn main() {
     gdl::helpers::save_image(night, "output_graphic3.png");
 
     let end = PreciseTime::now();
-    println!("Took {} seconds to create Graphic 2.", start.to(end));
+    println!("Took {} seconds to create Graphic 3.", start.to(end));
+
 
 }
