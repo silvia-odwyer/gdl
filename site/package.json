@@ -47,6 +47,6 @@
   },
   "dependencies": {
     "bulma": "^0.7.5",
-    "lazysizes": "^4.1.8"
+    "lazysizes": "^5.2.2"
   }
 }
