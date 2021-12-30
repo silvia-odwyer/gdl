@@ -1,43 +1,49 @@
 //! Resize images to specific sizes/for various social media platforms.
 
-extern crate image;
-extern crate imageproc;
-extern crate rusttype;
-use wasm_bindgen::prelude::*;
-use crate::{PhotonImage, helpers};
+use crate::{helpers, PhotonImage};
 use image::GenericImageView;
+use wasm_bindgen::prelude::*;
 
 /// Resize an image for a particular format on social media.
 /// Available formats include: pinterest, fb_ad, fb_post, instagram_post, twitter_header, linkedin_banner
-/// 
+///
 /// # Arguments
 /// * `img` - A mutable ref to a PhotonImage.
 /// * `type` - Social media format. The available types are shown above.
 /// ### Example
-/// ```
+/// ```ignore
 /// resize_socialmedia(&mut img, "linkedin_banner");
 /// ```
 #[wasm_bindgen]
 pub fn resize_socialmedia(img: &PhotonImage, format: &str) -> PhotonImage {
-    let sampling_filter = image::FilterType::Nearest;
+    let sampling_filter = image::imageops::FilterType::Nearest;
     let dynimage = helpers::dyn_image_from_raw(&img);
     let (width, height) = match format {
-            "linkedin_banner" => (1400, 425),
-            "pinterest" => (735, 1102),
-            "fb_ad" => (1200, 628), 
-            "fb_post" => (940, 788),
-            "instagram_post" => (1080, 1080),
-            "twitter_post" => (1024, 512),
-            "twitter_header" => (1500, 500),
-            _ => (192, 120)
+        "linkedin_banner" => (1400, 425),
+        "pinterest" => (735, 1102),
+        "fb_ad" => (1200, 628),
+        "fb_post" => (940, 788),
+        "instagram_post" => (1080, 1080),
+        "twitter_post" => (1024, 512),
+        "twitter_header" => (1500, 500),
+        _ => (192, 120),
     };
-    let resized_img = image::ImageRgba8(image::imageops::resize(&dynimage, width, height, sampling_filter));
-    let raw_pixels = resized_img.raw_pixels();
-    return PhotonImage { raw_pixels: raw_pixels, width: width, height: height};
+    let resized_img = image::DynamicImage::ImageRgba8(image::imageops::resize(
+        &dynimage,
+        width,
+        height,
+        sampling_filter,
+    ));
+    let raw_pixels = resized_img.to_bytes();
+    return PhotonImage {
+        raw_pixels: raw_pixels,
+        width: width,
+        height: height,
+    };
 }
 
 /// Resizes each image in a vec of PhotonImages to the desired social media format.
-pub fn resize_socialmedia_vec(imgs: Vec<PhotonImage>, format: &str) -> Vec<PhotonImage>{
+pub fn resize_socialmedia_vec(imgs: Vec<PhotonImage>, format: &str) -> Vec<PhotonImage> {
     let mut resized_imgs = vec![];
     for img in imgs {
         let resized_img = resize_socialmedia(&img, format);
@@ -47,9 +53,18 @@ pub fn resize_socialmedia_vec(imgs: Vec<PhotonImage>, format: &str) -> Vec<Photo
 }
 
 /// Resizes each image in a vec of PhotonImages to each of
-/// the available social media formats, and a vec of all new images is returned. 
+/// the available social media formats, and a vec of all new images is returned.
 pub fn resize_socialmedia_all(img: &PhotonImage) -> Vec<PhotonImage> {
-    let formats = ["linkedin_banner", "pinterest", "fb_ad", "fb_post", "instagram_post", "twitter_post", "twitter_post", "twitter_header"];
+    let formats = [
+        "linkedin_banner",
+        "pinterest",
+        "fb_ad",
+        "fb_post",
+        "instagram_post",
+        "twitter_post",
+        "twitter_post",
+        "twitter_header",
+    ];
     let mut resized_imgs = vec![];
     for format in &formats {
         let new_img = resize_socialmedia(&img, format);
@@ -60,24 +75,41 @@ pub fn resize_socialmedia_all(img: &PhotonImage) -> Vec<PhotonImage> {
 
 #[cfg(not(target_arch = "wasm32"))]
 pub fn resize(photon_img: &PhotonImage, width: u32, height: u32) -> PhotonImage {
-    let sampling_filter = image::FilterType::Nearest;
+    let sampling_filter = image::imageops::FilterType::Nearest;
 
     let dyn_img = helpers::dyn_image_from_raw(&photon_img);
-    let resized_img = image::ImageRgba8(image::imageops::resize(&dyn_img, width, height, sampling_filter));
+    let resized_img = image::DynamicImage::ImageRgba8(image::imageops::resize(
+        &dyn_img,
+        width,
+        height,
+        sampling_filter,
+    ));
 
-    return PhotonImage{ raw_pixels: resized_img.raw_pixels(), width: resized_img.width(), height: resized_img.height()}
+    return PhotonImage {
+        raw_pixels: resized_img.to_bytes(),
+        width: resized_img.width(),
+        height: resized_img.height(),
+    };
 }
 
 #[cfg(target_arch = "wasm32")]
 pub fn resize(photon_img: &PhotonImage, width: u32, height: u32) -> PhotonImage {
-    let sampling_filter = image::FilterType::Nearest;
+    let sampling_filter = image::imageops::FilterType::Nearest;
 
     let dyn_img = helpers::dyn_image_from_raw(&photon_img);
-    let resized_img = image::ImageRgba8(image::imageops::resize(&dyn_img, width, height, sampling_filter));
+    let resized_img = image::DynamicImage::ImageRgba8(image::imageops::resize(
+        &dyn_img,
+        width,
+        height,
+        sampling_filter,
+    ));
 
-    return PhotonImage{ raw_pixels: resized_img.raw_pixels(), width: resized_img.width(), height: resized_img.height()}
+    return PhotonImage {
+        raw_pixels: resized_img.to_bytes(),
+        width: resized_img.width(),
+        height: resized_img.height(),
+    };
 }
-
 
 // #[cfg(not(target_arch = "wasm32"))]
 // pub fn webfunc(num: &str) {
@@ -90,4 +122,3 @@ pub fn resize(photon_img: &PhotonImage, width: u32, height: u32) -> PhotonImage 
 // pub fn webfunc(num: u16) {
 //     num * 2
 // }
-
