@@ -1,15 +1,12 @@
 //! Helpers functions for image processing, writing images, etc.,
 
-extern crate image;
-extern crate base64;
-use image::{DynamicImage, ImageBuffer, GenericImageView};
 use crate::{PhotonImage, Rgb};
-extern crate wasm_bindgen;
+use base64::{decode, encode};
+use image::{DynamicImage, GenericImageView, ImageBuffer};
 use wasm_bindgen::prelude::*;
-use base64::{encode, decode};
 
 // Gets the square distance between two colours
-pub fn square_distance(color1 : Rgb, color2 : Rgb) -> i32{
+pub fn square_distance(color1: Rgb, color2: Rgb) -> i32 {
     let (r1, g1, b1) = (color1.r as i32, color1.g as i32, color1.b as i32);
     let (r2, g2, b2) = (color2.r as i32, color2.g as i32, color2.b as i32);
     return i32::pow(r1 - r2, 2) + i32::pow(g1 - g2, 2) + i32::pow(b1 - b2, 2);
@@ -32,30 +29,30 @@ pub fn save_dyn_image(img: DynamicImage, filtered_img_path: &str) {
 
     // let img_buffer = ImageBuffer::from_vec(width, height, raw_pixels).unwrap();
     // let dynimage = image::ImageRgba8(img_buffer);
-    
+
     img.save(filtered_img_path).unwrap();
 }
 
 pub fn save_image(img: DynamicImage, filtered_img_path: &str) {
-    
     img.save(filtered_img_path).unwrap();
 }
 
-pub fn get_pixels(img: DynamicImage) -> Vec<u8>{
+pub fn get_pixels(img: DynamicImage) -> Vec<u8> {
     // get an image's raw pixels, and return as a vec of u8s
-    let raw_pixels: Vec<u8> = img.raw_pixels();
+    let raw_pixels: Vec<u8> = img.to_bytes();
     raw_pixels
 }
 
 pub fn dyn_image_from_raw(photon_image: &PhotonImage) -> DynamicImage {
-    // convert a vec of raw pixels (as u8s) to a DynamicImage type 
+    // convert a vec of raw pixels (as u8s) to a DynamicImage type
     let _len_vec = photon_image.raw_pixels.len() as u128;
     let raw_pixels = &photon_image.raw_pixels;
-    let img_buffer = ImageBuffer::from_vec(photon_image.width, photon_image.height, raw_pixels.to_vec()).unwrap();
-    let dynimage = image::ImageRgba8(img_buffer);
+    let img_buffer =
+        ImageBuffer::from_vec(photon_image.width, photon_image.height, raw_pixels.to_vec())
+            .unwrap();
+    let dynimage = image::DynamicImage::ImageRgba8(img_buffer);
     dynimage
 }
-
 
 #[wasm_bindgen]
 pub fn base64_to_image(base64: &str) -> Vec<u8> {
@@ -64,11 +61,14 @@ pub fn base64_to_image(base64: &str) -> Vec<u8> {
 
     assert_eq!(encode(a), b);
     let res = decode(base64).unwrap();
-    
-    return res;
 
+    return res;
 }
 
 pub fn dyn_to_photonimg(dynimage: &DynamicImage) -> PhotonImage {
-    return PhotonImage { raw_pixels: dynimage.raw_pixels(), width: dynimage.width(), height: dynimage.height()};
+    return PhotonImage {
+        raw_pixels: dynimage.to_bytes(),
+        width: dynimage.width(),
+        height: dynimage.height(),
+    };
 }

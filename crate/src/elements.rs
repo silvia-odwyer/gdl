@@ -1,23 +1,19 @@
 //! Add shapes and other elements to images.
 
-extern crate image;
-use image::{GenericImage, GenericImageView, DynamicImage, RgbaImage};
-extern crate imageproc;
-extern crate rusttype;
-use imageproc::drawing::*;
-use crate::{Rgb};
-use palette::{LinSrgba, Gradient, Lch, Srgba};
-use image::{Rgba};
-
-use palette::encoding::pixel::Pixel;
-use imageproc::rect::Rect;
 use crate::text::draw_text;
+use crate::Rgb;
+use image::{DynamicImage, GenericImage, GenericImageView, Rgba, RgbaImage};
+use imageproc::drawing::*;
+use imageproc::point::Point;
+use imageproc::rect::Rect;
+use palette::encoding::pixel::Pixel;
+use palette::{FromColor, Gradient, Lch, LinSrgba, Srgba};
 // use crate::helpers;
 use wasm_bindgen::prelude::*;
 // use wasm_bindgen::Clamped;
 
-/// Draw a solid rectangle with a given background colour. 
-/// 
+/// Draw a solid rectangle with a given background colour.
+///
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `background_color` - Rgb color of rectangle.
@@ -25,17 +21,28 @@ use wasm_bindgen::prelude::*;
 /// * `height` - u32 - Desired height of rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-pub fn draw_solid_rect(img: &mut DynamicImage, background_color: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {    
-    draw_filled_rect_mut(img, 
-                        Rect::at(x_pos, y_pos).of_size(width, height), 
-                        Rgba([background_color.r, background_color.g, 
-                        background_color.b, 255u8]));
-
+pub fn draw_solid_rect(
+    img: &mut DynamicImage,
+    background_color: &Rgb,
+    width: u32,
+    height: u32,
+    x_pos: i32,
+    y_pos: i32,
+) {
+    draw_filled_rect_mut(
+        img,
+        Rect::at(x_pos, y_pos).of_size(width, height),
+        Rgba([
+            background_color.r,
+            background_color.g,
+            background_color.b,
+            255u8,
+        ]),
+    );
 }
 
-
-/// Draw an opaque rectangle, where the opacity is set to a certain u8 value. 
-/// 
+/// Draw an opaque rectangle, where the opacity is set to a certain u8 value.
+///
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `background_color` - Rgb color of rectangle.
 /// * `opacity` - The opacity of the rectangle.
@@ -43,16 +50,29 @@ pub fn draw_solid_rect(img: &mut DynamicImage, background_color: &Rgb, width: u3
 /// * `height` - u32 - Desired height of rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-pub fn draw_opaque_rect(img: &mut DynamicImage, background_color: &Rgb, opacity: u8, width: u32, height: u32, x_pos: i32, y_pos: i32) {
-    
-    draw_filled_rect_mut(img, 
-                        Rect::at(x_pos, y_pos).of_size(width, height), 
-                        Rgba([background_color.r, background_color.g, 
-                        background_color.b, opacity]));
+pub fn draw_opaque_rect(
+    img: &mut DynamicImage,
+    background_color: &Rgb,
+    opacity: u8,
+    width: u32,
+    height: u32,
+    x_pos: i32,
+    y_pos: i32,
+) {
+    draw_filled_rect_mut(
+        img,
+        Rect::at(x_pos, y_pos).of_size(width, height),
+        Rgba([
+            background_color.r,
+            background_color.g,
+            background_color.b,
+            opacity,
+        ]),
+    );
 }
 
 /// Draw a triangle.
-/// 
+///
 /// /// * `img` - A mutable ref to a DynamicImage.
 /// * `triangle` - Triangle struct.
 pub fn draw_triangle(img: &mut DynamicImage, triangle: Triangle) {
@@ -62,36 +82,53 @@ pub fn draw_triangle(img: &mut DynamicImage, triangle: Triangle) {
 
     let points = vec![point, point2, point3];
 
-    draw_convex_polygon_mut(img, 
-                        points.as_slice(), 
-                        Rgba([triangle.background_color.r, triangle.background_color.g, 
-                        triangle.background_color.b, 255u8]));
+    draw_polygon_mut(
+        img,
+        points.as_slice(),
+        Rgba([
+            triangle.background_color.r,
+            triangle.background_color.g,
+            triangle.background_color.b,
+            255u8,
+        ]),
+    );
 }
 
 /// Draw an equilateral triangle.
-/// 
+///
 /// Not represented by a Triangle struct, because all sides are equal, and only one value should be entered.
-/// 
+///
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `side_len` - Side of the equilateral triangle, which will constitute all 3 sides.
 /// * `x_pos` - X-coordinate of top point of triangle on `img`
 /// * `y_pos` - y-coordinate of top point of triangle on `img`
-pub fn draw_equilateral_triangle(img: &mut DynamicImage, side_len: u32, x_pos: i32, y_pos: i32, background_color: &Rgb) {
-
+pub fn draw_equilateral_triangle(
+    img: &mut DynamicImage,
+    side_len: u32,
+    x_pos: i32,
+    y_pos: i32,
+    background_color: &Rgb,
+) {
     let point = Point::new(x_pos, y_pos);
     let point2 = Point::new(x_pos + side_len as i32, y_pos);
     let point3 = Point::new(x_pos + (side_len / 2) as i32, y_pos * 3);
 
     let points = vec![point, point2, point3];
 
-    draw_convex_polygon_mut(img, 
-                        points.as_slice(), 
-                        Rgba([background_color.r, background_color.g, 
-                            background_color.b, 255u8]));
+    draw_polygon_mut(
+        img,
+        points.as_slice(),
+        Rgba([
+            background_color.r,
+            background_color.g,
+            background_color.b,
+            255u8,
+        ]),
+    );
 }
 
 /// Draw a solid rectangle with text placed in-centre.
-/// 
+///
 /// # Arguments
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `text` - Text to be placed inside the rectangle.
@@ -100,31 +137,57 @@ pub fn draw_equilateral_triangle(img: &mut DynamicImage, side_len: u32, x_pos: i
 /// * `height` - u32 - Desired height of rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-pub fn draw_rect_text(img: &mut DynamicImage, text: &str, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
-    draw_solid_rect(img, &background_color, height as u32, width as u32, x_pos, y_pos);      
-    let rgb_white = Rgb { r: 255, g: 255, b: 255};
-    draw_text(img, text, (x_pos as f32 + (width as f32 * 0.05)) as u32, (y_pos + 10) as u32, "Roboto-Bold", 30.0, &rgb_white);
+pub fn draw_rect_text(
+    img: &mut DynamicImage,
+    text: &str,
+    background_color: &Rgb,
+    height: u32,
+    width: u32,
+    x_pos: i32,
+    y_pos: i32,
+) {
+    draw_solid_rect(
+        img,
+        &background_color,
+        height as u32,
+        width as u32,
+        x_pos,
+        y_pos,
+    );
+    let rgb_white = Rgb {
+        r: 255,
+        g: 255,
+        b: 255,
+    };
+    draw_text(
+        img,
+        text,
+        (x_pos as f32 + (width as f32 * 0.05)) as u32,
+        (y_pos + 10) as u32,
+        "Roboto-Bold",
+        30.0,
+        &rgb_white,
+    );
 }
 
-/// Draw a solid rectangle with a given background colour. 
+/// Draw a solid rectangle with a given background colour.
 // pub fn draw_diamond(mut img: &mut DynamicImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
 //     let mut image = helpers::dyn_image_from_raw(&img).to_rgba();
 //     let mut image2 : ImageBuffer = ImageBuffer::new(height, width);
 
-//     draw_filled_rect_mut(&mut image2, 
-//                         Rect::at(0, 0).of_size(width, height), 
-//                         Rgba([background_color.r, background_color.g, 
+//     draw_filled_rect_mut(&mut image2,
+//                         Rect::at(0, 0).of_size(width, height),
+//                         Rgba([background_color.r, background_color.g,
 //                         background_color.b, 255u8]));
 
 //     image::imageops::overlay(&mut image, &image2, x_pos as u32, y_pos as u32);
-         
+
 //     let dynimage = image::ImageRgba8(image);
 //     img.raw_pixels = dynimage.raw_pixels();
 // }
 
-
 /// Draw a rectangle filled with a gradient.
-/// 
+///
 /// ### Arguments
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `text` - Text to be placed inside the rectangle.
@@ -135,12 +198,12 @@ pub fn draw_rect_text(img: &mut DynamicImage, text: &str, background_color: &Rgb
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 pub fn draw_gradient_rect(img: &mut DynamicImage, height: u32, width: u32, x_pos: u32, y_pos: u32) {
     let rect = create_gradient(width, height);
-        
+
     image::imageops::overlay(img, &rect, x_pos, y_pos);
 }
 
 /// Preset: Draw a gradient rectangle filled with a gradient.
-/// 
+///
 /// ### Arguments
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `width` - u32 - Desired width of gradient rectangle.
@@ -148,14 +211,21 @@ pub fn draw_gradient_rect(img: &mut DynamicImage, height: u32, width: u32, x_pos
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
 /// * `preset_name` - Name of the preset. Examples include "lemongrass", "pink_blue", "pastel_pink", "pastel_mauve"
-pub fn draw_preset_rect_gradient(img: &mut DynamicImage, width: u32, height: u32, x_pos: u32, y_pos: u32, preset_name: &str) {
+pub fn draw_preset_rect_gradient(
+    img: &mut DynamicImage,
+    width: u32,
+    height: u32,
+    x_pos: u32,
+    y_pos: u32,
+    preset_name: &str,
+) {
     let rect = create_gradient_preset(width, height, preset_name);
-        
+
     image::imageops::overlay(img, &rect, x_pos, y_pos);
 }
 
 /// Draw two rectangles stacked on each other, for added depth.
-/// 
+///
 /// ### Arguments
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `background_color1`: Rgb color of first rectangle.
@@ -164,20 +234,40 @@ pub fn draw_preset_rect_gradient(img: &mut DynamicImage, width: u32, height: u32
 /// * `height` - u32 - Desired height of gradient rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-pub fn draw_stacked_rect(img: &mut DynamicImage, background_color1: &Rgb, background_color2: &Rgb, width: u32, height: u32, x_pos: i32, y_pos: i32) {
-    draw_filled_rect_mut(img, 
-                        Rect::at(x_pos, y_pos).of_size(width, height), 
-                        Rgba([background_color1.r, background_color1.g, 
-                        background_color1.b, 255u8]));
+pub fn draw_stacked_rect(
+    img: &mut DynamicImage,
+    background_color1: &Rgb,
+    background_color2: &Rgb,
+    width: u32,
+    height: u32,
+    x_pos: i32,
+    y_pos: i32,
+) {
+    draw_filled_rect_mut(
+        img,
+        Rect::at(x_pos, y_pos).of_size(width, height),
+        Rgba([
+            background_color1.r,
+            background_color1.g,
+            background_color1.b,
+            255u8,
+        ]),
+    );
 
-    draw_filled_rect_mut(img, 
-                        Rect::at(x_pos + 10, y_pos + 10).of_size(width, height), 
-                        Rgba([background_color2.r, background_color2.g, 
-                        background_color2.b, 255u8]));
+    draw_filled_rect_mut(
+        img,
+        Rect::at(x_pos + 10, y_pos + 10).of_size(width, height),
+        Rgba([
+            background_color2.r,
+            background_color2.g,
+            background_color2.b,
+            255u8,
+        ]),
+    );
 }
 
 /// Draw multiple borders stacked on each other, for added depth.
-/// 
+///
 /// ### Arguments
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `background_color1`: Rgb color of all borders.
@@ -185,14 +275,25 @@ pub fn draw_stacked_rect(img: &mut DynamicImage, background_color1: &Rgb, backgr
 /// * `height` - u32 - Desired height of rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-pub fn draw_stacked_borders(img: &mut DynamicImage, background_color: &Rgb, width: u32, height: u32, mut x_pos: i32, mut y_pos: i32) {
-    
-    
+pub fn draw_stacked_borders(
+    img: &mut DynamicImage,
+    background_color: &Rgb,
+    width: u32,
+    height: u32,
+    mut x_pos: i32,
+    mut y_pos: i32,
+) {
     for _ in 0..3 {
-        draw_hollow_rect_mut(img, 
-                        Rect::at(x_pos, y_pos).of_size(width, height), 
-                        Rgba([background_color.r, background_color.g, 
-                        background_color.b, 255u8]));
+        draw_hollow_rect_mut(
+            img,
+            Rect::at(x_pos, y_pos).of_size(width, height),
+            Rgba([
+                background_color.r,
+                background_color.g,
+                background_color.b,
+                255u8,
+            ]),
+        );
 
         x_pos -= 40;
         y_pos += 40;
@@ -200,7 +301,7 @@ pub fn draw_stacked_borders(img: &mut DynamicImage, background_color: &Rgb, widt
 }
 
 /// Draw multiple borders stacked on each other, for added depth.
-/// 
+///
 /// ### Arguments
 /// * `img` - A mutable ref to a DynamicImage.
 /// * `background_color1`: Rgb color of first rectangle.
@@ -209,12 +310,25 @@ pub fn draw_stacked_borders(img: &mut DynamicImage, background_color: &Rgb, widt
 /// * `height` - u32 - Desired height of gradient rectangle.
 /// * `x_pos` - X-coordinate of top corner of rectangle on `img`
 /// * `y_pos` - y-coordinate of top corner of rectangle on `img`
-pub fn draw_inline_border_rect(img: &mut DynamicImage, background_color: &Rgb, background_color2: &Rgb,  width: u32, height: u32, x_pos: i32, y_pos: i32) {
-
-    draw_filled_rect_mut(img, 
-        Rect::at(x_pos, y_pos).of_size(width, height), 
-        Rgba([background_color.r, background_color.g, 
-        background_color.b, 255u8]));
+pub fn draw_inline_border_rect(
+    img: &mut DynamicImage,
+    background_color: &Rgb,
+    background_color2: &Rgb,
+    width: u32,
+    height: u32,
+    x_pos: i32,
+    y_pos: i32,
+) {
+    draw_filled_rect_mut(
+        img,
+        Rect::at(x_pos, y_pos).of_size(width, height),
+        Rgba([
+            background_color.r,
+            background_color.g,
+            background_color.b,
+            255u8,
+        ]),
+    );
 
     // Draw border
     let inset = 10;
@@ -222,35 +336,45 @@ pub fn draw_inline_border_rect(img: &mut DynamicImage, background_color: &Rgb, b
     let horizontal_width = width - (2 * inset) as u32;
     let _vertical_height = height - (2 * inset) as u32;
 
-    draw_filled_rect_mut(img, 
-        Rect::at(x_pos + inset, y_pos + inset).of_size(horizontal_width, 10), 
-        Rgba([background_color2.r, background_color2.g, 
-        background_color2.b, 255u8]));
+    draw_filled_rect_mut(
+        img,
+        Rect::at(x_pos + inset, y_pos + inset).of_size(horizontal_width, 10),
+        Rgba([
+            background_color2.r,
+            background_color2.g,
+            background_color2.b,
+            255u8,
+        ]),
+    );
 
-    // draw_filled_rect_mut(img, 
-    //     Rect::at(x_pos + INSET, y_pos + INSET).of_size(10, height - (2 * INSET) as u32, ), 
-    //     Rgba([background_color2.r, background_color2.g, 
+    // draw_filled_rect_mut(img,
+    //     Rect::at(x_pos + INSET, y_pos + INSET).of_size(10, height - (2 * INSET) as u32, ),
+    //     Rgba([background_color2.r, background_color2.g,
     //     background_color2.b, 255u8]));
 
-    draw_filled_rect_mut(img, 
-        Rect::at(x_pos + inset, 550).of_size(horizontal_width, 10 ), 
-        Rgba([background_color2.r, background_color2.g, 
-        background_color2.b, 255u8]));
+    draw_filled_rect_mut(
+        img,
+        Rect::at(x_pos + inset, 550).of_size(horizontal_width, 10),
+        Rgba([
+            background_color2.r,
+            background_color2.g,
+            background_color2.b,
+            255u8,
+        ]),
+    );
 
-    // draw_filled_rect_mut(img, 
-    //     Rect::at(line_width_horizontal as i32, y_pos).of_size(10, height - (2 * INSET) as u32, ), 
-    //     Rgba([background_color2.r, background_color2.g, 
+    // draw_filled_rect_mut(img,
+    //     Rect::at(line_width_horizontal as i32, y_pos).of_size(10, height - (2 * INSET) as u32, ),
+    //     Rgba([background_color2.r, background_color2.g,
     //     background_color2.b, 255u8]));
 
-        // Rect::at(x_pos + INSET, y_pos + INSET).of_size(width - (2 * INSET) as u32, height - (2 * INSET) as u32), 
-
-
+    // Rect::at(x_pos + INSET, y_pos + INSET).of_size(width - (2 * INSET) as u32, height - (2 * INSET) as u32),
 }
 
 /// Create a gradient element in the shape of a Rect.
-/// 
+///
 /// Returns a DynamicImage.
-/// 
+///
 /// ### Arguments
 /// * `width` - u32 - Desired width of gradient.
 /// * `height` - u32 - Desired height of gradient.
@@ -265,33 +389,28 @@ pub fn create_gradient(width: u32, height: u32) -> DynamicImage {
     ]);
 
     let _grad3 = Gradient::new(vec![
-        Lch::from(LinSrgba::new(1.0, 0.1, 0.1, 1.0)),
-        Lch::from(LinSrgba::new(0.1, 0.1, 1.0, 1.0)),
-        Lch::from(LinSrgba::new(0.1, 1.0, 0.1, 1.0)),
+        Lch::from_color(LinSrgba::new(1.0, 0.1, 0.1, 1.0)),
+        Lch::from_color(LinSrgba::new(0.1, 0.1, 1.0, 1.0)),
+        Lch::from_color(LinSrgba::new(0.1, 1.0, 0.1, 1.0)),
     ]);
 
-    for (i, c1) in grad1
-        .take(width as usize)
-        .enumerate()
-    {
+    for (i, c1) in grad1.take(width as usize).enumerate() {
         let c1 = Srgba::from_linear(c1).into_format().into_raw();
         {
             let mut sub_image = image.sub_image(i as u32, 0, 1, height);
-            let (width, height) = sub_image.dimensions();
+            let (width, height) = GenericImageView::dimensions(&sub_image);
             for x in 0..width {
                 for y in 0..height {
-                    sub_image.put_pixel(x, y, image::Rgba {
-                        data: c1
-                    });
+                    sub_image.put_pixel(x, y, image::Rgba(c1));
                 }
             }
         }
     }
-    let rgba_img = image::ImageRgba8(image);
+    let rgba_img = image::DynamicImage::ImageRgba8(image);
     return rgba_img;
 }
 
-/// Apply a preset gradient by passing in a name. 
+/// Apply a preset gradient by passing in a name.
 ///
 /// ### Arguments
 /// * `width` - u32 - Desired width of rectangle.
@@ -303,11 +422,11 @@ pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> DynamicIma
     let gradient = match name {
         "pinkblue" => Gradient::new(vec![
             LinSrgba::new(0.2039, 0.5803, 0.90196, 1.0),
-            LinSrgba::new(0.92549, 0.431372549, 0.6784313 , 1.0),
+            LinSrgba::new(0.92549, 0.431372549, 0.6784313, 1.0),
         ]),
         "lemongrass" => Gradient::new(vec![
             LinSrgba::new(0.2039, 0.5803, 0.90196, 1.0),
-            LinSrgba::new(0.40392156, 0.69803921, 0.43529 , 1.0),
+            LinSrgba::new(0.40392156, 0.69803921, 0.43529, 1.0),
         ]),
         "pink_pastel" => Gradient::new(vec![
             LinSrgba::new(0.93725, 0.19607, 0.85098, 1.0),
@@ -319,54 +438,46 @@ pub fn create_gradient_preset(width: u32, height: u32, name: &str) -> DynamicIma
         ]),
         _ => Gradient::new(vec![
             LinSrgba::new(0.2039, 0.5803, 0.90196, 1.0),
-            LinSrgba::new(0.52549, 0.69803921, 0.43529 , 1.0),
-        ])
-
+            LinSrgba::new(0.52549, 0.69803921, 0.43529, 1.0),
+        ]),
     };
 
-    for (i, c1) in gradient
-        .take(width as usize)
-        .enumerate()
-    {
+    for (i, c1) in gradient.take(width as usize).enumerate() {
         let c1 = Srgba::from_linear(c1).into_format().into_raw();
         {
             let mut sub_image = image.sub_image(i as u32, 0, 1, height);
-            let (width, height) = sub_image.dimensions();
+            let (width, height) = GenericImageView::dimensions(&sub_image);
             for x in 0..width {
                 for y in 0..height {
-                    sub_image.put_pixel(x, y, image::Rgba {
-                        data: c1
-                    });
+                    sub_image.put_pixel(x, y, image::Rgba(c1));
                 }
             }
         }
     }
-    let rgba_img = image::ImageRgba8(image);
+    let rgba_img = image::DynamicImage::ImageRgba8(image);
     return rgba_img;
 }
 
 // #[wasm_bindgen]
 // pub fn draw_dyn_rect(image: &mut DynamicImage, background_color: &Rgb, height: u32, width: u32, x_pos: i32, y_pos: i32) {
 //     let mut image = image.to_rgba();
-//     draw_filled_rect_mut(&mut image, 
-//                         Rect::at(x_pos, y_pos).of_size(width, height), 
-//                         Rgba([background_color.r, background_color.g, 
+//     draw_filled_rect_mut(&mut image,
+//                         Rect::at(x_pos, y_pos).of_size(width, height),
+//                         Rgba([background_color.r, background_color.g,
 //                         background_color.b, 255u8]));
 // }
- 
-// GRADIENT COLORS 
+
+// GRADIENT COLORS
 // #67b26f → #4ca2cd: 103, 178, 111 -> 76 162 205
 // #ee0979 →  #ff6a00: 238, 9, 121 -> 255, 106, 0
 
-
-// Telegram:  #1c92d2 → #f2fcfe 
-// Digital Water:  #74ebd5 → #acb6e5 
+// Telegram:  #1c92d2 → #f2fcfe
+// Digital Water:  #74ebd5 → #acb6e5
 // Hydrogen:  #667db6 →  #0082c8 →  #0082c8 →  #667db6
-// Blue Coral:  #36d1dc →  #5b86e5 
-
+// Blue Coral:  #36d1dc →  #5b86e5
 
 /// Triangle struct, which represents the color and co-ordinates
-/// of a Triangle. 
+/// of a Triangle.
 #[wasm_bindgen]
 #[derive(Debug)]
 pub struct Triangle {
@@ -376,40 +487,54 @@ pub struct Triangle {
     pub x2: i32,
     pub y2: i32,
     pub x3: i32,
-    pub y3: i32
+    pub y3: i32,
 }
 
 #[wasm_bindgen]
 impl Triangle {
-
     /// Create a new Triangle, with specified co-ordinates for its 3 points, and a background color.
-    pub fn new(background_color: Rgb, x1: i32, y1: i32, x2: i32, y2: i32, x3: i32, y3: i32) -> Triangle {
-        return Triangle {background_color: background_color, x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3};
+    pub fn new(
+        background_color: Rgb,
+        x1: i32,
+        y1: i32,
+        x2: i32,
+        y2: i32,
+        x3: i32,
+        y3: i32,
+    ) -> Triangle {
+        return Triangle {
+            background_color: background_color,
+            x1: x1,
+            y1: y1,
+            x2: x2,
+            y2: y2,
+            x3: x3,
+            y3: y3,
+        };
     }
 
     /// Get the background colour of the Triangle.
     pub fn background_color(self) -> Rgb {
-        return self.background_color
+        return self.background_color;
     }
 
     /// Get the x1 co-ordinate of the Triangle.
     pub fn x1(self) -> i32 {
-        return self.x1
+        return self.x1;
     }
 
     /// Get the x1 value of the Triangle.
     pub fn x2(self) -> i32 {
-        return self.x2
+        return self.x2;
     }
 
     /// Get the y1 value of the Triangle.
     pub fn y1(self) -> i32 {
-        return self.y1
+        return self.y1;
     }
 
     /// Get the y2 value of the Triangle.
     pub fn y2(self) -> i32 {
-        return self.y2
+        return self.y2;
     }
-
 }
